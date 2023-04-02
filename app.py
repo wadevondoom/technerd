@@ -255,6 +255,7 @@ def save_artwork():
     return render_template("create_artwork.html", form=form, title="Create Artwork")
 
 
+
 @app.route("/edit_chronicle/<id>", methods=["GET", "POST"])
 @login_required
 def edit_chronicle(id):
@@ -310,6 +311,23 @@ def create_category():
         return redirect(url_for("admin"))
     return render_template("create_category.html", form=form, title="Create Category")
 
+
+@app.route("/delete_category/<string:category_id>", methods=["POST"])
+@login_required
+def delete_category(category_id):
+    # Get the category by its ID
+    category = Category.get_by_id(category_id)
+    if not category:
+        # If the chronicle doesn't exist, redirect to the admin page
+        flash("Sorry, could not find the category.")
+        return redirect(url_for("admin"))
+
+    # Delete the chronicle
+    Category.delete(category)
+
+    # Flash success message and redirect to admin page
+    flash("Category deleted successfully!", "success")
+    return redirect(url_for("admin"))
 
 """End admin routes"""
 

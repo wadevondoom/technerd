@@ -1,6 +1,7 @@
 import datetime
 from helpers import db
 from custompagination import CustomPagination
+from bson import ObjectId
 
 
 class Category:
@@ -26,7 +27,7 @@ class Category:
 
     @staticmethod
     def get_by_id(id):
-        category = db.categories.find_one({"_id": id})
+        category = db.categories.find_one({"_id": ObjectId(id)})
         return category
 
     def update(self, data):
@@ -41,9 +42,9 @@ class Category:
         return True
 
     @staticmethod
-    def delete(id):
-        categories = db.categories
-        categories.delete_one({"_id": id})
+    def delete(category):
+        category = db.categories
+        category.delete_one({"_id": category["_id"]})
         return True
 
     @staticmethod
