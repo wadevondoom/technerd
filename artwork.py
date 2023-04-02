@@ -11,6 +11,9 @@ class Artwork:
         self.text = text
         self.date_posted = datetime.datetime.utcnow(),
 
+    def __repr__(self):
+        return f"<Artwork: {self.title}>"
+
     def save(self):
         artwork = db.artwork
         artwork_data = {

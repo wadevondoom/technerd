@@ -242,11 +242,10 @@ def save_artwork():
         text = form.text.data
         artwork = Artwork(
             title,
-            category_id,
+            # category_id,
             category_name,
             image,
             text,
-            date_posted=datetime.datetime.utcnow(),
         )
         print(artwork)
         artwork.save()
