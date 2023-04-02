@@ -209,3 +209,7 @@ h2 {
     border: 5px solid #333;
     border-radius: 10px;
 }
+
+.hr-card {
+    border-color: coral;
+}

@@ -10,7 +10,9 @@
         {% for chronicle in chronicles %}
         <div class="col">
             <div class="card position-relative">
-                <a href="{{ url_for('detail', chronicle_id=chronicle['_id']) }}"><img class="card-img-top" src="{{ chronicle.image }}" alt=""></a>
+                <a href="{{ url_for('detail', chronicle_id=chronicle['_id']) }}">
+                    <img class="card-img-top" src="{{ chronicle.image }}" alt="">
+                </a>
                 <div class="card-title-container position-absolute bottom-0 start-0 end-0 px-2 py-1">
                     <h5 class="card-title text-uppercase mb-0">{{ chronicle.title }}</h5>
                 </div>

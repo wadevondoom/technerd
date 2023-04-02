@@ -10,7 +10,7 @@ class Brain:
         self.engine = "davinci-003"
         self.prompt_helper_text = "Format your response in HTML. \
             Do not use H1 or H2. \
-            Take persona of knowledge expert and blog writer. Write detailed article on the following:"
+            Take persona of knowledge expert and write detailed article on the following subject:"
 
     def get_response(self):
         # Use the OpenAI API to generate text based on the input field
