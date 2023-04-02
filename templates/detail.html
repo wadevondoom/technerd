@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <div class="container">
+        <div class="row text-center">
+            <div class="col-12">
+                <img src="{{ chronicle.image }}" alt="Story Image" class="img-thumbnail" style="object-fit: contain; height: 700px; align-self: normal; display: block; margin: 0 auto;">
+            </div>
+        </div>
+    </div>
+    
+    <div class="container mt-4">
+        <div class="row">
+            <div class="col-lg-8">
+                <div class="card p-3">
+                    <h1 class="mb-4">{{ chronicle.title }}</h1>
+                    <p class="lead">By {{ chronicle.author }} | {{ chronicle.date_posted }}</p>
+                    <hr>
+                    <p class="mb-0">{{ chronicle.content | safe }}</p>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="card p-3">
+                    <h5 class="mb-3">Advertisement</h5>
+                    <p>Here's some space for an advertisement.</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="row mt-4">
+            <div class="col-lg-8">
+                <h5 class="mb-3">Other stories you may like...</h5>
+                <ul class="list-group"></ul>
+                {% for related_chron in related_chrons %}
+                <li class="list-group-item">
+                <div class="chronicle">
+                    <a href="{{ url_for('detail', chronicle_id=related_chron['_id']) }}"><h4>{{ related_chron.title }}</h4></a>
+                    <p>{{ related_chron.content[:80] | safe }}</p>
+                </div>
+                </li>
+                {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </div>
+{% endblock %}

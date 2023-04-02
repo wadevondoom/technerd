@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="row">
+  <div class="col-md-6">
+    <div class="card">
+      <div class="card-header">
+        Edit Chronicle
+      </div>
+      <div class="card-body">
+        <form method="POST" action="{{ url_for('edit_chronicle', id=chronicle['_id']) }}">
+          <div class="form-group">
+            <label for="title">Title</label>
+            <input type="text" class="form-control" id="title" name="title" value="{{ chronicle['title'] }}" required>
+          </div>
+          <div class="form-group">
+            <label for="author">Author</label>
+            <input type="text" class="form-control" id="author" name="author" value="{{ chronicle['author'] }}" required>
+          </div>
+          <div class="form-group">
+            <label for="content">Content</label>
+            <textarea class="form-control" id="content" name="content" required>{{ chronicle['content'] }}</textarea>
+          </div>
+          <div class="form-group">
+            <label for="category_name">Category</label>
+            <select class="form-control" id="category_name" name="category_name" required>
+              <option value="">-- Select category --</option>
+              <option value="Website News" {% if chronicle['category_name']=='Website News' %}selected{% endif %}>Website News</option>
+              <option value="Technology" {% if chronicle['category_name']=='Technology' %}selected{% endif %}>Technology</option>
+              <option value="Entertainment" {% if chronicle['category_name']=='Entertainment' %}selected{% endif %}>Entertainment</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="date_posted">Date posted</label>
+            <input type="datetime-local" class="form-control" id="date_posted" name="date_posted" value="{{ chronicle['date_posted'] }}" required>
+          </div>
+          <button type="submit" class="btn btn-primary">Update</button>
+        </form>
+        <form method="POST" action="{{ url_for('delete_chronicle', chronicle_id=chronicle['_id']) }}" class="mt-3">
+          <input type="hidden" name="_method" value="DELETE">
+          <button type="submit" class="btn btn-danger">Delete</button>
+        </form>
+        <form method="GET" action="{{ url_for('admin') }}" class="mt-3">
+          <input type="hidden" name="_method" value="home">
+          <button type="submit" class="btn btn-link">Return to Admin</button>
+        </form>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-6">
+    {% if chronicle.image %}
+    <img src="{{ chronicle.image }}" alt="{{ chronicle.title }}" class="img-fluid mt-3" width="400">
+    {% endif %}
+  </div>
+</div>
+{% endblock %}

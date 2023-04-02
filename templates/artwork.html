@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<main>
+    <div class="container">
+        <div id="gallery" class="gallery-container">
+            {% for art in artwork %}
+            <div class="gallery-item">
+                <a href="{{ url_for('art_detail', artwork_id=art['_id']) }}">
+                    <img src="{{ art.desc }}" class="gallery-img" alt="{{ art.image }}">
+                </a>
+                <div class="gallery-title">{{ art.image }}</div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</main>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    const gallery = document.querySelector('#gallery');
+    let page = 1;
+
+    function loadImages() {
+        const xhr = new XMLHttpRequest();
+        xhr.open('GET', `/images?page=${page}`, true);
+        xhr.onload = function () {
+            if (this.status === 200) {
+                const images = JSON.parse(this.responseText);
+                images.forEach(image => {
+                    const img = document.createElement('img');
+                    img.src = image.src;
+                    img.alt = image.alt;
+                    img.className = 'gallery-img';
+                    gallery.appendChild(img);
+                });
+                page++;
+            }
+        };
+        xhr.send();
+    }
+
+    window.addEventListener('scroll', () => {
+        if (window.innerHeight + window.scrollY >= document.body.offsetHeight) {
+            loadImages();
+        }
+    });
+
+    loadImages();
+</script>
+{% endblock %}

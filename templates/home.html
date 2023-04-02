@@ -1,0 +1,115 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<!-- Main content section -->
+<section class="main-content">
+    <!-- Page Content-->
+    {% if current_user.is_authenticated %}
+    <div class="container-fluid d-flex align-items-center">
+        <p class="text-lg-start">Welcome back, {{ current_user.name }}.</p>
+    </div>
+    {% else %}
+    <div class="container px-4 px-lg-5">
+        <!-- Heading Row-->
+        <div class="row gx-4 gx-lg-5 align-items-center my-5">
+            <div class="col-lg-7"><img class="img-fluid rounded mb-4 mb-lg-0" src="/static/img/hero1.jpg"
+                    class="img-fluid mx-auto" alt="We are all technerdiacs"></div>
+            <div class="col-lg-5">
+                <h1 class="font-weight-light">TECHNERDIAC</h1>
+                <h2><span>(tek-nur-dee-ak)</span></h2>
+                <h3>noun</h3>
+                <p><strong>Definition:</strong> A person who has an excessive and obsessive interest in technology, often at the expense of social interaction and physical activity.</p>
+                <p><strong>Example:</strong> That person spends all day on their computer and never goes outside to exercise or meet people. They're a total technerdiac.</p>
+                <h3>Etymology:</h3>
+                <p>The term "technerdiac" is a combination of the words "technology" and "nerd" with the suffix "-iac" meaning "pertaining to" or "affected by".</p>
+                <a class="btn btn-secondary" href="{{ url_for('chronicles') }}">Stories</a>
+                <a class="btn btn-secondary" href="{{ url_for('artwork') }}">Artwork</a>
+                <a class="btn btn-secondary" href="{{ url_for('login') }}">Login / Register</a>
+            </div>
+        </div>
+        {% endif %}
+
+        <!-- Call to Action-->
+        <div class="card text-white my-5 py-4" style="background-color: #31525b; border: 3px solid #ffa101;">
+            <div class="card-body">
+                <div class="row" style="padding-right:30px; padding-left:30px;">
+                    <div class="col-2">
+                        <img src="/static/media/uploads/5c234bd3-1ce5-46c4-8632-09f54c94ca83.jpg" alt="Ad" class="img-fluid">
+                    </div>
+                    <div class="col-8" style="padding-left: 50px;">
+                        <blockquote class="blockquote">
+                            <p class="mb-0" style="font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif">{{ quote.quote }}</p>
+                        </blockquote><hr>
+                        <div class="">
+                            {% if quote.author %}
+                            <span style="margin-right: 5px;"><i class="bi bi-megaphone"></i></span>
+                            <strong>{{ quote.author }}</strong>
+                            {% endif %}
+                            <br>
+                            {% if quote.source %}
+                            <span style="margin-right: 5px;"><i class="bi bi-caret-right-fill"></i></span>
+                            <strong><small class="text-light text-uppercase">{{ quote.source }}</small></strong>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="col-2">
+                        <img src="/static/media/uploads/5c234bd3-1ce5-46c4-8632-09f54c94ca83.jpg" alt="Ad" class="img-fluid">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Content Row-->
+        <div class="row gx-4 gx-lg-5">
+            {% if chronicles %}
+            {% for chronicle in chronicles %}
+            <div class="col-md-4 mb-5">
+                <div class="card h-100">
+                    <div class="card-footer d-flex justify-content-center text-center text-dark">
+                        <a href="{{ url_for('detail', chronicle_id=chronicle['_id']) }}"><img
+                                src="{{ chronicle.image }}" alt="{{ chronicle.title }}" class="img-thumbnail"></a>
+                    </div>
+                    <div class="card-body">
+                        <h2 class="card-title">{{ chronicle.title }}</h2>
+                        <p class="card-text">{{ chronicle.content[:120] | safe }}</p>
+                    </div>
+                    <div class="card-footer d-flex justify-content-center text-center text-dark">
+                        <div class="d-flex">
+                            <a href="{{ url_for('detail', chronicle_id=chronicle['_id']) }}"
+                                class="btn btn-outline-secondary">Read More &rarr;</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+            {% else %}
+            <p>No chronicles found.</p>
+            {% endif %}
+        </div>
+    </div>
+</section>
+<section>
+    <div class="card mx-auto my-4" style="max-width: 90%; border-radius: 30px;">
+        <div class="card-header text-dark">
+            <h4 class="card-title text-center">Visit our AI Artwork Gallery</h4>
+        </div>
+        <div class="card-body">
+            <div class="owl-carousel">
+                {% for art in artwork %}
+                <div>
+                    <a href="{{ url_for('artwork') }}"><img class="img-fluid rounded mb-4 mb-lg-0" src="{{ art.desc }}"
+                            class="img-fluid mx-auto" alt="{{ art.title }}"></a>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        <div class="card-footer text-dark text-center"> 
+            <p>Check out our <a href="{{ url_for('artwork') }}">Artwork Gallery</a> for more amazing pieces!</p>
+        </div>
+    </div>
+</section>
+
+
+
+{% endblock %}
