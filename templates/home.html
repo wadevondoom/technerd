@@ -6,9 +6,7 @@
 <section class="main-content">
     <!-- Page Content-->
     {% if current_user.is_authenticated %}
-    <div class="container-fluid d-flex align-items-center">
-        <p class="text-lg-start">Welcome back, {{ current_user.name }}.</p>
-    </div>
+    <hr>
     {% else %}
     <div class="container px-4 px-lg-5">
         <!-- Heading Row-->

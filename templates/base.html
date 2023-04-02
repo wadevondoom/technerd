@@ -15,7 +15,8 @@
         href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css">
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2807754254732843"
         crossorigin="anonymous"></script>
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" integrity="sha384-iBBgrzD06kc/tftFf19TOAs2zVinnD/C7E91j9yyk5//jjpt/8M+7ctaryY++/7V" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+        integrity="sha384-iBBgrzD06kc/tftFf19TOAs2zVinnD/C7E91j9yyk5//jjpt/8M+7ctaryY++/7V" crossorigin="anonymous">
 </head>
 
 <body style="background-color: #d1e8e2">
@@ -56,8 +57,14 @@
             {% if current_user.is_authenticated %}
             <ul class="navbar-nav">
                 <li class="nav-item">
+                    {% if user_image %}
+                    <a href="{{ url_for('profile') }}">
+                        <img src="{{ user_image }}" alt="User Profile Picture">
+                    </a>
+                    {% else %}
                     <span class="navbar-text">Logged in as <a href="{{ url_for('profile') }}">{{ current_user.name
                             }}</a></span>
+                    {% endif %}
                 </li>
             </ul>
             {% endif %}

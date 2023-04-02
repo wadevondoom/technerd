@@ -4,11 +4,11 @@ from pymongo import MongoClient
 
 
 class User(UserMixin):
-    def __init__(self, id, name=None, email=None, subscribed=False):
+    def __init__(self, id, name=None, email=None, picture=None):
         self.id = id
         self.name = name
         self.email = email
-        self.subscribed = subscribed
+        self.picture = picture
 
         user_db = db
         users_collection = user_db.users
@@ -19,7 +19,7 @@ class User(UserMixin):
                 {
                     "name": self.name,
                     "email": self.email,
-                    "subscribed": subscribed,
+                    "picture": picture,
                 }
             )
 

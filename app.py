@@ -54,7 +54,7 @@ login_manager.init_app(app)
 def load_user(user_id):
     if "user" in session:
         user_info = session["user"]
-        return User(user_id, user_info.get("name"), user_info.get("email"))
+        return User(user_id, user_info.get("name"), user_info.get("email"), user_info.get("picture"))
     return None
 
 
@@ -69,9 +69,9 @@ def home():
     chronicles = Chronicle.get_home_chronicles()
     artwork = Artwork.get_related_artwork()
     quote = Quote.get_random()
-    print(quote)
+    user_image = current_user.picture if current_user.is_authenticated else None
     return render_template(
-        "home.html", chronicles=chronicles, artwork=artwork, quote=quote
+        "home.html", chronicles=chronicles, artwork=artwork, quote=quote, user_image=user_image
     )
 
 
