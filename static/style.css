@@ -147,44 +147,46 @@ h2 {
 }
 
 
-.owl-carousel {
-    max-width: 90%;
-    margin: 0 auto;
+.gallery-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    grid-gap: 10px;
+    padding: 10px;
 }
 
-.gallery-container {
-    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    grid-auto-rows: 200px;
-    grid-gap: 10px;
-    grid-row-gap: 60px;
+.gallery-item {
+    position: relative;
+    overflow: hidden;
 }
 
 .gallery-img {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    cursor: pointer;
-    display: block;
-    margin: 0 auto;
+    transition: transform 0.3s;
 }
 
-
-.gallery-item {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
+.gallery-img:hover {
+    transform: scale(1.1);
 }
-
 
 .gallery-title {
-    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
-    font-size: 14px;
-    margin-top: 5px;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgba(0, 0, 0, 0.5);
+    color: white;
+    padding: 5px;
+    text-align: center;
+    opacity: 0;
+    transition: opacity 0.3s;
 }
+
+.gallery-item:hover .gallery-title {
+    opacity: 1;
+}
+
 
 .pagination-page-info {
     padding: .6em;

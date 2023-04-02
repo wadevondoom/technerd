@@ -98,7 +98,7 @@
             <div class="owl-carousel">
                 {% for art in artwork %}
                 <div>
-                    <a href="{{ url_for('artwork') }}"><img class="img-fluid rounded mb-4 mb-lg-0" src="{{ art.desc }}"
+                    <a href="{{ url_for('artwork') }}"><img class="img-fluid rounded mb-4 mb-lg-0" src="{{ art.image }}"
                             class="img-fluid mx-auto" alt="{{ art.title }}"></a>
                 </div>
                 {% endfor %}

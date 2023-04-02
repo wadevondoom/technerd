@@ -376,7 +376,7 @@ def dashboard():
 @app.route("/profile")
 @login_required
 def profile():
-    return f"Welcome, {current_user.id}!"
+    return f"Welcome, {current_user.name}!"
 
 
 if __name__ == "__main__":
