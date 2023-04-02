@@ -50,27 +50,30 @@
     border-radius: 5px;
 }
 
+.bg-nav {
+    background-color: #31504f;
+}
 
 .d-inline {
     padding: 30px;
 }
 
 
-.navbar {
-    background-color: #333;
+.navbar-dark .nav-item .nav-link {
     color: #fff;
 }
 
-
-.navbar-nav>li>a:hover {
-    background-color: #555;
+.navbar-dark .nav-item .nav-link:hover {
+    background-color: #31504f;
+    transition: all 0.3s ease;
+    border-color: orange;
+    border-radius: 10px;
     color: #fff;
-    transition: background-color 0.3s, color 0.3s;
 }
 
-.navbar-nav>li>a {
-    font-family: 'Roboto', sans-serif;
-    color: lightgray;
+.fa-li {
+    position: relative;
+    left: 0;
 }
 
 .alert-danger {
@@ -212,4 +215,22 @@ h2 {
 
 .hr-card {
     border-color: coral;
+}
+
+.hr-quote {
+    border-color: lightcyan;
+}
+
+.img-thumbnail-sm {
+    max-width: 50px;
+    max-height: 50px;
+}
+
+.img-thumbnail-logo {
+    max-width: 80px;
+    max-height: 80px;
+}
+
+.custom-toggler {
+    color: #fff;
 }
