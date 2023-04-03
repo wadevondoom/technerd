@@ -266,6 +266,12 @@ def save_artwork():
 @login_required
 def edit_chronicle(id):
     chronicle = Chronicle.get_by_id(id)
+    form = ChronicleForm()
+    categories = Category.get_all()
+    form.category_name.choices = [
+        (str(category["_id"]), category["name"]) for category in categories
+    ]
+
 
     if request.method == "POST":
         # update the chronicle record in the database
@@ -279,7 +285,7 @@ def edit_chronicle(id):
         return redirect(url_for("admin"))
 
     # render the edit form with the current chronicle record data
-    return render_template("edit_chronicle.html", chronicle=chronicle)
+    return render_template("edit_chronicle.html", form=form, chronicle=chronicle)
 
 
 @app.route("/delete_chronicle/<string:chronicle_id>", methods=["POST"])

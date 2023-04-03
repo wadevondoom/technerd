@@ -22,14 +22,18 @@
             <textarea class="form-control" id="content" name="content" required>{{ chronicle['content'] }}</textarea>
           </div>
           <div class="form-group">
-            <label for="category_name">Category</label>
-            <select class="form-control" id="category_name" name="category_name" required>
-              <option value="">-- Select category --</option>
-              <option value="Website News" {% if chronicle['category_name']=='Website News' %}selected{% endif %}>Website News</option>
-              <option value="Technology" {% if chronicle['category_name']=='Technology' %}selected{% endif %}>Technology</option>
-              <option value="Entertainment" {% if chronicle['category_name']=='Entertainment' %}selected{% endif %}>Entertainment</option>
-            </select>
-          </div>
+            {{ form.category_name.label(class="form-control-label") }}
+            {% if form.category_name.errors %}
+            {{ form.category_name(class="form-control form-control-lg is-invalid") }}
+            <div class="invalid-feedback">
+                {% for error in form.category_name.errors %}
+                <span>{{ error }}</span>
+                {% endfor %}
+            </div>
+            {% else %}
+            {{ form.category_name(class="form-control form-control-lg") }}
+            {% endif %}
+        </div>
           <div class="form-group">
             <label for="date_posted">Date posted</label>
             <input type="datetime-local" class="form-control" id="date_posted" name="date_posted" value="{{ chronicle['date_posted'] }}" required>
