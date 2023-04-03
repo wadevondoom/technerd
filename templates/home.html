@@ -5,10 +5,11 @@
 <!-- Main content section -->
 <section class="main-content">
     <!-- Page Content-->
-    {% if current_user.is_authenticated %}
-    <hr>
-    {% else %}
+
     <div class="container px-4 px-lg-5">
+        {% if current_user.is_authenticated %}
+        <hr>
+        {% else %}
         <!-- Heading Row-->
         <div class="row gx-4 gx-lg-5 align-items-center my-5">
             <div class="col-lg-7"><img class="img-fluid rounded mb-4 mb-lg-0" src="/static/img/hero1.jpg"
@@ -17,10 +18,13 @@
                 <h1 class="font-weight-light">TECHNERDIAC</h1>
                 <h2><span>(tek-nur-dee-ak)</span></h2>
                 <h3>noun</h3>
-                <p><strong>Definition:</strong> A person who has an excessive and obsessive interest in technology, often at the expense of social interaction and physical activity.</p>
-                <p><strong>Example:</strong> That person spends all day on their computer and never goes outside to exercise or meet people. They're a total technerdiac.</p>
+                <p><strong>Definition:</strong> A person who has an excessive and obsessive interest in technology,
+                    often at the expense of social interaction and physical activity.</p>
+                <p><strong>Example:</strong> That person spends all day on their computer and never goes outside to
+                    exercise or meet people. They're a total technerdiac.</p>
                 <h3>Etymology:</h3>
-                <p>The term "technerdiac" is a combination of the words "technology" and "nerd" with the suffix "-iac" meaning "pertaining to" or "affected by".</p>
+                <p>The term "technerdiac" is a combination of the words "technology" and "nerd" with the suffix "-iac"
+                    meaning "pertaining to" or "affected by".</p>
                 <a class="btn btn-secondary" href="{{ url_for('chronicles') }}">Stories</a>
                 <a class="btn btn-secondary" href="{{ url_for('artwork') }}">Artwork</a>
                 <a class="btn btn-secondary" href="{{ url_for('login') }}">Login / Register</a>
@@ -33,12 +37,16 @@
             <div class="card-body">
                 <div class="row" style="padding-right:30px; padding-left:30px;">
                     <div class="col-2">
-                        <img src="/static/media/uploads/5c234bd3-1ce5-46c4-8632-09f54c94ca83.jpg" alt="Ad" class="img-fluid">
+                        <img src="/static/media/uploads/5c234bd3-1ce5-46c4-8632-09f54c94ca83.jpg" alt="Ad"
+                            class="img-fluid">
                     </div>
                     <div class="col-8" style="padding-left: 50px;">
                         <blockquote class="blockquote">
-                            <p class="mb-0" style="font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif">"{{ quote.quote }}"</p>
-                        </blockquote><hr class="hr-quote">
+                            <p class="mb-0"
+                                style="font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif">
+                                "{{ quote.quote }}"</p>
+                        </blockquote>
+                        <hr class="hr-quote">
                         <div class="">
                             {% if quote.author %}
                             <span style="margin-right: 5px;"><i class="bi bi-megaphone"></i></span>
@@ -52,7 +60,8 @@
                         </div>
                     </div>
                     <div class="col-2">
-                        <img src="/static/media/uploads/5c234bd3-1ce5-46c4-8632-09f54c94ca83.jpg" alt="Ad" class="img-fluid">
+                        <img src="/static/media/uploads/5c234bd3-1ce5-46c4-8632-09f54c94ca83.jpg" alt="Ad"
+                            class="img-fluid">
                     </div>
                 </div>
             </div>
@@ -70,6 +79,7 @@
                     </div>
                     <div class="card-body">
                         <h2 class="card-title">{{ chronicle.title }}</h2>
+                        <h4 class="mb-2 text-light d-inline-block" style="padding: 5px 15px; background-color: orange; color: white; text-align: center; border-radius: 5px;">{{ chronicle.category_name }}</h4>
                         <hr class="hr-card">
                         <p class="card-text">{{ chronicle.content[:120] | safe }}</p>
                     </div>
@@ -103,7 +113,7 @@
                 {% endfor %}
             </div>
         </div>
-        <div class="card-footer text-dark text-center"> 
+        <div class="card-footer text-dark text-center">
             <p>Check out our <a href="{{ url_for('artwork') }}">Artwork Gallery</a> for more amazing pieces!</p>
         </div>
     </div>
