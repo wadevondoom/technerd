@@ -1,4 +1,3 @@
-import datetime
 from os import environ as env
 from urllib.parse import quote_plus, urlencode
 from bson import ObjectId
@@ -11,7 +10,6 @@ from flask_login import (
     logout_user,
     login_required,
     current_user,
-    UserMixin,
 )
 
 from user import User
@@ -54,7 +52,12 @@ login_manager.init_app(app)
 def load_user(user_id):
     if "user" in session:
         user_info = session["user"]
-        return User(user_id, user_info.get("name"), user_info.get("email"), user_info.get("picture"))
+        return User(
+            user_id,
+            user_info.get("name"),
+            user_info.get("email"),
+            user_info.get("picture"),
+        )
     return None
 
 
@@ -71,7 +74,11 @@ def home():
     quote = Quote.get_random()
     user_image = current_user.picture if current_user.is_authenticated else None
     return render_template(
-        "home.html", chronicles=chronicles, artwork=artwork, quote=quote, user_image=user_image
+        "home.html",
+        chronicles=chronicles,
+        artwork=artwork,
+        quote=quote,
+        user_image=user_image,
     )
 
 
@@ -255,7 +262,6 @@ def save_artwork():
     return render_template("create_artwork.html", form=form, title="Create Artwork")
 
 
-
 @app.route("/edit_chronicle/<id>", methods=["GET", "POST"])
 @login_required
 def edit_chronicle(id):
@@ -328,6 +334,28 @@ def delete_category(category_id):
     # Flash success message and redirect to admin page
     flash("Category deleted successfully!", "success")
     return redirect(url_for("admin"))
+
+
+@app.route("/delete_artwork/<string:artwork_id>", methods=["POST"])
+@login_required
+def delete_artwork(artwork_id):
+    # Convert the artwork_id to ObjectId
+    artwork_id = ObjectId(artwork_id)
+
+    # Get the artwork by its ID
+    artwork = Artwork.get_by_id(artwork_id)
+    if not artwork:
+        # If the artwork doesn't exist, redirect to the admin page
+        flash("Sorry, could not find the artwork.")
+        return redirect(url_for("admin"))
+
+    # Delete the artwork
+    Artwork.delete(artwork)
+
+    # Flash success message and redirect to admin page
+    flash("Artwork deleted successfully!", "success")
+    return redirect(url_for("admin"))
+
 
 """End admin routes"""
 
