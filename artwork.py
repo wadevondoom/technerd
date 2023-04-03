@@ -9,7 +9,7 @@ class Artwork:
         self.category_name = category_name
         self.image = image
         self.text = text
-        self.date_posted = datetime.datetime.utcnow(),
+        self.date_posted = date_posted or datetime.datetime.utcnow()
 
     def __repr__(self):
         return f"<Artwork: {self.title}>"
