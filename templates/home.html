@@ -2,6 +2,14 @@
 
 {% block content %}
 
+<style>
+    .chronicle-section {
+        border: 1px solid #000;
+        background-color: white;
+        padding: 15px;
+        margin-bottom: 15px;
+    }
+</style>
 <!-- Main content section -->
 <section class="main-content">
     <!-- Page Content-->
@@ -67,36 +75,81 @@
             </div>
         </div>
 
-        <!-- Content Row-->
-        <div class="row gx-4 gx-lg-5">
-            {% if chronicles %}
-            {% for chronicle in chronicles %}
-            <div class="col-md-4 mb-5">
-                <div class="card h-100">
-                    <div class="card-footer d-flex justify-content-center text-center text-dark">
-                        <a href="{{ url_for('detail', chronicle_id=chronicle['_id']) }}"><img
-                                src="{{ chronicle.image }}" alt="{{ chronicle.title }}" class="img-thumbnail"></a>
+        <!-- Chronicles Section -->
+        <div class="container chronicle-section">
+            <div class="row gx-4 gx-lg-5">
+                {% if chronicles %}
+                <div class="col-lg-4 mb-5">
+                    <div class="h-100">
+                        <h1 class="text-uppercase">The latest...</h1><hr>
+                        <a href="{{ url_for('detail', chronicle_id=chronicles[0]['_id']) }}"><img
+                                src="{{ chronicles[0].image }}" alt="{{ chronicles[0].title }}" class="img-fluid"></a>
+                       <hr>
+                       <p>{{ chronicles[0].content[:400] | safe }}...</p>
+                       <div class="d-flex">
+                        <a href="{{ url_for('detail', chronicle_id=chronicles[0]['_id']) }}"
+                            class="btn btn-outline-secondary">Read More &rarr;</a>
                     </div>
-                    <div class="card-body">
-                        <h2 class="card-title">{{ chronicle.title }}</h2>
-                        <h4 class="mb-2 text-light d-inline-block" style="padding: 5px 15px; background-color: orange; color: white; text-align: center; border-radius: 5px;">{{ chronicle.category_name }}</h4>
-                        <hr class="hr-card">
-                        <p class="card-text">{{ chronicle.content[:120] | safe }}</p>
                     </div>
-                    <div class="card-footer d-flex justify-content-center text-center text-dark">
+                </div>
+                <div class="col-lg-4 mb-5">
+                    <div class="h-50">
+                        <a href="{{ url_for('detail', chronicle_id=chronicles[1]['_id']) }}"><img
+                                src="{{ chronicles[1].image }}" alt="{{ chronicles[1].title }}" class="img-fluid img-thumbnail-chronicle"></a>
+                        <p>{{ chronicles[1].content[:140] | safe }}...</p>
                         <div class="d-flex">
-                            <a href="{{ url_for('detail', chronicle_id=chronicle['_id']) }}"
+                            <a href="{{ url_for('detail', chronicle_id=chronicles[1]['_id']) }}"
                                 class="btn btn-outline-secondary">Read More &rarr;</a>
                         </div>
                     </div>
+                    <div class="h-50">
+                        <a href="{{ url_for('detail', chronicle_id=chronicles[2]['_id']) }}"><img
+                                src="{{ chronicles[2].image }}" alt="{{ chronicles[2].title }}" class="img-fluid img-thumbnail-chronicle mt-3"></a>
+                        <p>{{ chronicles[2].content[:140] | safe }}...</p>
+                        <div class="d-flex">
+                            <a href="{{ url_for('detail', chronicle_id=chronicles[2]['_id']) }}"
+                                class="btn btn-outline-secondary">Read More &rarr;</a>
+                        </div>
+                    </div>
+                    <hr>
                 </div>
+                <div class="col-lg-4 mb-5">
+                    <div class="h-33">
+                        <a href="{{ url_for('detail', chronicle_id=chronicles[3]['_id']) }}"><img
+                                src="{{ chronicles[3].image }}" alt="{{ chronicles[3].title }}" class="img-fluid img-thumbnail-chronicle-sm"></a>
+                            <p><strong>{{ chronicles[3].title }}</strong></p>
+                            <p>{{ chronicles[3].content[0:100] | safe }}...</p>                            
+                            <div class="d-flex">
+                                <a href="{{ url_for('detail', chronicle_id=chronicles[3]['_id']) }}"
+                                    class="btn btn-outline-secondary">Read More &rarr;</a>
+                            </div>                            
+                    </div>
+                    <div class="h-33">
+                        <a href="{{ url_for('detail', chronicle_id=chronicles[4]['_id']) }}"><img
+                                src="{{ chronicles[4].image }}" alt="{{ chronicles[4].title }}" class="img-fluid img-thumbnail-chronicle-sm mt-3"></a>
+                        <p><strong>{{ chronicles[4].title }}</strong></p>
+                        <p>{{ chronicles[4].content[0:100] | safe }}...</p>                            
+                        <div class="d-flex">
+                            <a href="{{ url_for('detail', chronicle_id=chronicles[4]['_id']) }}"
+                                class="btn btn-outline-secondary">Read More &rarr;</a>
+                        </div>  
+                    </div>
+                    <div class="h-33">
+                        <a href="{{ url_for('detail', chronicle_id=chronicles[5]['_id']) }}"><img
+                                src="{{ chronicles[5].image }}" alt="{{ chronicles[5].title }}" class="img-fluid img-thumbnail-chronicle-sm mt-3"></a>
+                        <p><strong>{{ chronicles[5].title }}</strong></p>
+                        <p>{{ chronicles[5].content[0:100] | safe }}...</p>                            
+                        <div class="d-flex">
+                            <a href="{{ url_for('detail', chronicle_id=chronicles[5]['_id']) }}"
+                                class="btn btn-outline-secondary">Read More &rarr;</a>
+                        </div>     
+                    </div>
+                </div>
+                {% else %}
+                <p>No chronicles found.</p>
+                {% endif %}
             </div>
-            {% endfor %}
-            {% else %}
-            <p>No chronicles found.</p>
-            {% endif %}
         </div>
-    </div>
 </section>
 <section>
     <div class="card mx-auto my-4" style="max-width: 90%; border-radius: 30px;">

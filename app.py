@@ -88,26 +88,39 @@ def home():
 @app.route("/chronicles")
 def chronicles():
     chronicles = Chronicle.get_all()
+    user_image = current_user.picture if current_user.is_authenticated else None
     return render_template(
-        "chronicles.html", chronicles=chronicles, current_user=current_user
+        "chronicles.html", 
+        chronicles=chronicles, 
+        current_user=current_user, 
+        user_image = user_image,
     )
 
 
 @app.route("/artwork")
 def artwork():
     artwork = Artwork.get_all()
-    return render_template("artwork.html", current_user=current_user, artwork=artwork)
+    user_image = current_user.picture if current_user.is_authenticated else None
+    return render_template(
+        "artwork.html", 
+        current_user=current_user, 
+        artwork=artwork,
+        user_image=user_image)
 
 
 @app.route("/detail/<string:chronicle_id>")
 def detail(chronicle_id):
     chronicle = Chronicle.get_by_id(ObjectId(chronicle_id))
     related_chrons = Chronicle.get_related_chronicles(3)
+    user_image = current_user.picture if current_user.is_authenticated else None
     if chronicle is None:
         flash("Could not find article.")
         redirect(url_for("home"))
     return render_template(
-        "detail.html", chronicle=chronicle, related_chrons=related_chrons
+        "detail.html", 
+        chronicle=chronicle, 
+        related_chrons=related_chrons,
+        user_image=user_image
     )
 
 
@@ -115,10 +128,15 @@ def detail(chronicle_id):
 def art_detail(artwork_id):
     artwork = Artwork.get_by_id(ObjectId(artwork_id))
     related_art = Artwork.get_related_artwork(3)
+    user_image = current_user.picture if current_user.is_authenticated else None
     if artwork is None:
         flash("Could not find artwork.")
         redirect(url_for("artwork"))
-    return render_template("art_detail.html", artwork=artwork, related_art=related_art)
+    return render_template(
+        "art_detail.html", 
+        artwork=artwork, 
+        related_art=related_art,
+        user_image=user_image)
 
 
 """Admin routes"""
@@ -130,7 +148,7 @@ def admin():
     chronicles = Chronicle.get_all()
     artwork = Artwork.get_all()
     categories = Category.get_all()
-
+    user_image = current_user.picture if current_user.is_authenticated else None
     print(chronicles)
 
     return render_template(
@@ -138,6 +156,7 @@ def admin():
         chronicles=chronicles,
         artwork=artwork,
         categories=categories,
+        user_image=user_image,
     )
 
 
@@ -272,13 +291,16 @@ def edit_chronicle(id):
         (str(category["_id"]), category["name"]) for category in categories
     ]
 
-
     if request.method == "POST":
+        # Get the category object using the category ID
+        category_id = request.form["category_name"]
+        category = Category.get_by_id(category_id)
+
         # update the chronicle record in the database
         chronicle["title"] = request.form["title"]
         chronicle["author"] = request.form["author"]
         chronicle["content"] = request.form["content"]
-        chronicle["category_name"] = request.form["category_name"]
+        chronicle["category_name"] = category["name"]  # Assign the category name
         chronicle["date_posted"] = request.form["date_posted"]
         db["chronicles"].update_one({"_id": ObjectId(id)}, {"$set": chronicle})
         flash("Successfull saved record for : " + chronicle["title"])

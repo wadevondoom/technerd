@@ -27,7 +27,7 @@ class Chronicle:
 
     @staticmethod
     def get_home_chronicles():
-        chronicles = db.chronicles.find().sort("date_posted", -1).limit(3)
+        chronicles = db.chronicles.find().sort("date_posted", -1).limit(6)
         return chronicles
 
     @staticmethod

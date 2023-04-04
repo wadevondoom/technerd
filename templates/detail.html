@@ -6,7 +6,7 @@
         <div class="col-lg-7">
             <h1 class="mb-2">{{ chronicle.title }}</h1>
             <h3 class="mb-2 text-muted d-inline-block" style="padding: 5px 15px; background-color: orange; color: white; text-align: center; border-radius: 5px;">{{ chronicle.category_name }}</h3>
-            <p class="lead d-block mt-2">By {{ chronicle.author }} | {{ chronicle.date_posted.strftime('%Y-%m-%d %H:%M') }}</p>
+            <p class="lead d-block mt-2">By {{ chronicle.author }} | {{ chronicle.date_posted }}</p>
             <img src="{{ chronicle.image }}" alt="Story Image" class="img-fluid mb-4"
                 style="max-height: 400px; object-fit: cover; width: 100%;">
             <div>{{ chronicle.content | safe }}</div>
