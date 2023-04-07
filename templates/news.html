@@ -39,20 +39,16 @@
     }
 </style>
     <div class="container mt-3">
-        {% for chronicle in chronicles %}
+        {% for article in news %}
             <div class="row news-row">
                 <div class="col-md-4">
-                    <a href="{{ url_for('detail', chronicle_id=chronicle['_id']) }}">
-                        <img class="home-story-img" src="{{ chronicle.image }}" alt="">
-                    </a>
+                    <img src="{{ article.image_url }}" alt="{{ article.title }}" class="home-story-img">
                 </div>
                 <div class="col-md-8">
-                    <div class="news-title">{{ chronicle.title }}</div>
-                    <div class="news-description">{{ chronicle.content[:200]|safe }}...</div>
-                    <div class="mt-auto">
-                        <i>Posted on {{ chronicle.date_posted }} by {{ chronicle.author }}</i>
-                        <a href="{{ url_for('detail', chronicle_id=chronicle['_id']) }}" class="stretched-link"></a>
-                    </div>
+                    <div class="news-title">{{ article.title }}</div>
+                    <div class="news-source">{{ article.source }}</div>
+                    <div class="news-description">{{ article.description }}</div>
+                    <a href="{{ article.url }}" class="btn btn-primary news-readmore">Read More</a>
                 </div>
             </div>
         {% endfor %}

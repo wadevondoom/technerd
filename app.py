@@ -21,6 +21,7 @@ from quote import Quote
 from brain import Brain
 from forms import ChronicleForm, CreateCategoryForm, ArtworkForm
 from helpers import save_image, db
+from news import News
 
 
 app = Flask(__name__)
@@ -106,18 +107,6 @@ def chronicles():
     )
 
 
-@app.route("/artwork")
-def artwork():
-    artwork = Artwork.get_all()
-    user_image = current_user.picture if current_user.is_authenticated else None
-    return render_template(
-        "artwork.html",
-        current_user=current_user,
-        artwork=artwork,
-        user_image=user_image,
-    )
-
-
 @app.route("/detail/<string:chronicle_id>")
 def detail(chronicle_id):
     chronicle = Chronicle.get_by_id(ObjectId(chronicle_id))
@@ -130,6 +119,21 @@ def detail(chronicle_id):
         "detail.html",
         chronicle=chronicle,
         related_chrons=related_chrons,
+        user_image=user_image,
+    )
+
+
+""" Artwork """
+
+
+@app.route("/artwork")
+def artwork():
+    artwork = Artwork.get_all()
+    user_image = current_user.picture if current_user.is_authenticated else None
+    return render_template(
+        "artwork.html",
+        current_user=current_user,
+        artwork=artwork,
         user_image=user_image,
     )
 
@@ -148,6 +152,12 @@ def art_detail(artwork_id):
         related_art=related_art,
         user_image=user_image,
     )
+
+
+@app.route("/news")
+def news():
+    news = News.get_all()
+    return render_template("news.html", news=news, title="Latest News")
 
 
 """Admin routes"""
