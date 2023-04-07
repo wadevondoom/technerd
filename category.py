@@ -43,8 +43,7 @@ class Category:
 
     @staticmethod
     def delete(category):
-        category = db.categories
-        category.delete_one({"_id": category["_id"]})
+        db.categories.delete_one({"_id": category["_id"]})
         return True
 
     @staticmethod

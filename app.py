@@ -23,7 +23,6 @@ from forms import ChronicleForm, CreateCategoryForm, ArtworkForm
 from helpers import save_image, db
 
 
-
 app = Flask(__name__)
 app.config.update(
     {
@@ -100,10 +99,10 @@ def chronicles():
     chronicles = Chronicle.get_all()
     user_image = current_user.picture if current_user.is_authenticated else None
     return render_template(
-        "chronicles.html", 
-        chronicles=chronicles, 
-        current_user=current_user, 
-        user_image = user_image,
+        "chronicles.html",
+        chronicles=chronicles,
+        current_user=current_user,
+        user_image=user_image,
     )
 
 
@@ -112,10 +111,11 @@ def artwork():
     artwork = Artwork.get_all()
     user_image = current_user.picture if current_user.is_authenticated else None
     return render_template(
-        "artwork.html", 
-        current_user=current_user, 
+        "artwork.html",
+        current_user=current_user,
         artwork=artwork,
-        user_image=user_image)
+        user_image=user_image,
+    )
 
 
 @app.route("/detail/<string:chronicle_id>")
@@ -127,10 +127,10 @@ def detail(chronicle_id):
         flash("Could not find article.")
         redirect(url_for("home"))
     return render_template(
-        "detail.html", 
-        chronicle=chronicle, 
+        "detail.html",
+        chronicle=chronicle,
         related_chrons=related_chrons,
-        user_image=user_image
+        user_image=user_image,
     )
 
 
@@ -143,10 +143,11 @@ def art_detail(artwork_id):
         flash("Could not find artwork.")
         redirect(url_for("artwork"))
     return render_template(
-        "art_detail.html", 
-        artwork=artwork, 
+        "art_detail.html",
+        artwork=artwork,
         related_art=related_art,
-        user_image=user_image)
+        user_image=user_image,
+    )
 
 
 """Admin routes"""
@@ -359,7 +360,7 @@ def create_category():
 @app.route("/delete_category/<string:category_id>", methods=["POST"])
 @login_required
 def delete_category(category_id):
-    # Get the category by its ID
+    # Get the chronicle by its ID
     category = Category.get_by_id(category_id)
     if not category:
         # If the chronicle doesn't exist, redirect to the admin page

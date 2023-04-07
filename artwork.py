@@ -64,8 +64,7 @@ class Artwork:
 
     @staticmethod
     def delete(artwork):
-        artwork = db.artwork
-        artwork.delete_one({"_id": artwork["_id"]})
+        db.artwork.delete_one({"_id": artwork["_id"]})
         return True
 
     @staticmethod

@@ -13,7 +13,7 @@ url = "https://newsapi.org/v2/top-headlines"
 
 print(f"API Key: {api_key}")
 
-params = {"apiKey": api_key, "country": "us", "category": "technology", "pageSize": 20}
+params = {"apiKey": api_key, "country": "us", "category": "science", "pageSize": 20}
 
 response = requests.get(url, params=params)
 
