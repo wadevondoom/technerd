@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Search Results</h1>
+<ul>
+    {% for result in results %}
+    <li><a href="{{ result.url }}">{{ result.type }}: {{ result._id }}</a></li>
+    {% endfor %}
+</ul>
+{% endblock %}

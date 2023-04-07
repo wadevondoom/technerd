@@ -160,7 +160,50 @@ def news():
     return render_template("news.html", news=news, title="Latest News")
 
 
+@app.route("/search", methods=["GET", "POST"])
+def search():
+    if request.method == "POST":
+        search_keyword = request.form["search"]
+
+        # Perform a search in each collection and store content type and _id
+        articles_results = [
+            {"type": "news_detail", "_id": str(doc["_id"])}
+            for doc in db.articles.find({"$text": {"$search": search_keyword}})
+        ]
+        quotes_results = [
+            {"type": "quote", "_id": str(doc["_id"])}
+            for doc in db.quotes.find({"$text": {"$search": search_keyword}})
+        ]
+        artwork_results = [
+            {"type": "art_detail", "_id": str(doc["_id"])}
+            for doc in db.artwork.find({"$text": {"$search": search_keyword}})
+        ]
+        chronicle_results = [
+            {"type": "detail", "_id": str(doc["_id"])}
+            for doc in db.chronicles.find({"$text": {"$search": search_keyword}})
+        ]
+
+        # Combine the results
+        combined_results = (
+            chronicle_results + articles_results + quotes_results + artwork_results
+        )
+
+        # Generate URLs for the results
+        for result in combined_results:
+            result["url"] = create_url(result["type"], result["_id"])
+
+        return render_template("search_results.html", results=combined_results)
+
+    return render_template("search.html")
+
+
 """Admin routes"""
+
+""" Helper function for search reslts """
+
+
+def create_url(content_type, _id):
+    return f"/{content_type}/{_id}"
 
 
 @app.route("/admin", methods=["GET", "POST"])
