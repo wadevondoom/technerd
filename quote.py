@@ -9,7 +9,6 @@ class Quote:
         self.qotd_url = qotd_url
         self.image = image
 
-
     def save(self):
         quotes = db.quotes
         quote_data = {
@@ -17,7 +16,7 @@ class Quote:
             "author": self.author,
             "source": self.source,
             "qotd_url": self.qotd_url,
-            "image": self.image
+            "image": self.image,
         }
         quote_id = quotes.insert_one(quote_data).inserted_id
         return quote_id
@@ -32,7 +31,6 @@ class Quote:
         quote = db.quotes.aggregate([{"$sample": {"size": sample_size}}])
         return next(iter(quote), None)
 
-
     @staticmethod
     def get_by_id(id):
         quote = db.quotes.find_one({"_id": id})
@@ -45,7 +43,7 @@ class Quote:
             "author": self.author,
             "source": self.source,
             "qotd_url": self.qotd_url,
-            "image": self.image
+            "image": self.image,
         }
         quote.update_one({"_id": self.id}, {"$set": quote_data})
         return True
@@ -56,3 +54,11 @@ class Quote:
         quote.delete_one({"_id": id})
         return True
 
+    @staticmethod
+    def get_related_quotes(num_quotes=3):
+        quotes = []
+        for i in range(num_quotes):
+            quote = Quote.get_random()
+            if quote:
+                quotes.append(quote)
+        return quotes

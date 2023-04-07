@@ -18,3 +18,8 @@ class News:
     def get_by_id(id):
         story = db.articles.find_one({"_id": ObjectId(id)})
         return story
+
+    @staticmethod
+    def get_home_news():
+        news = db.articles.find().sort("_id", -1).limit(5)
+        return news    

@@ -30,7 +30,7 @@
                     meaning "pertaining to" or "affected by".</p>
                 <a class="btn btn-secondary" href="{{ url_for('chronicles') }}">Stories</a>
                 <a class="btn btn-secondary" href="{{ url_for('artwork') }}">Artwork</a>
-                <a class="btn btn-secondary" href="{{ url_for('login') }}">Login / Register</a>
+                <a class="btn btn-secondary" href="{{ url_for('news') }}">News</a>
             </div>
         </div>
         {% endif %}
@@ -46,7 +46,9 @@
                                 src="{{ chronicles[0].image }}" alt="{{ chronicles[0].title }}"
                                 class="img-fluid mx-auto lead-story-image"></a>
                         <div class="justify-content-center text-center">
-                            <h5 class="mb-2 text-muted d-inline-block" style="padding: 5px 15px; background-color: orange; color: white; text-align: center; border-radius: 10px;">{{ chronicles[0].category_name }}</h5>
+                            <h5 class="mb-2 text-muted d-inline-block"
+                                style="padding: 5px 15px; background-color: orange; color: white; text-align: center; border-radius: 10px;">
+                                {{ chronicles[0].category_name }}</h5>
                         </div>
                         <h2 class="mt-3">{{ chronicles[0].title }}</h2>
                         <p>{{ chronicles[0].content[:650] | safe }}...</p>
@@ -62,7 +64,9 @@
                                 src="{{ chronicles[1].image }}" alt="{{ chronicles[1].title }}"
                                 class="img-fluid img-thumbnail-chronicle mx-auto"></a>
                         <div class="justify-content-center mt-3 text-center">
-                            <h5 class="mb-2 text-muted d-inline-block" style="padding: 5px 15px; background-color: orange; color: white; text-align: center; border-radius: 10px;">{{ chronicles[1].category_name }}</h5>
+                            <h5 class="mb-2 text-muted d-inline-block"
+                                style="padding: 5px 15px; background-color: orange; color: white; text-align: center; border-radius: 10px;">
+                                {{ chronicles[1].category_name }}</h5>
                         </div>
                         <h4 class="mt-3">{{ chronicles[1].title }}</h4>
                         <p>{{ chronicles[1].content[:100] | safe }}...</p>
@@ -76,7 +80,9 @@
                                 src="{{ chronicles[2].image }}" alt="{{ chronicles[2].title }}"
                                 class="img-fluid img-thumbnail-chronicle mt-3 mx-auto"></a>
                         <div class="justify-content-center mt-3 text-center">
-                            <h5 class="mb-2 text-muted d-inline-block" style="padding: 5px 15px; background-color: orange; color: white; text-align: center; border-radius: 10px;">{{ chronicles[2].category_name }}</h5>
+                            <h5 class="mb-2 text-muted d-inline-block"
+                                style="padding: 5px 15px; background-color: orange; color: white; text-align: center; border-radius: 10px;">
+                                {{ chronicles[2].category_name }}</h5>
                         </div>
                         <h4 class="mt-3">{{ chronicles[2].title }}</h4>
                         <p>{{ chronicles[2].content[:100] | safe }}...</p>
@@ -92,7 +98,9 @@
                                 src="{{ chronicles[3].image }}" alt="{{ chronicles[3].title }}"
                                 class="img-thumbnail-chronicle"></a>
                         <div class="justify-content-center mt-3 text-center">
-                            <h5 class="mb-2 text-muted d-inline-block" style="padding: 5px 15px; background-color: orange; color: white; text-align: center; border-radius: 10px;">{{ chronicles[3].category_name }}</h5>
+                            <h5 class="mb-2 text-muted d-inline-block"
+                                style="padding: 5px 15px; background-color: orange; color: white; text-align: center; border-radius: 10px;">
+                                {{ chronicles[3].category_name }}</h5>
                         </div>
                         <h5>{{ chronicles[3].title }}</h5>
                         <div class="d-flex justify-content-center mt-3">
@@ -105,7 +113,9 @@
                                 src="{{ chronicles[4].image }}" alt="{{ chronicles[4].title }}"
                                 class="img-thumbnail-chronicle mt-3"></a>
                         <div class="justify-content-center mt-3 text-center">
-                            <h5 class="mb-2 text-muted d-inline-block" style="padding: 5px 15px; background-color: orange; color: white; text-align: center; border-radius: 10px;">{{ chronicles[4].category_name }}</h5>
+                            <h5 class="mb-2 text-muted d-inline-block"
+                                style="padding: 5px 15px; background-color: orange; color: white; text-align: center; border-radius: 10px;">
+                                {{ chronicles[4].category_name }}</h5>
                         </div>
                         <h5>{{ chronicles[4].title }}</h5>
                         <div class="d-flex justify-content-center mt-3">
@@ -118,7 +128,9 @@
                                 src="{{ chronicles[5].image }}" alt="{{ chronicles[5].title }}"
                                 class="img-thumbnail-chronicle mt-3"></a>
                         <div class="justify-content-center mt-3 text-center">
-                            <h5 class="mb-2 text-muted d-inline-block" style="padding: 5px 15px; background-color: orange; color: white; text-align: center; border-radius: 10px;">{{ chronicles[5].category_name }}</h5>
+                            <h5 class="mb-2 text-muted d-inline-block"
+                                style="padding: 5px 15px; background-color: orange; color: white; text-align: center; border-radius: 10px;">
+                                {{ chronicles[5].category_name }}</h5>
                         </div>
                         <h5>{{ chronicles[5].title }}</h5>
                         <div class="d-flex justify-content-center mt-3">
@@ -137,10 +149,6 @@
         <div class="card text-white my-5 py-4" style="background-color: #31525b; border: 3px solid #ffa101;">
             <div class="card-body">
                 <div class="row" style="padding-right:30px; padding-left:30px;">
-                    <div class="col-2">
-                        <img src="/static/media/uploads/5c234bd3-1ce5-46c4-8632-09f54c94ca83.jpg" alt="Ad"
-                            class="img-fluid">
-                    </div>
                     <div class="col-8" style="padding-left: 50px;">
                         <blockquote class="blockquote">
                             <p class="mb-0"
@@ -160,17 +168,33 @@
                             {% endif %}
                         </div>
                     </div>
-                    <div class="col-2">
-                        <img src="/static/media/uploads/5c234bd3-1ce5-46c4-8632-09f54c94ca83.jpg" alt="Ad"
-                            class="img-fluid">
+                    <div class="col-4 d-flex justify-content-end align-items-center">
+                        <a href="/quotes" class="btn text-white"
+                            style="background-color: #4b4b4b; border: 1px solid white; border-radius: 20px;">More quotes
+                            &rarr;</a>
                     </div>
                 </div>
             </div>
         </div>
 
 
+        <div class="container mt-3">
+            {% for article in news %}
+            <div class="row news-row chronicle-section">
+                <div class="col-md-4">
+                    <img src="{{ article.image_url }}" alt="{{ article.title }}" class="home-story-img">
+                </div>
+                <div class="col-md-8">
+                    <div class="news-title">{{ article.title }}</div>
+                    <div class="news-source">{{ article.source }}</div>
+                    <div class="news-description">{{ article.description }}</div>
+                    <a href="{{ article.url }}" class="btn btn-primary news-readmore">Read More</a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
 
-        <div class="card my-5 py-4" style="border-radius: 30px;">
+        <div class="card my-5 py-4" class="chronicle-section" style="border: solid 1px #000;">
             <div class="card-header text-dark">
                 <h4 class="card-title text-center">Visit our AI Artwork Gallery</h4>
             </div>

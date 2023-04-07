@@ -82,6 +82,8 @@ def home():
     chronicles = Chronicle.get_home_chronicles()
     artwork = Artwork.get_related_artwork()
     quote = Quote.get_random()
+    news = News.get_home_news()
+    print(news)
     user_image = current_user.picture if current_user.is_authenticated else None
     return render_template(
         "home.html",
@@ -89,6 +91,7 @@ def home():
         artwork=artwork,
         quote=quote,
         user_image=user_image,
+        news=news,
     )
 
 
@@ -160,6 +163,28 @@ def news():
     return render_template("news.html", news=news, title="Latest News")
 
 
+@app.route("/quotes")
+def quotes():
+    quotes = Quote.get_all()
+    return render_template("quotes.html", quotes=quotes, title="Our Favorite Quotes")
+
+
+@app.route("/q_detail/<string:quote_id>")
+def q_detail(quote_id):
+    quote = Quote.get_by_id(ObjectId(quote_id))
+    related_q = Quote.get_related_quotes(3)
+    user_image = current_user.picture if current_user.is_authenticated else None
+    if quote is None:
+        flash("Could not find quote.")
+        redirect(url_for("quotes"))
+    return render_template(
+        "q_detail.html",
+        quote=quote,
+        related_q=related_q,
+        user_image=user_image,
+    )
+
+
 @app.route("/search", methods=["GET", "POST"])
 def search():
     if request.method == "POST":
@@ -171,7 +196,7 @@ def search():
             for doc in db.articles.find({"$text": {"$search": search_keyword}})
         ]
         quotes_results = [
-            {"type": "quote", "_id": str(doc["_id"])}
+            {"type": "q_detail", "_id": str(doc["_id"])}
             for doc in db.quotes.find({"$text": {"$search": search_keyword}})
         ]
         artwork_results = [
@@ -212,6 +237,7 @@ def admin():
     chronicles = Chronicle.get_all()
     artwork = Artwork.get_all()
     categories = Category.get_all()
+    news = News.get_all()
     user_image = current_user.picture if current_user.is_authenticated else None
     print(chronicles)
 
@@ -220,6 +246,7 @@ def admin():
         chronicles=chronicles,
         artwork=artwork,
         categories=categories,
+        news=news,
         user_image=user_image,
     )
 

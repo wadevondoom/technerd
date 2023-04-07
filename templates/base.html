@@ -50,29 +50,21 @@
             <a class="nav-link" href="{{ url_for('artwork') }}">Artwork</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="{{ url_for('artwork') }}">Quotes</a>
+            <a class="nav-link" href="{{ url_for('quotes') }}">Quotes</a>
           </li>
         </ul>
       </div>
 
 
-      <form class="d-flex align-items-center w-100 form-search">
+      <form action="/search" method="POST" class="d-flex align-items-center w-100 form-search">
         <div class="input-group">
-          <div class="input-group-prepend">
-            <button class="btn btn-light dropdown-toggle shadow-0" type="button" id="dropdownMenuButton"
-              data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="padding-bottom: 0.4rem;">
-              All
-            </button>
-            <div class="dropdown-menu dropdown-menu-dark" aria-labelledby="dropdownMenuButton">
-              <a class="dropdown-item" href="#">Artwork</a>
-              <a class="dropdown-item" href="#">Chronicles</a>
-              <a class="dropdown-item" href="#">Quotes</a>
-            </div>
-          </div>
-          <input type="search" class="form-control" placeholder="Search" aria-label="Search" />
+          <input type="search" name="search" class="form-control" placeholder="Search" aria-label="Search" required />
+          <button type="submit" class="btn btn-light">
+            Search
+          </button>
         </div>
-        <a href="#!" class="text-white"><i class="fas fa-search ps-3"></i></a>
       </form>
+      
 
       <!-- Right links -->
       <ul class="navbar-nav ms-3">

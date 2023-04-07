@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-4">
+    <h1 class="mb-4">Quotes</h1>
+    <div class="d-flex justify-content-end mb-3">
+        <label for="sort-select" class="me-2">Sort by:</label>
+        <select id="sort-select" class="form-select">
+            <option value="none" selected>None</option>
+            <option value="quote">Quote</option>
+            <option value="author">Author</option>
+        </select>
+    </div>
+    <div id="quotes-list">
+        {% for quote_item in quotes %}
+        <div class="quote-item mb-4">
+            <div class="card">
+                <div class="card-body">
+                    {% if quote_item.qotd %}
+                    <a href="{{ quote_item.qotd }}">
+                        <blockquote class="blockquote quote-quote">
+                            <p class="mb-0">{{ quote_item.quote }}</p>
+                        </blockquote>
+                    </a>
+                    {% else %}
+                    <blockquote class="blockquote quote-quote">
+                        <p class="mb-0">{{ quote_item.quote }}</p>
+                    </blockquote>
+                    {% endif %}
+                    {% if quote_item.author %}
+                    <footer class="blockquote-footer quote-author">{{ quote_item.author }}</footer>
+                    {% endif %}
+                    {% if quote_item.source %}
+                    <small class="text-muted">Source: {{ quote_item.source }}</small>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+<script>
+    document.getElementById("sort-select").addEventListener("change", function () {
+        const sortBy = this.value;
+        const quotesList = document.getElementById("quotes-list");
+        const quoteItems = Array.from(quotesList.getElementsByClassName("quote-item"));
+
+        quoteItems.sort((a, b) => {
+            const aElem = a.querySelector(`.quote-${sortBy}`);
+            const bElem = b.querySelector(`.quote-${sortBy}`);
+            const aValue = aElem ? aElem.textContent.trim().toLowerCase() : '';
+            const bValue = bElem ? bElem.textContent.trim().toLowerCase() : '';
+
+            if (aValue < bValue) {
+                return -1;
+            }
+            if (aValue > bValue) {
+                return 1;
+            }
+            return 0;
+        });
+
+        quoteItems.forEach((item) => {
+            quotesList.appendChild(item);
+        });
+    });
+</script>
+{% endblock %}

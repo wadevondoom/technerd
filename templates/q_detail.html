@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-lg-7">
+            <div class="card">
+                <div class="card-body">
+                    <blockquote class="blockquote text-center mb-4"
+                        style="font-size: 1.5rem; font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;">
+                        <p class="mb-0">{{ quote.quote }}</p>
+                        {% if quote.author %}
+                        <footer class="blockquote-footer mt-2">{{ quote.author }}</footer>
+                        {% endif %}
+                        {% if quote.source %}
+                        <small class="text-muted">Source: {{ quote.source }}</small>
+                        {% endif %}
+                    </blockquote>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-5">
+            <div class="card p-3 mb-3">
+                <h5 class="mb-3">Related Quotes</h5>
+                <ul class="list-group">
+                    {% for related_quote in related_q %}
+                    <li class="list-group-item">
+                        <div class="quote">
+                            <a href="{{ url_for('q_detail', quote_id=related_quote['_id']) }}">
+                                <p>{{ related_quote.quote[:120] }}{% if related_quote.quote|length > 120 %}...{% endif
+                                    %}</p>
+                            </a>
+                            {% if related_quote.author %}
+                            <small class="text-muted">- {{ related_quote.author }}</small>
+                            {% endif %}
+                        </div>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+            <div class="card p-3">
+                <h5 class="mb-3">Advertisement</h5>
+                <p>Here's some space for an advertisement.</p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
