@@ -1,3 +1,4 @@
+import random, string
 from os import environ as env
 from urllib.parse import quote_plus, urlencode
 from bson import ObjectId
@@ -22,9 +23,18 @@ from forms import ChronicleForm, CreateCategoryForm, ArtworkForm
 from helpers import save_image, db
 
 
-app = Flask(__name__)
 
-app.secret_key = "YOUR_SECRET_KEY"  # Replace with a secret key of your choice
+app = Flask(__name__)
+app.config.update(
+    {
+        "SECRET_KEY": "".join(
+            random.choices(
+                string.ascii_uppercase + string.ascii_lowercase + string.digits, k=32
+            )
+        )
+    }
+)
+
 oauth = OAuth(app)
 
 ENV_FILE = find_dotenv()
