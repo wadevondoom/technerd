@@ -240,13 +240,16 @@ h2 {
 }
 
 .custom-toggler {
-    border: none;
+    background-color: rgba(255, 255, 255, 0.5);
+    /* Change the background color to a semi-transparent black */
+    border-color: #000;
 }
 
 
 .custom-toggler-icon {
-    color: #FFF; /* Change this to your desired color */
-  }
+    color: #FFF;
+    /* Change this to your desired color */
+}
 
 .nav-link {
     color: white !important;
