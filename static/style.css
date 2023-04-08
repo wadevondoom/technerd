@@ -191,23 +191,6 @@ h2 {
 }
 
 
-.pagination-page-info {
-    padding: .6em;
-    padding-left: 0;
-    width: 40em;
-    margin: .5em;
-    margin-left: 0;
-    font-size: 12px;
-}
-
-.pagination-page-info b {
-    color: black;
-    background: #6aa6ed;
-    padding-left: 2px;
-    padding: .1em .25em;
-    font-size: 150%;
-}
-
 .img-thumbnail {
     border: 5px solid #333;
     border-radius: 10px;
@@ -249,8 +232,45 @@ h2 {
 
 }
 
+.bg-glass {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
 .custom-toggler {
-    color: #fff;
+    border: none;
+}
+
+
+.custom-toggler-icon {
+    color: #FFF; /* Change this to your desired color */
+  }
+
+.nav-link {
+    color: white !important;
+}
+
+.nav-link:hover {
+    color: rgba(255, 255, 255, 0.7) !important;
+}
+
+.form-search .btn {
+    background-color: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    color: white;
+}
+
+.form-search .btn:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+.img-thumbnail-sm {
+    width: 40px;
+    height: 40px;
+    object-fit: cover;
+    border-radius: 50%;
 }
 
 .home-story-image {
