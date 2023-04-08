@@ -11,7 +11,7 @@ class News:
 
     @staticmethod
     def get_all():
-        news = db.articles.find().sort("date_posted", -1)
+        news = db.articles.find().sort("_id", -1)
         return news
 
     @staticmethod

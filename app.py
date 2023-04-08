@@ -198,21 +198,24 @@ def art_detail(artwork_id):
 
 @app.route("/news")
 def news():
-    news = News.get_all()
+    news_items = list(News.get_all())
     user_image = current_user.picture if current_user.is_authenticated else None
+
     return render_template(
-        "news.html", news=news, title="Latest News", user_image=user_image
+        "news.html",
+        news=news_items,
+        user_image=user_image,
     )
 
 
-@app.route("/n_detail/<string:article_id>", methods=["GET", "POST"])
-def n_detail(article_id):
-    article = News.get_by_id(ObjectId(article_id))
+@app.route("/n_detail/<string:news_id>", methods=["GET", "POST"])
+def n_detail(news_id):
+    article = News.get_by_id(ObjectId(news_id))
     related_n = News.get_related_news(3)
     user_image = current_user.picture if current_user.is_authenticated else None
 
     if article is None:
-        flash("Could not find quote.")
+        flash("Could not find article.")
         redirect(url_for("news"))
 
     comment_form = CommentForm()
@@ -220,17 +223,17 @@ def n_detail(article_id):
     if request.method == "POST":
         author = current_user.name if current_user.is_authenticated else "Anonymous"
         avatar = current_user.picture
-        Comment.save_comment(article_id, "article", avatar, author, comment_form.text.data)
+        Comment.save_comment(news_id, "news", avatar, author, comment_form.text.data)
         print(f"Comment saved")
         flash("Your comment has been posted.")
-        return redirect(url_for("q_detail", article_id=article_id))
+        return redirect(url_for("n_detail", news_id=news_id))
 
-    comments = Comment.get_comments_by_content_id(ObjectId(article_id), "quote")
+    comments = Comment.get_comments_by_content_id(ObjectId(news_id), "news")
 
     return render_template(
-        "q_detail.html",
-        article=article,
-        related_n=related_n,
+        "n_detail.html",
+        news=article,
+        related_news=related_n,
         user_image=user_image,
         comment_form=comment_form,
         comments=comments,

@@ -48,7 +48,9 @@
                     <div class="news-title">{{ article.title }}</div>
                     <div class="news-source">{{ article.source }}</div>
                     <div class="news-description">{{ article.description }}</div>
-                    <a href="{{ article.url }}" class="btn btn-primary news-readmore">Read More</a>
+                    <div class="d-flex justify-content-center my-3">
+                        <a href="{{ url_for('n_detail', news_id=article['_id']) }}" class="btn btn-outline-secondary">Read More &rarr;</a>
+                    </div>
                 </div>
             </div>
         {% endfor %}
