@@ -160,13 +160,15 @@ def art_detail(artwork_id):
 @app.route("/news")
 def news():
     news = News.get_all()
-    return render_template("news.html", news=news, title="Latest News")
+    user_image = current_user.picture if current_user.is_authenticated else None
+    return render_template("news.html", news=news, title="Latest News", user_image=user_image)
 
 
 @app.route("/quotes")
 def quotes():
     quotes = Quote.get_all()
-    return render_template("quotes.html", quotes=quotes, title="Our Favorite Quotes")
+    user_image = current_user.picture if current_user.is_authenticated else None
+    return render_template("quotes.html", quotes=quotes, title="Our Favorite Quotes", user_image=user_image)
 
 
 @app.route("/q_detail/<string:quote_id>")
@@ -177,7 +179,6 @@ def q_detail(quote_id):
     if quote is None:
         flash("Could not find quote.")
         redirect(url_for("quotes"))
-    print(quote)
     return render_template(
         "q_detail.html",
         quote=quote,
