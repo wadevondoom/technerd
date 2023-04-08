@@ -23,3 +23,17 @@ class News:
     def get_home_news():
         news = db.articles.find().sort("_id", -1).limit(5)
         return news    
+    
+    @staticmethod
+    def get_related_news(num_news=3):
+        news = []
+        for i in range(num_news):
+            article = News.get_random()
+            if article:
+                news.append(article)
+        return news
+    
+    @staticmethod
+    def get_random(sample_size=1):
+        article = db.news.aggregate([{"$sample": {"size": sample_size}}])
+        return next(iter(article), None)

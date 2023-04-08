@@ -63,12 +63,17 @@ login_manager.init_app(app)
 def load_user(user_id):
     if "user" in session:
         user_info = session["user"]
-        return User(
-            user_id,
-            user_info.get("name"),
-            user_info.get("email"),
-            user_info.get("picture"),
-        )
+        user_db = db
+        users_collection = user_db.users
+        user = users_collection.find_one({"_id": user_id})
+        if user:
+            return User(
+                user_id,
+                user.get("name"),
+                user.get("email"),
+                user.get("picture"),
+                user.get("nickname"),
+            )
     return None
 
 
@@ -111,19 +116,36 @@ def chronicles():
     )
 
 
-@app.route("/detail/<string:chronicle_id>")
+@app.route("/detail/<string:chronicle_id>", methods=["GET", "POST"])
 def detail(chronicle_id):
     chronicle = Chronicle.get_by_id(ObjectId(chronicle_id))
     related_chrons = Chronicle.get_related_chronicles(3)
     user_image = current_user.picture if current_user.is_authenticated else None
+
     if chronicle is None:
         flash("Could not find article.")
         redirect(url_for("home"))
+
+    comment_form = CommentForm()
+
+    if request.method == "POST":
+        author = current_user.nickname if current_user.is_authenticated else "Anonymous"
+        avatar = current_user.picture
+        Comment.save_comment(
+            chronicle_id, "chronicle", avatar, author, comment_form.text.data
+        )
+        print(f"Comment saved")
+        flash("Your comment has been posted.")
+        return redirect(url_for("detail", chronicle_id=chronicle_id))
+
+    comments = Comment.get_comments_by_content_id(ObjectId(chronicle_id), "chronicle")
     return render_template(
         "detail.html",
         chronicle=chronicle,
         related_chrons=related_chrons,
         user_image=user_image,
+        comment_form=comment_form,
+        comments=comments,
     )
 
 
@@ -183,6 +205,38 @@ def news():
     )
 
 
+@app.route("/n_detail/<string:article_id>", methods=["GET", "POST"])
+def n_detail(article_id):
+    article = News.get_by_id(ObjectId(article_id))
+    related_n = News.get_related_news(3)
+    user_image = current_user.picture if current_user.is_authenticated else None
+
+    if article is None:
+        flash("Could not find quote.")
+        redirect(url_for("news"))
+
+    comment_form = CommentForm()
+
+    if request.method == "POST":
+        author = current_user.name if current_user.is_authenticated else "Anonymous"
+        avatar = current_user.picture
+        Comment.save_comment(article_id, "article", avatar, author, comment_form.text.data)
+        print(f"Comment saved")
+        flash("Your comment has been posted.")
+        return redirect(url_for("q_detail", article_id=article_id))
+
+    comments = Comment.get_comments_by_content_id(ObjectId(article_id), "quote")
+
+    return render_template(
+        "q_detail.html",
+        article=article,
+        related_n=related_n,
+        user_image=user_image,
+        comment_form=comment_form,
+        comments=comments,
+    )
+
+
 @app.route("/quotes")
 def quotes():
     quotes = Quote.get_all()
@@ -192,19 +246,35 @@ def quotes():
     )
 
 
-@app.route("/q_detail/<string:quote_id>")
+@app.route("/q_detail/<string:quote_id>", methods=["GET", "POST"])
 def q_detail(quote_id):
     quote = Quote.get_by_id(ObjectId(quote_id))
     related_q = Quote.get_related_quotes(3)
     user_image = current_user.picture if current_user.is_authenticated else None
+
     if quote is None:
         flash("Could not find quote.")
         redirect(url_for("quotes"))
+
+    comment_form = CommentForm()
+
+    if request.method == "POST":
+        author = current_user.name if current_user.is_authenticated else "Anonymous"
+        avatar = current_user.picture
+        Comment.save_comment(quote_id, "quote", avatar, author, comment_form.text.data)
+        print(f"Comment saved")
+        flash("Your comment has been posted.")
+        return redirect(url_for("q_detail", quote_id=quote_id))
+
+    comments = Comment.get_comments_by_content_id(ObjectId(quote_id), "quote")
+
     return render_template(
         "q_detail.html",
         quote=quote,
         related_q=related_q,
         user_image=user_image,
+        comment_form=comment_form,
+        comments=comments,
     )
 
 

@@ -1,6 +1,64 @@
 {% extends "base.html" %}
 
 {% block content %}
+<style>
+    .story-image {
+        max-height: 60vh;
+        object-fit: cover;
+        width: 100%;
+        margin-bottom: 1rem;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        border: 10px solid white;
+        cursor: pointer;
+    }
+
+    .artwork {
+        display: flex;
+        align-items: center;
+    }
+
+    .artwork img {
+        height: 60px;
+        width: 60px;
+        object-fit: cover;
+        margin-right: 1rem;
+    }
+
+    /* Custom comment styling */
+    .comment-section {
+        margin-top: 2rem;
+    }
+
+    .comment {
+        display: flex;
+        margin-bottom: 1rem;
+    }
+
+    .comment-avatar {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        object-fit: cover;
+        margin-right: 1rem;
+    }
+
+    .comment-content {
+        background-color: #f8f9fa;
+        border-radius: 5px;
+        padding: 1rem;
+        position: relative;
+    }
+
+    .comment-author {
+        font-weight: bold;
+        margin-bottom: 0.5rem;
+    }
+
+    .comment-date {
+        font-size: 0.8rem;
+        color: #6c757d;
+    }
+</style>
 <div class="container mt-4">
     <div class="row">
         <div class="col-lg-7">
@@ -16,9 +74,38 @@
                         <small class="text-muted">Source: {{ quote.source }}</small>
                         {% endif %}
                     </blockquote>
-                    {{ quote.qotd }}           
+                    {{ quote.qotd }}
                 </div>
             </div>
+            <!-- Comment Section -->
+            <div class="comment-section mt-4">
+                <h4>Comments</h4>
+                {% for comment in comments %}
+                <div class="comment">
+                    {% if comment.avatar %}
+                    <img src="{{ comment.avatar }}" alt="User Avatar" class="comment-avatar">
+                    {% endif %}
+                    <div class="comment-content">
+                        <p class="comment-author">{{ comment.author }}</p>
+                        <p>{{ comment.text }}</p>
+                        <p class="comment-date">{{ comment.created_at.strftime('%Y-%m-%d %H:%M') }}</p>
+                    </div>
+                </div>
+                {% endfor %}
+                {% if current_user.is_authenticated %}
+                <form method="POST" action="{{ url_for('q_detail', quote_id=quote['_id']) }}">
+                    {{ comment_form.csrf_token }}
+                    <div class="form-group">
+                        <label for="{{ comment_form.text.id }}">Leave a comment:</label>
+                        {{ comment_form.text(class="form-control") }}
+                    </div>
+                    <button type="submit" class="btn btn-primary">Submit Comment</button>
+                </form>
+                {% else %}
+                <p><a href="{{ url_for('login')}}">Login</a> to post a comment</p>
+                {% endif %}
+            </div>
+            <!-- End Comment Section -->
         </div>
         <div class="col-lg-5">
             <div class="card p-3 mb-3">
