@@ -19,9 +19,10 @@ from category import Category
 from chronicle import Chronicle
 from quote import Quote
 from brain import Brain
-from forms import ChronicleForm, CreateCategoryForm, ArtworkForm
+from forms import ChronicleForm, CreateCategoryForm, ArtworkForm, CommentForm
 from helpers import save_image, db
 from news import News
+from comment import Comment
 
 
 app = Flask(__name__)
@@ -141,19 +142,35 @@ def artwork():
     )
 
 
-@app.route("/art_detail/<string:artwork_id>")
+@app.route("/art_detail/<string:artwork_id>", methods=["GET", "POST"])
 def art_detail(artwork_id):
     artwork = Artwork.get_by_id(ObjectId(artwork_id))
     related_art = Artwork.get_related_artwork(3)
     user_image = current_user.picture if current_user.is_authenticated else None
+
     if artwork is None:
         flash("Could not find artwork.")
         redirect(url_for("artwork"))
+
+    comment_form = CommentForm()
+
+    if request.method == "POST":
+        author = current_user.name if current_user.is_authenticated else "Anonymous"
+        avatar = current_user.picture
+        Comment.save_comment(artwork_id, "art", avatar, author, comment_form.text.data)
+        print(f"Comment saved")
+        flash("Your comment has been posted.")
+        return redirect(url_for("art_detail", artwork_id=artwork_id))
+
+    comments = Comment.get_comments_by_content_id(ObjectId(artwork_id), "art")
+
     return render_template(
         "art_detail.html",
         artwork=artwork,
         related_art=related_art,
         user_image=user_image,
+        comment_form=comment_form,
+        comments=comments,
     )
 
 
@@ -161,14 +178,18 @@ def art_detail(artwork_id):
 def news():
     news = News.get_all()
     user_image = current_user.picture if current_user.is_authenticated else None
-    return render_template("news.html", news=news, title="Latest News", user_image=user_image)
+    return render_template(
+        "news.html", news=news, title="Latest News", user_image=user_image
+    )
 
 
 @app.route("/quotes")
 def quotes():
     quotes = Quote.get_all()
     user_image = current_user.picture if current_user.is_authenticated else None
-    return render_template("quotes.html", quotes=quotes, title="Our Favorite Quotes", user_image=user_image)
+    return render_template(
+        "quotes.html", quotes=quotes, title="Our Favorite Quotes", user_image=user_image
+    )
 
 
 @app.route("/q_detail/<string:quote_id>")

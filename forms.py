@@ -1,6 +1,6 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, TextAreaField, FileField, SelectField, SubmitField
-from wtforms.validators import DataRequired
+from wtforms import StringField, TextAreaField, FileField, SelectField, SubmitField, HiddenField
+from wtforms.validators import DataRequired, Length
 from flask_wtf.file import FileAllowed
 
 
@@ -36,4 +36,9 @@ class CreateCategoryForm(FlaskForm):
 
 
 class CommentForm(FlaskForm):
-    comment_text = TextAreaField("Comment", validators=[DataRequired()])
+    content_id = HiddenField("Content ID", validators=[DataRequired()])
+    content_type = HiddenField("Content Type", validators=[DataRequired()])
+    avatar = HiddenField("Avatar", validators=[DataRequired()])
+    author = StringField("Name", validators=[DataRequired(), Length(min=1, max=100)])
+    text = TextAreaField("Comment", validators=[DataRequired(), Length(min=1, max=500)])
+    submit = SubmitField("Submit")
