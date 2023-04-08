@@ -1,10 +1,97 @@
 {% extends "base.html" %}
 
 {% block content %}
-<h1>Search Results</h1>
-<ul>
-    {% for result in results %}
-    <li><a href="{{ result.url }}">{{ result.type }}: {{ result._id }}</a></li>
+<div class="container mt-4">
+    <h2 class="mb-4">Search Results</h2>
+
+    {% if articles_results %}
+    <h3>Articles</h3>
+    {% for result in articles_results %}
+    <div class="card mb-3">
+        <div class="row no-gutters">
+            <div class="col-md-4">
+                <img src="{{ result.image_url or '/static/img/placeholder.jpg' }}" class="card-img"
+                    alt="{{ result.title }}" style="object-fit: cover; height: 100%; width: 100%;">
+            </div>
+            <div class="col-md-8">
+                <div class="card-body">
+                    <h5 class="card-title">{{ result.title }}</h5>
+                    <p class="card-text">{{ result.description }}</p>
+                    <a href="#" class="btn btn-primary">Read More</a>
+                </div>
+            </div>
+        </div>
+    </div>
     {% endfor %}
-</ul>
+    {% endif %}
+
+    {% if quotes_results %}
+    <h3>Quotes</h3>
+    {% for result in quotes_results %}
+    <div class="card mb-3">
+        <div class="row no-gutters">
+            <div class="col-md-4">
+                <img src="/static/img/qplaceholder.jpg" class="card-img" alt="Quote placeholder"
+                    style="object-fit: cover; height: 100%; width: 100%;">
+            </div>
+            <div class="col-md-8">
+                <div class="card-body">
+                    <h5 class="card-title">{{ result.author }}</h5>
+                    <p class="card-text">"{{ result.quote }}"</p>
+                    <a href="{{ url_for(result.type, quote_id=result._id) }}" class="btn btn-primary">Read More</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+    {% endif %}
+
+    {% if artwork_results %}
+    <h3>Artwork</h3>
+    {% for result in artwork_results %}
+    <div class="card mb-3">
+        <div class="row no-gutters">
+            <div class="col-md-4">
+                <img src="{{ result.image or '/static/img/placeholder.jpg' }}" class="card-img"
+                    alt="{{ result.title }}" style="object-fit: cover; height: 100%; width: 100%;">
+            </div>
+            <div class="col-md-8">
+                <div class="card-body">
+                    <h5 class="card-title">{{ result.title }}</h5>
+                    <p class="card-text">{{ result.text }}</p>
+                    <a href="{{ url_for(result.type, artwork_id=result._id) }}" class="btn btn-primary">Read More</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+    {% endif %}
+
+    {% if chronicle_results %}
+    <h3>Chronicles</h3>
+    {% for result in chronicle_results %}
+    <div class="card mb-3">
+        <div class="row no-gutters">
+            <div class="col-md-4">
+                <img src="{{ result.image or '/static/images/placeholder.jpg' }}" class="card-img"
+                    alt="{{ result.title }}" style="object-fit: cover; height: 100%; width: 100%;">
+            </div>
+            <div class="col-md-8">
+                <div class="card-body">
+                    <h5 class="card-title">{{ result.title }}</h5>
+                    <p class="card-text">{{ result.content | safe }}</p>
+                    <a href="{{ url_for(result.type, chronicle_id=result._id) }}" class="btn btn-primary">Read More</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+    {% endif %}
+
+    {% if not articles_results and not quotes_results and not artwork_results and not chronicle_results %}
+    <div class="alert alert-warning" role="alert">
+        No results found. Please try another search.
+    </div>
+    {% endif %}
+</div>
 {% endblock %}

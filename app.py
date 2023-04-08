@@ -177,6 +177,7 @@ def q_detail(quote_id):
     if quote is None:
         flash("Could not find quote.")
         redirect(url_for("quotes"))
+    print(quote)
     return render_template(
         "q_detail.html",
         quote=quote,
@@ -190,34 +191,56 @@ def search():
     if request.method == "POST":
         search_keyword = request.form["search"]
 
-        # Perform a search in each collection and store content type and _id
+        # Perform a search in each collection and store content type, _id, title, image, and content
         articles_results = [
-            {"type": "news_detail", "_id": str(doc["_id"])}
+            {
+                "type": "news_detail",
+                "_id": str(doc["_id"]),
+                "title": doc["title"],
+                "source": doc["source"],
+                "image_url": doc["image_url"],
+                "description": doc["description"][:120],
+            }
             for doc in db.articles.find({"$text": {"$search": search_keyword}})
         ]
         quotes_results = [
-            {"type": "q_detail", "_id": str(doc["_id"])}
+            {
+                "type": "q_detail",
+                "_id": str(doc["_id"]),
+                "author": doc["author"],
+                "source": doc["source"],
+                "quote": doc["quote"][:120],
+            }
             for doc in db.quotes.find({"$text": {"$search": search_keyword}})
         ]
         artwork_results = [
-            {"type": "art_detail", "_id": str(doc["_id"])}
+            {
+                "type": "art_detail",
+                "_id": str(doc["_id"]),
+                "title": doc["title"],
+                "image": doc["image"],
+                "text": doc["text"][:120],
+            }
             for doc in db.artwork.find({"$text": {"$search": search_keyword}})
         ]
         chronicle_results = [
-            {"type": "detail", "_id": str(doc["_id"])}
+            {
+                "type": "detail",
+                "_id": str(doc["_id"]),
+                "title": doc["title"],
+                "image": doc["image"],
+                "content": doc["content"][:120],
+            }
             for doc in db.chronicles.find({"$text": {"$search": search_keyword}})
         ]
 
-        # Combine the results
-        combined_results = (
-            chronicle_results + articles_results + quotes_results + artwork_results
+        return render_template(
+            "search_results.html",
+            articles_results=articles_results,
+            quotes_results=quotes_results,
+            artwork_results=artwork_results,
+            chronicle_results=chronicle_results,
         )
-
-        # Generate URLs for the results
-        for result in combined_results:
-            result["url"] = create_url(result["type"], result["_id"])
-
-        return render_template("search_results.html", results=combined_results)
 
     return render_template("search.html")
 
