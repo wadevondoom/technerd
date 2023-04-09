@@ -56,7 +56,7 @@
                     <h1 class="mb-2">{{ news.title }}</h1>
                     <p class="lead d-block mt-2">Source: {{ news.source }}</p>
                     <img src="{{ news.image_url }}" alt="News Image" class="img-fluid mb-4 story-image">
-                    <p>{{ news.description }}</p>
+                    <p>{{ news.description | safe }}</p>
                     <div class="d-flex justify-content-center my-3">
                         <a href="{{ news.url }}" class="btn btn-outline-secondary" target="_blank">Read at {{ news.source }} &rarr;</a>
                     </div>
