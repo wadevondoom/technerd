@@ -19,20 +19,7 @@ db = client.technerdiac
 
 # Create the text indexes for each collection if they do not exist
 try:
-    if not index_exists(db.articles, "title_description_text"):
-        print("Creating index for 'articles' collection...")
-        db.articles.create_index(
-            [("title", "text"), ("description", "text")], name="title_description_text"
-        )
-        print("Index for 'articles' collection created.")
 
-    if not index_exists(db.quotes, "author_quote_source_text"):
-        print("Creating index for 'quotes' collection...")
-        db.quotes.create_index(
-            [("author", "text"), ("quote", "text"), ("source", "text")],
-            name="author_quote_source_text",
-        )
-        print("Index for 'quotes' collection created.")
 
     if not index_exists(db.artwork, "title_text_text"):
         print("Creating index for 'artwork' collection...")
