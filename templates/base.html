@@ -34,16 +34,16 @@
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
           <li class="nav-item">
-            <a class="nav-link" href="{{ url_for('chronicles') }}">Chronicles</a>
+            <a class="nav-link fancy-btn" href="{{ url_for('chronicles') }}">Chronicles</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="{{ url_for('news') }}">News</a>
+            <a class="nav-link fancy-btn" href="{{ url_for('news') }}">News</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="{{ url_for('artwork') }}">Artwork</a>
+            <a class="nav-link fancy-btn" href="{{ url_for('artwork') }}">Artwork</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="{{ url_for('quotes') }}">Quotes</a>
+            <a class="nav-link fancy-btn" href="{{ url_for('quotes') }}">Quotes</a>
           </li>
         </ul>
         <form action="/search" method="POST" class="d-flex align-items-center w-100 form-search bg-glass mx-3 p-2">
@@ -58,15 +58,15 @@
           {% if current_user.is_authenticated %}
           {% if current_user.is_authenticated and current_user.name == 'Wade Neuwirth' %}
           <li class="nav-item">
-            <a class="nav-link" href="{{ url_for('admin') }}">Admin</a>
+            <a class="nav-link fancy-btn" href="{{ url_for('admin') }}">Admin</a>
           </li>
           {% endif %}
           <li class="nav-item">
-            <a class="nav-link" href="{{ url_for('logout') }}">Logout</a>
+            <a class="nav-link fancy-btn" href="{{ url_for('logout') }}">Logout</a>
           </li>
           {% else %}
           <li class="nav-item">
-            <a class="nav-link" href="{{ url_for('login') }}">Login</a>
+            <a class="nav-link fancy-btn" href="{{ url_for('login') }}">Login</a>
           </li>
           {% endif %}
         </ul>

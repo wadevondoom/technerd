@@ -65,26 +65,54 @@
         <div class="col-lg-8">
             <div class="card mb-4">
                 <div class="card-body">
-                    <h1 class="mb-2">{{ artwork.title }}</h1>
+                    <h1 class="mb-3">{{ artwork.title }}</h1>
+                    <div class="row">
+                        <div class="col-6">
+                            <p class="mb-2 text-muted">{{ artwork.date_posted.strftime('%Y-%m-%d %H:%M') }}</p>
+                        </div>
+                        <div class="col-6 text-right">
+                            <p class="mb-2"><span class="badge badge-secondary">{{ artwork.page_views }} views</span>
+                            </p>
+                        </div>
+                    </div>
                     <hr>
-                    <p class="lead">By The Technerdiac | {{ artwork.date_posted.strftime('%Y-%m-%d %H:%M') }}</p>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <p class="mb-2 text-muted">Likes: <span id="likes-count">{{ like_count }}</span></p>
+                        </div>
+                        <div class="col-sm-6 text-right">
+                            {% if current_user.is_authenticated %}
+                            {% if liked %}
+                            <button class="btn btn-primary btn-sm disabled">Liked</button>
+                            {% else %}
+                            <form action="{{ url_for('like_artwork', artwork_id=artwork['_id']) }}" method="post"
+                                class="d-inline-block">
+                                <button class="btn btn-primary btn-sm" type="submit">Like</button>
+                            </form>
+                            {% endif %}
+                            {% else %}
+                            <a href="{{ url_for('login') }}" class="btn btn-primary btn-sm">Log in to like</a>
+                            {% endif %}
+                        </div>
+                    </div>
                 </div>
             </div>
-            <img src="{{ artwork.image }}" alt="Story Image" class="story-image" data-toggle="modal" data-target="#imageModal">
-            
+
+            <img src="{{ artwork.image }}" alt="Story Image" class="story-image" data-toggle="modal"
+                data-target="#imageModal">
+
             <div class="card mb-4">
                 <div class="card-body text-center text-dark">
                     <p class="mt-4">{{ artwork.text | safe }}</p>
                 </div>
             </div>
-
             <!-- Comment Section -->
             <div class="comment-section">
                 <h4>Comments</h4>
                 {% for comment in comments %}
                 <div class="comment">
                     {% if comment.avatar %}
-                        <img src="{{ comment.avatar }}" alt="User Avatar" class="comment-avatar">
+                    <img src="{{ comment.avatar }}" alt="User Avatar" class="comment-avatar">
                     {% endif %}
                     <div class="comment-content">
                         <p class="comment-author">{{ comment.author }}</p>
@@ -134,16 +162,36 @@
 </div>
 
 <!-- Image Modal -->
-<div class="modal fade" id="imageModal" tabindex="-1" role="dialog" aria-labelledby="imageModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
-    <div class="modal-content">
-      <div class="modal-body">
-        <img src="{{ artwork.image }}" alt="Full size image" class="img-fluid">
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-      </div>
+<div class="modal fade" id="imageModal" tabindex="-1" role="dialog" aria-labelledby="imageModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+                <img src="{{ artwork.image }}" alt="Full size image" class="img-fluid">
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
     </div>
-  </div>
 </div>
+<!-- JavaScript for liking the artwork -->
+<!-- JavaScript for liking the artwork -->
+<script>
+    document.getElementById("like-button").addEventListener("click", function () {
+        const artworkId = this.dataset.artworkId;
+        fetch(`/art_detail/${artworkId}/like`, { method: "POST" })
+            .then(function (response) {
+                if (response.ok) {
+                    // Update the like count and disable the like button
+                    const likesCountElement = document.getElementById("likes-count");
+                    const likesCount = parseInt(likesCountElement.innerText.split(":")[1].trim()) + 1;
+                    likesCountElement.innerText = `Likes: ${likesCount}`;
+                    document.getElementById("like-button").disabled = true;
+                } else {
+                    console.error("Failed to like the artwork");
+                }
+            });
+    });
+</script>
 {% endblock %}

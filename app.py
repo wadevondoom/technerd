@@ -23,6 +23,7 @@ from forms import ChronicleForm, CreateCategoryForm, ArtworkForm, CommentForm
 from helpers import save_image, db
 from news import News
 from comment import Comment
+from like import Like
 
 
 app = Flask(__name__)
@@ -164,6 +165,28 @@ def artwork():
     )
 
 
+@app.route("/art_detail/<string:artwork_id>/like", methods=["POST"])
+def like_artwork(artwork_id):
+    user_id = current_user.get_id()
+    if user_id is None:
+        flash("You need to log in to like artwork.")
+        return redirect(url_for("login"))
+
+    like = Like.get_by_user_and_content_id(user_id, artwork_id)
+    if like is not None:
+        flash("You already liked this artwork.")
+        return redirect(url_for("art_detail", artwork_id=artwork_id))
+
+    Like.add_like(user_id, "artwork", artwork_id)
+    artwork = Artwork.get_by_id(ObjectId(artwork_id))
+    artwork["likes"] += 1
+    db.artwork.update_one(
+        {"_id": ObjectId(artwork_id)}, {"$set": {"likes": artwork["likes"]}}
+    )
+    flash("Artwork liked.")
+    return redirect(url_for("art_detail", artwork_id=artwork_id))
+
+
 @app.route("/art_detail/<string:artwork_id>", methods=["GET", "POST"])
 def art_detail(artwork_id):
     artwork = Artwork.get_by_id(ObjectId(artwork_id))
@@ -186,6 +209,17 @@ def art_detail(artwork_id):
 
     comments = Comment.get_comments_by_content_id(ObjectId(artwork_id), "art")
 
+    like_count = Like.get_likes("artwork", artwork_id)
+
+    user_id = current_user.get_id()
+    liked = False
+    if user_id:
+        existing_like = db.likes.find_one(
+            {"user_id": user_id, "content_id": ObjectId(artwork_id)}
+        )
+        if existing_like:
+            liked = True
+
     return render_template(
         "art_detail.html",
         artwork=artwork,
@@ -193,6 +227,8 @@ def art_detail(artwork_id):
         user_image=user_image,
         comment_form=comment_form,
         comments=comments,
+        like_count=like_count,
+        liked=liked,
     )
 
 
