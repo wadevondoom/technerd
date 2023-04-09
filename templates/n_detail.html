@@ -58,7 +58,7 @@
                     <img src="{{ news.image_url }}" alt="News Image" class="img-fluid mb-4 story-image">
                     <p>{{ news.description }}</p>
                     <div class="d-flex justify-content-center my-3">
-                        <a href="{{ url_for('n_detail', news_id=article['_id']) }}" class="btn btn-outline-secondary">Read at {{ news.source }} &rarr;</a>
+                        <a href="{{ url_for('n_detail', news_id=news['_id']) }}" class="btn btn-outline-secondary">Read at {{ news.source }} &rarr;</a>
                     </div>
                 </div>
             </div>
