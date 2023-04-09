@@ -124,13 +124,13 @@ def detail(chronicle_id):
     user_image = current_user.picture if current_user.is_authenticated else None
 
     if chronicle is None:
-        flash("Could not find article.")
-        redirect(url_for("home"))
+        flash("Could not find chronicle.")
+        redirect(url_for("chronicles"))
 
     comment_form = CommentForm()
 
     if request.method == "POST":
-        author = current_user.nickname if current_user.is_authenticated else "Anonymous"
+        author = current_user.name if current_user.is_authenticated else "Anonymous"
         avatar = current_user.picture
         Comment.save_comment(
             chronicle_id, "chronicle", avatar, author, comment_form.text.data
@@ -140,6 +140,18 @@ def detail(chronicle_id):
         return redirect(url_for("detail", chronicle_id=chronicle_id))
 
     comments = Comment.get_comments_by_content_id(ObjectId(chronicle_id), "chronicle")
+
+    like_count = Like.get_likes("chronicle", chronicle_id)
+
+    user_id = current_user.get_id()
+    liked = False
+    if user_id:
+        existing_like = db.likes.find_one(
+            {"user_id": user_id, "content_id": ObjectId(chronicle_id)}
+        )
+        if existing_like:
+            liked = True
+
     return render_template(
         "detail.html",
         chronicle=chronicle,
@@ -147,7 +159,31 @@ def detail(chronicle_id):
         user_image=user_image,
         comment_form=comment_form,
         comments=comments,
+        like_count=like_count,
+        liked=liked,
     )
+
+
+@app.route("/detail/<string:chronicle_id>/like", methods=["POST"])
+def like_chronicle(chronicle_id):
+    user_id = current_user.get_id()
+    if user_id is None:
+        flash("You need to log in to like chronicle.")
+        return redirect(url_for("login"))
+
+    like = Like.get_by_user_and_content_id(user_id, chronicle_id)
+    if like is not None:
+        flash("You already liked this chronicle.")
+        return redirect(url_for("detail", chronicle_id=chronicle_id))
+
+    Like.add_like(user_id, "chronicle", chronicle_id)
+    chronicle = Chronicle.get_by_id(ObjectId(chronicle_id))
+    chronicle["likes"] += 1
+    db.chronicle.update_one(
+        {"_id": ObjectId(chronicle_id)}, {"$set": {"likes": chronicle["likes"]}}
+    )
+    flash("Chronicle liked.")
+    return redirect(url_for("detail", chronicle_id=chronicle_id))
 
 
 """ Artwork """

@@ -2,6 +2,66 @@
 
 {% block content %}
 
+<style>
+    .gallery-container {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        grid-gap: 1rem;
+        padding: 1rem;
+    }
+
+    .gallery-item {
+        position: relative;
+        overflow: hidden;
+    }
+
+    .gallery-img {
+        width: 100%;
+        height: auto;
+        transition: transform 0.5s ease;
+        border: 10px solid #fff;
+    }
+
+    .gallery-title {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        color: white;
+        padding: 0.5rem;
+        font-weight: bold;
+        font-size: 1.1rem;
+        text-align: center;
+    }
+
+    .gallery-item:hover .gallery-img {
+        transform: scale(1.1);
+    }
+
+    .gallery-item .page-views {
+        position: absolute;
+        top: 0.5rem;
+        right: 0.5rem;
+        background-color: rgba(0, 0, 0, 0.5);
+        color: white;
+        padding: 0.25rem 0.5rem;
+        border-radius: 0.25rem;
+        font-size: 0.9rem;
+    }
+
+    @media screen and (max-width: 768px) {
+        .gallery-container {
+            grid-template-columns: repeat(2, 1fr);
+        }
+    }
+
+    @media screen and (max-width: 480px) {
+        .gallery-container {
+            grid-template-columns: 1fr;
+        }
+    }
+</style>
 <main>
     <div class="container">
         <div id="gallery" class="gallery-container">
@@ -11,14 +71,15 @@
                     <img src="{{ art.image }}" class="gallery-img" alt="{{ art.text }}">
                     <div class="gallery-title">{{ art.title }}</div>
                 </a>
+                <div class="page-views"><i class="bi bi-eye"></i> {{ art.page_views }}</div>
             </div>
             {% endfor %}
         </div>
     </div>
 </main>
 {% endblock %}
-
 {% block scripts %}
+
 <script>
     const gallery = document.querySelector('#gallery');
     let page = 1;

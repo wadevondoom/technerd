@@ -22,6 +22,7 @@
         width: 60px;
         object-fit: cover;
         margin-right: 1rem;
+        border: solid 8px #FFF;
     }
 
     /* Custom comment styling */
@@ -65,45 +66,42 @@
         <div class="col-lg-8">
             <div class="card mb-4">
                 <div class="card-body">
-                    <h1 class="mb-3">{{ artwork.title }}</h1>
-                    <div class="row">
-                        <div class="col-6">
-                            <p class="mb-2 text-muted">{{ artwork.date_posted.strftime('%Y-%m-%d %H:%M') }}</p>
-                        </div>
-                        <div class="col-6 text-right">
-                            <p class="mb-2"><span class="badge badge-secondary">{{ artwork.page_views }} views</span>
-                            </p>
-                        </div>
-                    </div>
-                    <hr>
+                    <h1 class="mb-3 text-center">{{ artwork.title }}</h1>
                     <div class="row">
                         <div class="col-sm-6">
-                            <p class="mb-2 text-muted">Likes: <span id="likes-count">{{ like_count }}</span></p>
+                          <p class="mb-2 text-muted d-inline-block">Posted on | {{ artwork.date_posted.strftime('%Y-%m-%d %H:%M') }}</p>
                         </div>
-                        <div class="col-sm-6 text-right">
-                            {% if current_user.is_authenticated %}
-                            {% if liked %}
-                            <button class="btn btn-primary btn-sm disabled">Liked</button>
-                            {% else %}
-                            <form action="{{ url_for('like_artwork', artwork_id=artwork['_id']) }}" method="post"
-                                class="d-inline-block">
-                                <button class="btn btn-primary btn-sm" type="submit">Like</button>
-                            </form>
-                            {% endif %}
-                            {% else %}
-                            <a href="{{ url_for('login') }}" class="btn btn-primary btn-sm">Log in to like</a>
-                            {% endif %}
+                        <div class="col-sm-3">
+                          <p class="mb-2 d-inline-block badge badge-secondary"><span id="likes-count">{{ like_count }} likes</span></p>
                         </div>
-                    </div>
+                        <div class="col-sm-3 text-right">
+                          <p class="mb-2 d-inline-block"><span class="badge badge-success">{{ artwork.page_views }} page views</span></p>
+                        </div>
+                      </div>                      
                 </div>
             </div>
 
             <img src="{{ artwork.image }}" alt="Story Image" class="story-image" data-toggle="modal"
                 data-target="#imageModal">
+            <hr>
 
-            <div class="card mb-4">
-                <div class="card-body text-center text-dark">
+            <div class="card mb-4 text-center align-items-center">
+                <div class="card-body text-dark">
                     <p class="mt-4">{{ artwork.text | safe }}</p>
+                </div>
+                <div class="col-sm-6">
+                    {% if current_user.is_authenticated %}
+                    {% if liked %}
+                    <button class="btn btn-primary btn-sm disabled">Liked</button>
+                    {% else %}
+                    <form action="{{ url_for('like_artwork', artwork_id=artwork['_id']) }}" method="post"
+                        class="d-inline-block">
+                        <button class="btn btn-primary btn-sm mb-2" type="submit">Like</button>
+                    </form>
+                    {% endif %}
+                    {% else %}
+                    <a href="{{ url_for('login') }}" class="btn btn-primary btn-sm mb-2">Log in to like</a>
+                    {% endif %}
                 </div>
             </div>
             <!-- Comment Section -->
