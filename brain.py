@@ -1,7 +1,13 @@
 import openai
-import os
+from os import environ as env
+from dotenv import find_dotenv, load_dotenv
 
-openai.api_key = os.getenv("OPENAI_SECRET")
+
+ENV_FILE = find_dotenv()
+if ENV_FILE:
+    load_dotenv(ENV_FILE)
+
+openai.api_key =env.get("OPENAI_SECRET"),
 
 class Brain:
     def __init__(self, role, prompt):
