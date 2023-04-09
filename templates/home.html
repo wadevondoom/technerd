@@ -214,7 +214,7 @@
                 <div class="col-md-8">
                     <div class="news-title">{{ article.title }}</div>
                     <div class="news-source">{{ article.source }}</div>
-                    <div class="news-description">{{ article.description }}</div>
+                    <div class="news-description">{{ article.description | safe }}</div>
                     <a href="{{ article.url }}" class="btn btn-primary news-readmore" target="_blank">Read More</a>
                 </div>
             </div>
