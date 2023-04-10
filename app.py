@@ -27,7 +27,6 @@ from like import Like
 
 
 app = Flask(__name__)
-app.config['STATIC_URL'] = "https://d2cpmpsgqfmt9q.cloudfront.net"
 app.config.update(
     {
         "SECRET_KEY": "".join(
@@ -43,6 +42,7 @@ oauth = OAuth(app)
 ENV_FILE = find_dotenv()
 if ENV_FILE:
     load_dotenv(ENV_FILE)
+
 
 auth0 = oauth.register(
     "auth0",
