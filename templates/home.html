@@ -29,7 +29,7 @@
         {% else %}
         <!-- Heading Row-->
         <div class="row gx-4 gx-lg-5 align-items-center my-5">
-            <div class="col-lg-7"><img class="img-fluid rounded mb-4 mb-lg-0" src="/static/img/hero1.jpg"
+            <div class="col-lg-7"><img class="img-fluid rounded mb-4 mb-lg-0" src="{{ url_for('static', filename='/img/hero1.jpg') }}"
                     class="img-fluid mx-auto" alt="We are all technerdiacs"></div>
             <div class="col-lg-5">
                 <h1 class="font-weight-light">TECHNERDIAC</h1>
@@ -59,7 +59,7 @@
                 <div class="col-lg-4 mb-5">
                     <div class="h-100">
                         <a href="{{ url_for('detail', chronicle_id=chronicles[0]['_id']) }}"><img
-                                src="{{ chronicles[0].image }}" alt="{{ chronicles[0].title }}"
+                                src="{{ url_for('static', filename=chronicles[0].image[8:]) }}" alt="{{ chronicles[0].title }}"
                                 class="img-fluid mx-auto lead-story-image"></a>
                         <div class="justify-content-center text-center">
                             <h5 class="mb-2 text-muted d-inline-block"
