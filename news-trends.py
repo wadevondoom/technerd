@@ -11,32 +11,42 @@ if ENV_FILE:
 api_key = env.get("NEWS_API_KEY")
 url = "https://newsapi.org/v2/top-headlines"
 
-print(f"API Key: {api_key}")
 
-params = {"apiKey": api_key, "country": "us", "category": "technology", "pageSize": 20}
-
-response = requests.get(url, params=params)
-
-if response.status_code == 200:
-    data = response.json()
-    articles = data["articles"]
-
-    # Select the desired collection
+def get_top_news():
+    categories = ["technology", "science", "business"]
+    num_articles = 10
     articles_collection = db.articles
 
-    print("Top 20 Science news articles:")
-    for index, article in enumerate(articles[:20]):
-        print(f"{index + 1}. {article['title']} - {article['source']['name']}")
+    for category in categories:
+        params = {
+            "apiKey": api_key,
+            "country": "us",
+            "category": category,
+            "pageSize": num_articles,
+        }
 
-        # Insert the article into the MongoDB collection
-        articles_collection.insert_one(
-            {
-                "title": article["title"],
-                "description": article["description"],
-                "url": article["url"],
-                "image_url": article["urlToImage"],
-                "source": article["source"]["name"],
-            }
-        )
-else:
-    print(f"Error: {response.status_code}")
+        response = requests.get(url, params=params)
+
+        if response.status_code == 200:
+            data = response.json()
+            articles = data["articles"]
+
+            print(f"Top {num_articles} {category} news articles:")
+            for index, article in enumerate(articles):
+                if "urlToImage" not in article:
+                    continue
+                print(f"{index + 1}. {article['title']} - {article['source']['name']}")
+
+                # Insert the article into the MongoDB collection
+                articles_collection.insert_one(
+                    {
+                        "title": article["title"],
+                        "description": article["description"],
+                        "url": article["url"],
+                        "image_url": article["urlToImage"],
+                        "source": article["source"]["name"],
+                        "category": category,
+                    }
+                )
+        else:
+            print(f"Error: {response.status_code}")
