@@ -27,6 +27,7 @@ from like import Like
 
 
 app = Flask(__name__)
+app.config['STATIC_URL'] = "https://d2cpmpsgqfmt9q.cloudfront.net"
 app.config.update(
     {
         "SECRET_KEY": "".join(
