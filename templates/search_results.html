@@ -31,7 +31,7 @@
     <div class="card mb-3">
         <div class="row no-gutters">
             <div class="col-md-4">
-                <img src="{{ result.image_url or '/static/img/placeholder.jpg' }}" class="lead-story-image"
+                <img src="{{ url_for('static', filename=result.image[8:]) }}" class="lead-story-image"
                     alt="{{ result.title }}" style="object-fit: cover; height: 100%; width: 100%;">
             </div>
             <div class="col-md-8">
@@ -73,7 +73,7 @@
     <div class="card mb-3">
         <div class="row no-gutters">
             <div class="col-md-4">
-                <img src="{{ result.image or '/static/img/placeholder.jpg' }}" class="lead-story-image"
+                <img src="{{ url_for('static', filename=result.image[8:]) }}" class="lead-story-image"
                     alt="{{ result.title }}" style="object-fit: cover; height: 100%; width: 100%;">
             </div>
             <div class="col-md-8">
