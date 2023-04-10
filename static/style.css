@@ -217,7 +217,7 @@ h2 {
 }
 
 .img-thumbnail-chronicle {
-    max-width: 200px;
+    max-width: 100%;
     max-height: 200px;
     align-items: center;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
