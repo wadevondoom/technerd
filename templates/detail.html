@@ -94,7 +94,7 @@
                                 {% endif %}
                             </div>
                         </div>
-                    <img src="{{ chronicle.image }}" alt="Story Image" class="img-fluid mb-4"
+                    <img src="{{ url_for('static', filename=chronicle.image[8:]) }}" alt="Story Image" class="img-fluid mb-4"
                         style="max-height: 400px; object-fit: cover; width: 100%;">
                     <div>{{ chronicle.content | safe }}</div>
                 </div>
