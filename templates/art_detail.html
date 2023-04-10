@@ -81,7 +81,7 @@
                 </div>
             </div>
 
-            <img src="{{ artwork.image }}" alt="Story Image" class="story-image" data-toggle="modal"
+            <img src="{{ url_for('static', filename=artwork.image[8:]) }}" alt="Story Image" class="story-image" data-toggle="modal"
                 data-target="#imageModal">
             <hr>
 
@@ -146,7 +146,7 @@
                     {% for related in related_art %}
                     <li class="list-group-item">
                         <div class="artwork">
-                            <img src="{{ related.image }}" alt="{{ related.title }}">
+                            <img src="{{ url_for('static', filename=related.image[8:]) }}" alt="{{ related.title }}">
                             <a href="{{ url_for('art_detail', artwork_id=related['_id']) }}">
                                 <h6>{{ related.title }}</h6>
                             </a>
@@ -165,7 +165,7 @@
     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-body">
-                <img src="{{ artwork.image }}" alt="Full size image" class="img-fluid">
+                <img src="{{ url_for('static', filename=artwork.image[8:]) }}" alt="Full size image" class="img-fluid">
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>

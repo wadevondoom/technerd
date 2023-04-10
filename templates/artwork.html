@@ -68,7 +68,7 @@
             {% for art in artwork %}
             <div class="gallery-item">
                 <a href="{{ url_for('art_detail', artwork_id=art['_id']) }}">
-                    <img src="{{ art.image }}" class="gallery-img" alt="{{ art.text }}">
+                    <img src="{{ url_for('static', filename=art.image[8:]) }}" class="gallery-img" alt="{{ art.text }}">
                     <div class="gallery-title">{{ art.title }}</div>
                 </a>
                 <div class="page-views"><i class="bi bi-eye"></i> {{ art.page_views }}</div>

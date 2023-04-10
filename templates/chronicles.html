@@ -43,7 +43,7 @@
             <div class="row news-row">
                 <div class="col-md-4">
                     <a href="{{ url_for('detail', chronicle_id=chronicle['_id']) }}">
-                        <img class="home-story-img" src="{{ chronicle.image }}" alt="">
+                        <img class="home-story-img" src="{{ url_for('static', filename=chronicle.image[8:]) }}" alt="">
                     </a>
                 </div>
                 <div class="col-md-8">
