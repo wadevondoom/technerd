@@ -27,6 +27,16 @@ from like import Like
 
 
 app = Flask(__name__)
+
+
+def cloudfront_url_for(endpoint, **values):
+    if endpoint == "static":
+        return f"https://d2cpmpsgqfmt9q.cloudfront.net{url_for(endpoint, **values)}"
+    return url_for(endpoint, **values)
+
+
+app.jinja_env.globals.update(url_for=cloudfront_url_for)
+
 app.config.update(
     {
         "SECRET_KEY": "".join(
@@ -77,6 +87,9 @@ def load_user(user_id):
                 user.get("nickname"),
             )
     return None
+
+
+""" CDN Function """
 
 
 """User accessible endpoints"""
