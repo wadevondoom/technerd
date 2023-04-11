@@ -521,7 +521,12 @@ def create_artwork():
         flash("Artwork created successfully!", "success")
         return redirect(url_for("admin"))
 
-    return render_template("create_chronicle.html", form=form, title="Create Artwork", user_image=user_image)
+    return render_template(
+        "create_chronicle.html",
+        form=form,
+        title="Create Artwork",
+        user_image=user_image,
+    )
 
 
 @app.route("/admin/chronicles/create", methods=["GET", "POST"])
@@ -778,11 +783,13 @@ def profile():
             user_data["isActive"] = form.isActive.data
             user_data["isSpecial"] = form.isSpecial.data
 
-        db.users.update_one({"_id": current_user.id}, {"$set": user_data})
+        current_user.update(user_data)
 
         return redirect(url_for("profile"))
 
-    return render_template("profile.html", user=current_user, user_image=user_image, form=form)
+    return render_template(
+        "profile.html", user=current_user, user_image=user_image, form=form
+    )
 
 
 if __name__ == "__main__":

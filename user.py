@@ -49,3 +49,9 @@ class User(UserMixin):
         users = db.users.find().sort("name", 1)
         return users
     
+    def update(self, user_data):
+            """
+            Update user data in the database.
+            """
+            users_collection = db.users
+            users_collection.update_one({"_id": self.id}, {"$set": user_data})
