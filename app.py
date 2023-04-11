@@ -205,7 +205,7 @@ def like_chronicle(chronicle_id):
     Like.add_like(user_id, "chronicle", chronicle_id)
     chronicle = Chronicle.get_by_id(ObjectId(chronicle_id))
     chronicle["likes"] += 1
-    db.chronicle.update_one(
+    db.chronicles.update_one(
         {"_id": ObjectId(chronicle_id)}, {"$set": {"likes": chronicle["likes"]}}
     )
     flash("Chronicle liked.")

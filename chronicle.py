@@ -45,6 +45,7 @@ class Chronicle:
         chronicle = db.chronicles.find_one({"_id": id})
         if chronicle:
             Chronicle.increment_page_views(id)
+            print(chronicle)
         return chronicle
 
     def update(self, data, file):
@@ -115,10 +116,10 @@ class Chronicle:
 
     @classmethod
     def increment_page_views(cls, chronicle_id):
-        db.chronicle.update_one(
+        db.chronicles.update_one(
             {"_id": ObjectId(chronicle_id)}, {"$inc": {"page_views": 1}}
         )
 
     @classmethod
     def increment_likes(cls, chronicle_id):
-        db.chronicle.update_one({"_id": ObjectId(chronicle_id)}, {"$inc": {"likes": 1}})
+        db.chronicles.update_one({"_id": ObjectId(chronicle_id)}, {"$inc": {"likes": 1}})
