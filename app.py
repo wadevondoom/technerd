@@ -19,7 +19,7 @@ from category import Category
 from chronicle import Chronicle
 from quote import Quote
 from brain import Brain
-from forms import ChronicleForm, CreateCategoryForm, ArtworkForm, CommentForm
+from forms import ChronicleForm, CreateCategoryForm, ArtworkForm, CommentForm, ProfileForm
 from helpers import save_image, db
 from news import News
 from comment import Comment
@@ -735,16 +735,23 @@ def logout():
     return redirect(f'https://{env.get("AUTH0_DOMAIN")}/v2/logout?' + urlencode(params))
 
 
-@app.route("/dashboard")
-@login_required
-def dashboard():
-    return "Welcome to the dashboard!"
-
-
-@app.route("/profile")
+@app.route("/profile", methods=["GET", "POST"])
 @login_required
 def profile():
-    return f"Welcome, {current_user.name}!"
+    form = ProfileForm()
+
+    if form.validate_on_submit():
+        user_data = {"nickname": form.nickname.data, "newsletter": form.newsletter.data}
+
+        if current_user.isAdmin:
+            user_data["isActive"] = form.isActive.data
+            user_data["isSpecial"] = form.isSpecial.data
+
+        db.users.update_one({"_id": current_user.id}, {"$set": user_data})
+
+        return redirect(url_for("profile"))
+
+    return render_template("profile.html", user=current_user, form=form)
 
 
 if __name__ == "__main__":

@@ -4,12 +4,16 @@ import hashlib
 
 
 class User(UserMixin):
-    def __init__(self, id, name=None, email=None, picture=None, nickname=None):
+    def __init__(self, id, name=None, email=None, picture=None, nickname=None, isActive=True, isAdmin=False, isSpecial=False, newsletter=False):
         self.id = id
         self.name = name
         self.email = email
         self.picture = picture
         self.nickname = nickname
+        self.isActive = isActive
+        self.isAdmin = isAdmin
+        self.isSpecial = isSpecial
+        self.newsletter = newsletter
 
         user_db = db
         users_collection = user_db.users
@@ -24,9 +28,12 @@ class User(UserMixin):
                     "email": self.email,
                     "nickname": nickname,  # Store the nickname in the database
                     "picture": self.picture,
+                    "isActive": self.isActive,
+                    "isAdmin": self.isAdmin,
+                    "isSpecial": self.isSpecial
+                    "newsletter": self.newsletter
                 }
             )
-            self.nickname = nickname
 
     def __repr__(self):
         return f"<User: {self.id}>"
@@ -41,3 +48,4 @@ class User(UserMixin):
     def get_all():
         users = db.users.find().sort("name", 1)
         return users
+    
