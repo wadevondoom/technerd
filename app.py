@@ -777,6 +777,7 @@ def profile():
         form.newsletter.data = current_user.newsletter
 
     if form.validate_on_submit():
+        print("Form is submitted and valid")  # Debugging statement
         user_data = {"nickname": form.nickname.data, "newsletter": form.newsletter.data}
 
         if current_user.isAdmin:
@@ -784,8 +785,11 @@ def profile():
             user_data["isSpecial"] = form.isSpecial.data
 
         current_user.update(user_data)
+        print(f"Updated user data: {user_data}")  # Debugging statement
 
         return redirect(url_for("profile"))
+
+    print(f"Form errors: {form.errors}")  # Debugging statement
 
     return render_template(
         "profile.html", user=current_user, user_image=user_image, form=form
