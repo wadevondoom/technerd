@@ -748,6 +748,7 @@ def logout():
 @login_required
 def profile():
     form = ProfileForm()
+    user_image = current_user.picture if current_user.is_authenticated else None
 
     if form.validate_on_submit():
         user_data = {"nickname": form.nickname.data, "newsletter": form.newsletter.data}
@@ -760,7 +761,7 @@ def profile():
 
         return redirect(url_for("profile"))
 
-    return render_template("profile.html", user=current_user, form=form)
+    return render_template("profile.html", user=current_user, user_image=user_image, form=form)
 
 
 if __name__ == "__main__":
