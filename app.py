@@ -86,13 +86,15 @@ def load_user(user_id):
         users_collection = user_db.users
         user = users_collection.find_one({"_id": user_id})
         if user:
-            print("Picture URL:", user.get("picture"))  # Add this line to debug
+            print(
+                "Picture URL:", user_info.get("picture")
+            )  # Use user_info instead of user
             return User(
                 user_id,
-                user.get("name"),
-                user.get("email"),
-                user.get("picture"),
-                user.get("nickname"),
+                user_info.get("name"),  # Use user_info instead of user
+                user_info.get("email"),  # Use user_info instead of user
+                user_info.get("picture"),  # Use user_info instead of user
+                user_info.get("nickname"),  # Use user_info instead of user
             )
     return None
 
