@@ -4,12 +4,12 @@
 <head>
     <meta charset="utf-8">
     <title>Endless Runner</title>
-    <link rel="stylesheet" href="/static/style.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename=style.css) }}">
 </head>
 
 <body>
     <canvas id="canvas" width="800" height="400"></canvas>
-    <script src="/static/game.js"></script>
+    <script src="{{ url_for('static', filename=er.js) }}"></script>
 </body>
 
 </html>
