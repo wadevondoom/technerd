@@ -494,6 +494,7 @@ def admin():
 def create_artwork():
     form = ArtworkForm()
     categories = Category.get_all()
+    user_image = current_user.picture if current_user.is_authenticated else None
     form.category_name.choices = [
         (str(category["_id"]), category["name"]) for category in categories
     ]
@@ -514,7 +515,7 @@ def create_artwork():
         flash("Artwork created successfully!", "success")
         return redirect(url_for("admin"))
 
-    return render_template("create_chronicle.html", form=form, title="Create Artwork")
+    return render_template("create_chronicle.html", form=form, title="Create Artwork", user_image=user_image)
 
 
 @app.route("/admin/chronicles/create", methods=["GET", "POST"])
@@ -756,6 +757,7 @@ def logout():
 @login_required
 def profile():
     form = ProfileForm()
+    user_image = current_user.picture if current_user.is_authenticated else None
 
     if request.method == "GET":
         form.nickname.data = current_user.nickname
@@ -774,7 +776,7 @@ def profile():
 
         return redirect(url_for("profile"))
 
-    return render_template("profile.html", user=current_user, form=form)
+    return render_template("profile.html", user=current_user, user_image=user_image, form=form)
 
 
 if __name__ == "__main__":
