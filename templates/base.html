@@ -75,7 +75,7 @@
           <li class="nav-item">
             {% if user_image %}
             <a href="{{ url_for('profile') }}">
-              <img src="{{ user_image }}" alt="User Profile Picture" class="img-thumbnail-sm">
+              <img src="{{ user_image }}" alt="User Profile Picture" class="img-thumbnail-profile">
             </a>
             {% else %}
             <span class="navbar-text">Logged in as <a href="{{ url_for('profile') }}">{{ current_user.name
