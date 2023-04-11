@@ -96,15 +96,7 @@
                                             <td>{{ chronicle.author }}</td>
                                             <td>{{ chronicle.date_posted }}</td>
                                             <td>
-                                                <a href="{{ url_for('edit_chronicle', id=chronicle['_id']) }}">Edit</a>
-                                            </td>
-                                            <td>
-                                                <form
-                                                    action="{{ url_for('delete_chronicle', chronicle_id=chronicle['_id']) }}"
-                                                    method="post" id="{{ chronicle.id }}">
-                                                    <input type="hidden" name="_method" value="DELETE">
-                                                    <button type="submit" class="btn btn-link">Delete</button>
-                                                </form>
+                                                <a href="{{ url_for('edit_chronicle', id=chronicle['_id']) }}"><i class="fa fa-pencil"></i></a>
                                             </td>
                                         </tr>
                                         {% endfor %}
@@ -144,7 +136,7 @@
                                                 <form action="{{ url_for('delete_artwork', artwork_id=art['_id']) }}"
                                                     method="post">
                                                     <button type="submit" class="btn btn-link text-dark" title="Delete">
-                                                        Delete
+                                                        <i class="fa fa-trash"></i>
                                                     </button>
                                                 </form>
                                             </td>
@@ -181,13 +173,12 @@
                                         <tr>
                                             <td>{{ category.name }}</td>
                                             <td>{{ category.desc }}</td>
-                                            <td><a href="#">Edit</a></td>
                                             <td>
                                                 <form
                                                     action="{{ url_for('delete_category', category_id=category['_id']) }}"
                                                     method="post" id="{{ category.id }}">
                                                     <input type="hidden" name="_method" value="DELETE">
-                                                    <button type="submit" class="btn btn-link">Delete</button>
+                                                    <button type="submit" class="btn btn-link"><i class="fa fa-trash"></i></button>
                                                 </form>
                                             </td>
                                         </tr>
@@ -228,13 +219,13 @@
                                             <td>
                                                 <form action="#" method="post" id="#">
                                                     <input type="hidden" name="_method" value="EDIT">
-                                                    <button type="submit" class="btn btn-link">Edit</button>
+                                                    <button type="submit" class="btn btn-link"><i class="fa fa-pencil"></i></button>
                                                 </form>
                                             </td>
                                             <td>
                                                 <form action="#" method="post" id="#">
                                                     <input type="hidden" name="_method" value="DELETE">
-                                                    <button type="submit" class="btn btn-link">Delete</button>
+                                                    <button type="submit" class="btn btn-link"><i class="fa fa-trash"></i></button>
                                                 </form>
                                             </td>
                                         </tr>
@@ -282,7 +273,6 @@
                                             <th>Source</th>
                                             <th>Image</th> <!-- image_url -->
                                             <th></th>
-                                            <th></th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -295,14 +285,8 @@
                                             <td><img src="{{ article.image_url }}" class="img-thumbnail-news"></td>
                                             <td>
                                                 <form action="#" method="post" id="#">
-                                                    <input type="hidden" name="_method" value="EDIT">
-                                                    <button type="submit" class="btn btn-link">Edit</button>
-                                                </form>
-                                            </td>
-                                            <td>
-                                                <form action="#" method="post" id="#">
                                                     <input type="hidden" name="_method" value="DELETE">
-                                                    <button type="submit" class="btn btn-link">Delete</button>
+                                                    <button type="submit" class="btn btn-link"><i class="fa fa-trash"></i></button>
                                                 </form>
                                             </td>
                                         </tr>
@@ -348,13 +332,13 @@
                                             <td>
                                                 <form action="#" method="post" id="#">
                                                     <input type="hidden" name="_method" value="EDIT">
-                                                    <button type="submit" class="btn btn-link">Edit</button>
+                                                    <button type="submit" class="btn btn-link"><i class="fa fa-pencil"></i></button>
                                                 </form>
                                             </td>
                                             <td>
                                                 <form action="#" method="post" id="#">
                                                     <input type="hidden" name="_method" value="DELETE">
-                                                    <button type="submit" class="btn btn-link">Delete</button>
+                                                    <button type="submit" class="btn btn-link"><i class="fa fa-trash"></i></button>
                                                 </form>
                                             </td>
                                         </tr>
