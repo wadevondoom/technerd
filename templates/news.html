@@ -49,12 +49,10 @@
                 </div>
                 <div class="col-md-8">
                     <div class="news-title">{{ article.title }}</div>
-                    <div class="news-source">{{ article.source }}</div>
                     <div class="news-description">{{ article.description | safe }}...</div>
-                    <div class="mt-auto">
+                    <div class="news-source mt-auto">
                         <i>Posted by {{ article.source }}</i>
-                        <a href="{{ url_for('detail', chronicle_id=chronicle['_id']) }}" class="stretched-link"></a>
-                    </div>
+                        <a href="{{ url_for('n_detail', news_id=article['_id']) }}
                 </div>
             </div>
         {% endfor %}
