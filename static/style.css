@@ -213,11 +213,12 @@ h2 {
 }
 
 .img-thumbnail-profile {
-    max-width: 80px;
-    max-height: 80px;
+    max-width: 60px;
+    max-height: 60px;
     border: solid 1px #000;
     border-radius: 50%;
     border: 2px solid grey;
+    margin-left: 1rem;
 }
 
 .img-thumbnail-logo {
