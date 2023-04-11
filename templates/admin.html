@@ -260,7 +260,7 @@
                                     <thead>
                                         <tr>
                                             <th>Title</th>
-                                            <th>Lead</th> <!-- Description -->
+                                            <th>Link</th> <!-- Description -->
                                             <th>Source</th>
                                             <th>Image</th> <!-- image_url -->
                                             <th></th>
@@ -271,7 +271,7 @@
                                         {% for article in news %}
                                         <tr>
                                             <td>{{ article.title }}</td>
-                                            <td>{{ article.lead }}</td>
+                                            <td><a href="{{ article.url }}"><i class="fa fa-link"></i></a></td>
                                             <td>{{ article.source }}</td>
                                             <td><img src="{{ article.image_url }}" class="img-thumbnail-sm"></td>
                                             <td>
