@@ -207,6 +207,7 @@ h2 {
 .img-thumbnail-sm {
     max-width: 50px;
     max-height: 50px;
+    border: solid 1px #000;
     border-radius: 10px;
     border: 4px solid orange;
 }

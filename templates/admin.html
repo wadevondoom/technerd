@@ -257,6 +257,9 @@
                         <div class="card-header">
                             <h2>News</h2>
                         </div>
+                    </div>
+                    <a href="#" class="btn btn-primary">New News Article</a>
+                    </div>  
                         <div class="card-body">
                             <div class="table-responsive">
                                 <table class="table table-striped">
@@ -276,7 +279,7 @@
                                             <td>{{ article.title }}</td>
                                             <td>{{ article.lead }}</td>
                                             <td>{{ article.source }}</td>
-                                            <td>{{ article.image_url }}</td>
+                                            <td><img src="{{ article.image_url }}" class="img-thumbnail-sm"></td>
                                             <td>
                                                 <form
                                                 action="#"
@@ -298,9 +301,6 @@
                                     </tbody>
                                 </table>
                                 <!-- Add pagination for chronicles here -->
-                            </div>
-                            <a href="#" class="btn btn-primary">New Quote</a>
-                        </div>
                     </div>
                 </div>
 
@@ -309,6 +309,9 @@
                 <div class="card mb-4">
                     <div class="card-header">
                         <h2>Users</h2>
+                    </div>
+                    </div>
+                        <a href="#" class="btn btn-primary">New User</a>
                     </div>
                     <div class="card-body">
                         <div class="table-responsive">
@@ -329,7 +332,7 @@
                                         <td>{{ user.name }}</td>
                                         <td>{{ user.email }}</td>
                                         <td>{{ user.nickname }}</td>
-                                        <td>{{ user.picture }}</td>
+                                        <td><img src="{{ user.picture }}" class="img-thumbnail-sm"></td>
                                         <td>
                                             <form
                                             action="#"
@@ -351,9 +354,6 @@
                                 </tbody>
                             </table>
                             <!-- Add pagination for chronicles here -->
-                        </div>
-                        <a href="#" class="btn btn-primary">New Quote</a>
-                    </div>
                 </div>
             </div>
                 
