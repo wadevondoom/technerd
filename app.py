@@ -459,9 +459,16 @@ def create_url(content_type, _id):
     return f"/{content_type}/{_id}"
 
 
+from flask import flash, redirect, url_for
+
+
 @app.route("/admin", methods=["GET", "POST"])
 @login_required
 def admin():
+    if not current_user.isAdmin:
+        flash("You do not have permission to access this page.", "danger")
+        return redirect(url_for("home"))
+
     chronicles = Chronicle.get_all()
     artwork = Artwork.get_all()
     categories = Category.get_all()
@@ -469,7 +476,6 @@ def admin():
     news = News.get_all()
     users = User.get_all()
     user_image = current_user.picture if current_user.is_authenticated else None
-    print(chronicles)
 
     return render_template(
         "admin.html",
