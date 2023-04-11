@@ -19,7 +19,13 @@ from category import Category
 from chronicle import Chronicle
 from quote import Quote
 from brain import Brain
-from forms import ChronicleForm, CreateCategoryForm, ArtworkForm, CommentForm, ProfileForm
+from forms import (
+    ChronicleForm,
+    CreateCategoryForm,
+    ArtworkForm,
+    CommentForm,
+    ProfileForm,
+)
 from helpers import save_image, db
 from news import News
 from comment import Comment
@@ -76,12 +82,11 @@ login_manager.init_app(app)
 def load_user(user_id):
     if "user" in session:
         user_info = session["user"]
-        print("Session:", session)  # Debugging: print session
-        print("User info:", user_info)  # Debugging: print user_info
         user_db = db
         users_collection = user_db.users
         user = users_collection.find_one({"_id": user_id})
         if user:
+            print("Picture URL:", user.get("picture"))  # Add this line to debug
             return User(
                 user_id,
                 user.get("name"),
