@@ -225,17 +225,13 @@
                                             <td>{{ quote.quote }}</td>
                                             <td>{{ quote.source }}</td>
                                             <td>
-                                                <form
-                                                action="#"
-                                                method="post" id="#">
-                                                <input type="hidden" name="_method" value="EDIT">
-                                                <button type="submit" class="btn btn-link">Edit</button>
-                                            </form>
+                                                <form action="#" method="post" id="#">
+                                                    <input type="hidden" name="_method" value="EDIT">
+                                                    <button type="submit" class="btn btn-link">Edit</button>
+                                                </form>
                                             </td>
                                             <td>
-                                                <form
-                                                    action="#"
-                                                    method="post" id="#">
+                                                <form action="#" method="post" id="#">
                                                     <input type="hidden" name="_method" value="DELETE">
                                                     <button type="submit" class="btn btn-link">Delete</button>
                                                 </form>
@@ -278,17 +274,13 @@
                                             <td>{{ article.source }}</td>
                                             <td><img src="{{ article.image_url }}" class="img-thumbnail-sm"></td>
                                             <td>
-                                                <form
-                                                action="#"
-                                                method="post" id="#">
-                                                <input type="hidden" name="_method" value="EDIT">
-                                                <button type="submit" class="btn btn-link">Edit</button>
-                                            </form>
+                                                <form action="#" method="post" id="#">
+                                                    <input type="hidden" name="_method" value="EDIT">
+                                                    <button type="submit" class="btn btn-link">Edit</button>
+                                                </form>
                                             </td>
                                             <td>
-                                                <form
-                                                    action="#"
-                                                    method="post" id="#">
+                                                <form action="#" method="post" id="#">
                                                     <input type="hidden" name="_method" value="DELETE">
                                                     <button type="submit" class="btn btn-link">Delete</button>
                                                 </form>
@@ -298,61 +290,68 @@
                                     </tbody>
                                 </table>
                                 <!-- Add pagination for chronicles here -->
-                    </div>
-                </div>
+                            </div>
+                        </div>
 
-               <!-- Users -->
-               <div class="tab-pane fade show active" id="users">
-                <div class="card mb-4">
-                    <div class="card-header">
-                        <h2>Users</h2>
-                    </div>
-                    <div class="card-body">
-                        <div class="table-responsive">
-                            <table class="table table-striped">
-                                <thead>
-                                    <tr>
-                                        <th>Name</th>
-                                        <th>Email</th> 
-                                        <th>Nickname</th>
-                                        <th>Picture</th>
-                                        <th></th>
-                                        <th></th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {% for user in users %}
-                                    <tr>
-                                        <td>{{ user.name }}</td>
-                                        <td>{{ user.email }}</td>
-                                        <td>{{ user.nickname }}</td>
-                                        <td><img src="{{ user.picture }}" class="img-thumbnail-sm"></td>
-                                        <td>
-                                            <form
-                                            action="#"
-                                            method="post" id="#">
-                                            <input type="hidden" name="_method" value="EDIT">
-                                            <button type="submit" class="btn btn-link">Edit</button>
-                                        </form>
-                                        </td>
-                                        <td>
-                                            <form
-                                                action="#"
-                                                method="post" id="#">
-                                                <input type="hidden" name="_method" value="DELETE">
-                                                <button type="submit" class="btn btn-link">Delete</button>
-                                            </form>
-                                        </td>
-                                    </tr>
-                                    {% endfor %}
-                                </tbody>
-                            </table>
-                            <!-- Add pagination for chronicles here -->
-                </div>
-            </div>
-                
-            </div>
+                        <!-- Users -->
+                        <div class="tab-pane fade show active" id="users">
+                            <div class="card mb-4">
+                                <div class="card-header">
+                                    <h2>Users</h2>
+                                </div>
+                                <div class="card-body">
+                                    <div class="table-responsive">
+                                        <table class="table table-striped">
+                                            <thead>
+                                                <tr>
+                                                    <th>Name</th>
+                                                    <th>Email</th>
+                                                    <th>Nickname</th>
+                                                    <th>Picture</th>
+                                                    <th></th>
+                                                    <th></th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {% for user in users %}
+                                                <tr>
+                                                    <td>{{ user.name }}</td>
+                                                    <td>{{ user.email }}</td>
+                                                    <td>{{ user.nickname }}</td>
+                                                    <td><img src="{{ user.picture }}" class="img-thumbnail-sm"></td>
+                                                    <td>
+                                                        <form action="#" method="post" id="#">
+                                                            <input type="hidden" name="_method" value="EDIT">
+                                                            <button type="submit" class="btn btn-link">Edit</button>
+                                                        </form>
+                                                    </td>
+                                                    <td>
+                                                        <form action="#" method="post" id="#">
+                                                            <input type="hidden" name="_method" value="DELETE">
+                                                            <button type="submit" class="btn btn-link">Delete</button>
+                                                        </form>
+                                                    </td>
+                                                </tr>
+                                                {% endfor %}
+                                            </tbody>
+                                        </table>
+                                        <!-- Add pagination for chronicles here -->
+                                    </div>
+                                </div>
+
+                            </div>
         </main>
     </div>
 </div>
+<script>
+
+    $(function () {
+        $('.nav-tabs a').on('click', function (e) {
+            e.preventDefault();
+            $(this).tab('show');
+            $('.tab-pane').not($(this).attr('href')).removeClass('show');
+        });
+    });
+
+</script>
 {% endblock %}
