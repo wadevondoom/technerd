@@ -2,41 +2,50 @@
 
 {% block content %}
 <div class="container mt-4">
-    <h1 class="mb-4">Quotes</h1>
-    <div class="d-flex justify-content-end mb-3">
-        <label for="sort-select" class="me-2">Sort by:</label>
-        <select id="sort-select" class="form-select">
-            <option value="none" selected>None</option>
-            <option value="quote">Quote</option>
-            <option value="author">Author</option>
-        </select>
-    </div>
-    <div id="quotes-list">
-        {% for quote_item in quotes %}
-        <div class="quote-item mb-4">
-            <div class="card">
-                <div class="card-body">
-                    {% if quote_item.qotd %}
-                    <a href="{{ quote_item.qotd }}">
-                        <blockquote class="blockquote quote-quote">
-                            <p class="mb-0">{{ quote_item.quote }}</p>
-                        </blockquote>
-                    </a>
-                    {% else %}
-                    <blockquote class="blockquote quote-quote">
-                        <p class="mb-0">{{ quote_item.quote }}</p>
-                    </blockquote>
-                    {% endif %}
-                    {% if quote_item.author %}
-                    <footer class="blockquote-footer quote-author">{{ quote_item.author }}</footer>
-                    {% endif %}
-                    {% if quote_item.source %}
-                    <small class="text-muted">Source: {{ quote_item.source }}</small>
-                    {% endif %}
+    <div class="row">
+        <div class="col-md-8">
+            <h1 class="mb-4">Quotes</h1>
+            <div class="d-flex justify-content-end mb-3">
+                <label for="sort-select" class="me-2">Sort by:</label>
+                <select id="sort-select" class="form-select">
+                    <option value="none" selected>None</option>
+                    <option value="quote">Quote</option>
+                    <option value="author">Author</option>
+                </select>
+            </div>
+            <div id="quotes-list">
+                {% for quote_item in quotes %}
+                <div class="quote-item mb-4">
+                    <div class="card">
+                        <div class="card-body">
+                            {% if quote_item.qotd %}
+                            <a href="{{ quote_item.qotd }}">
+                                <blockquote class="blockquote quote-quote">
+                                    <p class="mb-0">{{ quote_item.quote }}</p>
+                                </blockquote>
+                            </a>
+                            {% else %}
+                            <blockquote class="blockquote quote-quote">
+                                <p class="mb-0">{{ quote_item.quote }}</p>
+                            </blockquote>
+                            {% endif %}
+                            {% if quote_item.author %}
+                            <footer class="blockquote-footer quote-author">{{ quote_item.author }}</footer>
+                            {% endif %}
+                            {% if quote_item.source %}
+                            <small class="text-muted">Source: {{ quote_item.source }}</small>
+                            {% endif %}
+                        </div>
+                    </div>
                 </div>
+                {% endfor %}
             </div>
         </div>
-        {% endfor %}
+        <div class="col-md-4">
+            <div class="ad-space">
+                <!-- Place your advertising content here -->
+            </div>
+        </div>
     </div>
 </div>
 
