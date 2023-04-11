@@ -76,6 +76,8 @@ login_manager.init_app(app)
 def load_user(user_id):
     if "user" in session:
         user_info = session["user"]
+        print("Session:", session)  # Debugging: print session
+        print("User info:", user_info)  # Debugging: print user_info
         user_db = db
         users_collection = user_db.users
         user = users_collection.find_one({"_id": user_id})
