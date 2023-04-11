@@ -680,18 +680,29 @@ def edit_quote(id):
     form = QuoteForm()
 
     if request.method == "POST":
-
         # update the chronicle record in the database
         quote["quote"] = request.form["title"]
         quote["author"] = request.form["author"]
         quote["source"] = request.form["source"]
-        quote["qotd"] = request.form['qotd']  # Assign the category name
+        quote["qotd"] = request.form["qotd"]  # Assign the category name
         db["quotes"].update_one({"_id": ObjectId(id)}, {"$set": quote})
         flash("Successfull saved record for : " + quote["quote"])
         return redirect(url_for("admin"))
 
     # render the edit form with the current chronicle record data
     return render_template("edit_quote.html", form=form, quote=quote)
+
+
+@app.route("/delete_quote/<quote_id>", methods=["POST"])
+@login_required
+def delete_quote(quote_id):
+    quote = db["quotes"].find_one({"_id": ObjectId(quote_id)})
+    if quote:
+        db["quotes"].delete_one({"_id": ObjectId(quote_id)})
+        flash("Successfully deleted quote: " + quote["quote"])
+    else:
+        flash("Quote not found.")
+    return redirect(url_for("admin"))
 
 
 @app.route("/admin/categories/create", methods=["GET", "POST"])
