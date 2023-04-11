@@ -71,11 +71,3 @@ class ProfileForm(FlaskForm):
     newsletter = BooleanField("Subscribe to Newsletter")
     submit = SubmitField("Update Profile")
 
-    def __init__(self, *args, **kwargs):
-        super(ProfileForm, self).__init__(*args, **kwargs)
-        self.nickname.default = current_user.nickname
-        self.newsletter.default = current_user.newsletter
-        if current_user.isAdmin:
-            self.isActive.default = current_user.isActive
-            self.isSpecial.default = current_user.isSpecial
-        self.process()  # Update the form with the default values

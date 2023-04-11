@@ -37,6 +37,7 @@ from newsimport import get_top_news
 
 app = Flask(__name__)
 
+
 def cloudfront_url_for(endpoint, **values):
     if endpoint == "static":
         return f"https://d2cpmpsgqfmt9q.cloudfront.net{url_for(endpoint, **values)}"
@@ -767,16 +768,16 @@ def logout():
 @login_required
 def profile():
     form = ProfileForm()
-    user_image = current_user.picture if current_user.is_authenticated else None
 
     if request.method == "GET":
-        form.nickname.data = current_user.nickname
-        form.isActive.data = current_user.isActive
-        form.isSpecial.data = current_user.isSpecial
-        form.newsletter.data = current_user.newsletter
+        form.nickname.process_data(current_user.nickname)
+        form.newsletter.process_data(current_user.newsletter)
+        if current_user.isAdmin:
+            form.isActive.process_data(current_user.isActive)
+            form.isSpecial.process_data(current_user.isSpecial)
 
     if form.validate_on_submit():
-        print("Form is submitted and valid")  # Debugging statement
+        print("Form is submitted and valid")
         user_data = {"nickname": form.nickname.data, "newsletter": form.newsletter.data}
 
         if current_user.isAdmin:
@@ -784,12 +785,13 @@ def profile():
             user_data["isSpecial"] = form.isSpecial.data
 
         current_user.update(user_data)
-        print(f"Updated user data: {user_data}")  # Debugging statement
+        print(f"Updated user data: {user_data}")
 
         return redirect(url_for("profile"))
 
-    print(f"Form errors: {form.errors}")  # Debugging statement
+    print(f"Form errors: {form.errors}")
 
+    user_image = current_user.picture if current_user.is_authenticated else None
     return render_template(
         "profile.html", user=current_user, user_image=user_image, form=form
     )
