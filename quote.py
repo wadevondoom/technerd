@@ -1,5 +1,5 @@
 from helpers import db, save_image
-
+from bson import ObjectId
 
 class Quote:
     def __init__(self, quote, author, source, qotd_url=None, image=None):
@@ -33,7 +33,12 @@ class Quote:
 
     @staticmethod
     def get_by_id(id):
-        quote = db.quotes.find_one({"_id": id})
+        quote = db.quotes.find_one(
+            {"_id": ObjectId(id)}
+        )  # Add ObjectId() conversion
+        if quote:
+            Quote.increment_page_views(id)
+            print(quote)
         return quote
 
     def update(self, data):
@@ -62,3 +67,15 @@ class Quote:
             if quote:
                 quotes.append(quote)
         return quotes
+
+    @classmethod
+    def increment_page_views(cls, quote_id):
+        db.quotes.update_one(
+            {"_id": ObjectId(quote_id)}, {"$inc": {"page_views": 1}}
+        )
+
+    @classmethod
+    def increment_likes(cls, quote_id):
+        db.quotes.update_one(
+            {"_id": ObjectId(quote_id)}, {"$inc": {"likes": 1}}
+        )
