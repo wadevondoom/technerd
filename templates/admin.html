@@ -1,145 +1,162 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<div class="container">
+<div class="container-fluid">
     <div class="row">
-        <div class="col-md-9">
+        <!-- Sidebar -->
+        <nav class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
+            <div class="sidebar-sticky pt-3">
+                <ul class="nav flex-column">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#chronicles">
+                            Chronicles
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#artwork">
+                            Artwork
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#categories">
+                            Categories
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+
+        <!-- Main content area -->
+        <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-md-4">
             <!-- Chronicles -->
-            <div class="card mb-4">
-                <div class="card-header">
-                    <h2>Chronicles</h2>
-                </div>
-                <div class="card-body">
-                    <div class="table-responsive">
-                        <table class="table table-striped">
-                            <thead>
-                                <tr>
-                                    <th>Title</th>
-                                    <th>Category</th>
-                                    <th>Author</th>
-                                    <th>Posted</th>
-                                    <th></th>
-                                    <th></th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {% for chronicle in chronicles %}
-                                <tr>
-                                    <td>{{ chronicle.title }}</td>
-                                    <td>{{ chronicle.category_name }}</td>
-                                    <td>{{ chronicle.author }}</td>
-                                    <td>{{ chronicle.date_posted }}</td>
-                                    <td>
-                                        <a href="{{ url_for('edit_chronicle', id=chronicle['_id']) }}">Edit</a>
-                                    </td>
-                                    <td>
-                                        <form action="{{ url_for('delete_chronicle', chronicle_id=chronicle['_id']) }}"
-                                            method="post" id="{{ chronicle.id }}">
-                                            <input type="hidden" name="_method" value="DELETE">
-                                            <button type="submit" class="btn btn-link">Delete</button>
-                                        </form>
-                                    </td>
-                                </tr>
-                                {% endfor %}
-                            </tbody>
-                        </table>
-                        <!-- Add pagination for chronicles here -->
+            <div class="tab-pane fade show active" id="chronicles">
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <h2>Chronicles</h2>
                     </div>
-                    <a href="{{ url_for('create_chronicle') }}" class="btn btn-primary">New Chronicle</a>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>Title</th>
+                                        <th>Category</th>
+                                        <th>Author</th>
+                                        <th>Posted</th>
+                                        <th></th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for chronicle in chronicles %}
+                                    <tr>
+                                        <td>{{ chronicle.title }}</td>
+                                        <td>{{ chronicle.category_name }}</td>
+                                        <td>{{ chronicle.author }}</td>
+                                        <td>{{ chronicle.date_posted }}</td>
+                                        <td>
+                                            <a href="{{ url_for('edit_chronicle', id=chronicle['_id']) }}">Edit</a>
+                                        </td>
+                                        <td>
+                                            <form
+                                                action="{{ url_for('delete_chronicle', chronicle_id=chronicle['_id']) }}"
+                                                method="post" id="{{ chronicle.id }}">
+                                                <input type="hidden" name="_method" value="DELETE">
+                                                <button type="submit" class="btn btn-link">Delete</button>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                            <!-- Add pagination for chronicles here -->
+                        </div>
+                        <a href="{{ url_for('create_chronicle') }}" class="btn btn-primary">New Chronicle</a>
+                    </div>
                 </div>
             </div>
 
             <!-- Artwork -->
-            <div class="card mb-4">
-                <div class="card-header">
-                    <h3>Artwork</h3>
-                </div>
-                <div class="card-body">
-                    <div class="table-responsive">
-                        <table class="table table-striped">
-                            <thead>
-                                <tr>
-                                    <th>Image</th>
-                                    <th>Title</th>
-                                    <th>Posted</th>
-                                    <th>Delete</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {% for art in artwork %}
-                                <tr>
-                                    <td>{{ art.title }}</td>
-                                    <td>{{ art.text }}</td>
-                                    <td>{{ art.date_posted }}</td>
-                                    <td>
-                                        <form action="{{ url_for('delete_artwork', artwork_id=art['_id']) }}"
-                                            method="post">
-                                            <button type="submit" class="btn btn-link text-dark" title="Delete">
-                                                Delete
-                                            </button>
-                                        </form>
-                                    </td>
-                                </tr>
-                                {% endfor %}
-                            </tbody>
-                        </table>
-                        <!-- Add pagination for artwork here -->
+            <div class="tab-pane fade" id="artwork">
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <h3>Artwork</h3>
                     </div>
-                    <a href="{{ url_for('create_artwork') }}" class="btn btn-primary">New Artwork</a>
-                </div>
-            </div>
-
-            <!-- Categories -->
-            <div class="card">
-                <div class="card-header">
-                    <h3>Categories</h3>
-                </div>
-                <div class="card-body">
-                    <div class="table-responsive">
-                        <table class="table table-striped">
-                            <thead>
-                                <tr>
-                                    <th>Name</th>
-                                    <th>Description</th>
-                                    <th></th>
-                                    <th></th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {% for category in categories %}
-                                <tr>
-                                    <td>{{ category.name }}</td>
-                                    <td>{{ category.desc }}</td>
-                                    <td><a href="#">Edit</a></td>
-                                    <td>
-                                        <form action="{{ url_for('delete_category', category_id=category['_id']) }}"
-                                            method="post" id="{{ category.id }}">
-                                            <input type="hidden" name="_method" value="DELETE">
-                                            <button type="submit" class="btn btn-link">Delete</button>
-                                        </form>
-                                    </td>
-                                </tr>
-                                {% endfor %}
-                            </tbody>
-                        </table>
-                        <!-- Add pagination for categories here -->
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>Image</th>
+                                        <th>Title</th>
+                                        <th>Posted</th>
+                                        <th>Delete</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for art in artwork %}
+                                    <tr>
+                                        <td>{{ art.title }}</td>
+                                        <td>{{ art.text }}</td>
+                                        <td>{{ art.date_posted }}</td>
+                                        <td>
+                                            <form action="{{ url_for('delete_artwork', artwork_id=art['_id']) }}"
+                                                method="post">
+                                                <button type="submit" class="btn btn-link text-dark" title="Delete">
+                                                    Delete
+                                                </button>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                            <!-- Add pagination for artwork here -->
+                        </div>
+                        <a href="{{ url_for('create_artwork') }}" class="btn btn-primary">New Artwork</a>
                     </div>
-                    <a href="{{ url_for('create_category') }}" class="btn btn-primary">New Category</a>
                 </div>
-            </div>
-        </div>
 
-        <div class="col-md-3">
-            <!-- Future Content Card -->
-            <div class="card">
-                <div class="card-header">
-                    <h3>Future Content</h3>
+                <!-- Categories -->
+                <div class="tab-pane fade" id="categories">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3>Categories</h3>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th>Name</th>
+                                            <th>Description</th>
+                                            <th></th>
+                                            <th></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for category in categories %}
+                                        <tr>
+                                            <td>{{ category.name }}</td>
+                                            <td>{{ category.desc }}</td>
+                                            <td><a href="#">Edit</a></td>
+                                            <td>
+                                                <form
+                                                    action="{{ url_for('delete_category', category_id=category['_id']) }}"
+                                                    method="post" id="{{ category.id }}">
+                                                    <input type="hidden" name="_method" value="DELETE">
+                                                    <button type="submit" class="btn btn-link">Delete</button>
+                                                </form>
+                                            </td>
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                                <!-- Add pagination for categories here -->
+                            </div>
+                            <a href="{{ url_for('create_category') }}" class="btn btn-primary">New Category</a>
+                        </div>
+                    </div>
                 </div>
-                <div class="card-body">
-                    <!-- Add your future content here -->
-                </div>
-            </div>
-        </div>
+        </main>
     </div>
-</div>
-{% endblock %}
