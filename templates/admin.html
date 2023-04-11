@@ -310,7 +310,9 @@
                                             <th>Name</th>
                                             <th>Email</th>
                                             <th>Nickname</th>
-                                            <th>Picture</th>
+                                            <th>Admin</th>
+                                            <th>Special Access</th>
+                                            <th>Subscribed</th>
                                             <th></th>
                                             <th></th>
                                         </tr>
@@ -321,7 +323,9 @@
                                             <td>{{ user.name }}</td>
                                             <td>{{ user.email }}</td>
                                             <td>{{ user.nickname }}</td>
-                                            <td><img src="{{ user.picture }}" class="img-thumbnail-sm"></td>
+                                            <td>{{ user.isAdmin }}</td>
+                                            <td>{{ user.isSpecial }}</td>
+                                            <td>{{ user.newsletter }}</td>
                                             <td>
                                                 <form action="#" method="post" id="#">
                                                     <input type="hidden" name="_method" value="EDIT">
