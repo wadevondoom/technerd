@@ -156,7 +156,7 @@ def detail(chronicle_id):
     comment_form = CommentForm()
 
     if request.method == "POST":
-        author = current_user.name if current_user.is_authenticated else "Anonymous"
+        author = current_user.nickname if current_user.is_authenticated else "Anonymous"
         avatar = current_user.picture
         Comment.save_comment(
             chronicle_id, "chronicle", avatar, author, comment_form.text.data
@@ -274,7 +274,7 @@ def art_detail(artwork_id):
     comment_form = CommentForm()
 
     if request.method == "POST":
-        author = current_user.name if current_user.is_authenticated else "Anonymous"
+        author = current_user.nickname if current_user.is_authenticated else "Anonymous"
         avatar = current_user.picture
         Comment.save_comment(artwork_id, "art", avatar, author, comment_form.text.data)
         print(f"Comment saved")
@@ -331,7 +331,7 @@ def n_detail(news_id):
     comment_form = CommentForm()
 
     if request.method == "POST":
-        author = current_user.name if current_user.is_authenticated else "Anonymous"
+        author = current_user.nickname if current_user.is_authenticated else "Anonymous"
         avatar = current_user.picture
         Comment.save_comment(news_id, "news", avatar, author, comment_form.text.data)
         print(f"Comment saved")
@@ -372,7 +372,7 @@ def q_detail(quote_id):
     comment_form = CommentForm()
 
     if request.method == "POST":
-        author = current_user.name if current_user.is_authenticated else "Anonymous"
+        author = current_user.nickname if current_user.is_authenticated else "Anonymous"
         avatar = current_user.picture
         Comment.save_comment(quote_id, "quote", avatar, author, comment_form.text.data)
         print(f"Comment saved")
