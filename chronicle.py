@@ -5,15 +5,25 @@ from bson import ObjectId
 
 
 class Chronicle:
-    def __init__(self, title, author, content, category_name, image, date_posted=None, likes=0, page_views=0):
+    def __init__(
+        self,
+        title,
+        author,
+        content,
+        category_name,
+        image,
+        date_posted=None,
+        likes=0,
+        page_views=0,
+    ):
         self.title = title
         self.author = author
         self.content = content
         self.category_name = category_name
         self.image = image
         self.date_posted = date_posted or datetime.datetime.utcnow()
-        self.likes = likes=0,
-        self.page_views = page_views or 0,
+        self.likes = likes = (0,)
+        self.page_views = (page_views or 0,)
 
     def save(self):
         chronicles = db.chronicles
@@ -42,7 +52,9 @@ class Chronicle:
 
     @staticmethod
     def get_by_id(id):
-        chronicle = db.chronicles.find_one({"_id": id})
+        chronicle = db.chronicles.find_one(
+            {"_id": ObjectId(id)}
+        )  # Add ObjectId() conversion
         if chronicle:
             Chronicle.increment_page_views(id)
             print(chronicle)
@@ -122,4 +134,6 @@ class Chronicle:
 
     @classmethod
     def increment_likes(cls, chronicle_id):
-        db.chronicles.update_one({"_id": ObjectId(chronicle_id)}, {"$inc": {"likes": 1}})
+        db.chronicles.update_one(
+            {"_id": ObjectId(chronicle_id)}, {"$inc": {"likes": 1}}
+        )
