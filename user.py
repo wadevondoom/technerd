@@ -30,8 +30,8 @@ class User(UserMixin):
                     "picture": self.picture,
                     "isActive": self.isActive,
                     "isAdmin": self.isAdmin,
-                    "isSpecial": self.isSpecial
-                    "newsletter": self.newsletter
+                    "isSpecial": self.isSpecial,
+                    "newsletter": self.newsletter,
                 }
             )
 
