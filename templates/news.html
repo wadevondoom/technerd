@@ -38,18 +38,22 @@
         margin-bottom: 0;
     }
 </style>
+
     <div class="container mt-3">
         {% for article in news %}
             <div class="row news-row">
                 <div class="col-md-4">
-                    <img src="{{ article.image_url }}" alt="{{ article.title }}" class="home-story-img">
+                    <a href="{{ url_for('n_detail', news_id=article['_id']) }}">
+                        <img class="home-story-img" src="{{ article.image_url }}" alt="">
+                    </a>
                 </div>
                 <div class="col-md-8">
                     <div class="news-title">{{ article.title }}</div>
                     <div class="news-source">{{ article.source }}</div>
-                    <div class="news-description">{{ article.description | safe }}</div>
-                    <div class="d-flex justify-content-center my-3">
-                        <a href="{{ url_for('n_detail', news_id=article['_id']) }}" class="btn btn-outline-secondary">Read More &rarr;</a>
+                    <div class="news-description">{{ article.description | safe }}...</div>
+                    <div class="mt-auto">
+                        <i>Posted by {{ article.source }}</i>
+                        <a href="{{ url_for('detail', chronicle_id=chronicle['_id']) }}" class="stretched-link"></a>
                     </div>
                 </div>
             </div>
