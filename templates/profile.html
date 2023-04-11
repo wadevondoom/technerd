@@ -2,32 +2,38 @@
 
 {% block content %}
 <div class="container">
-    <h1>Edit Profile</h1>
-    <img src="{{ current_user.picture }}" alt="{{ current_user.name }}'s avatar" class="img-thumbnail rounded-circle"
-        style="width: 150px; height: 150px;">
-    <form method="post">
-        {{ form.csrf_token }}
-        <div class="form-group">
-            {{ form.nickname.label(class="form-label") }}
-            {{ form.nickname(class="form-control") }}
+    <h1 class="mb-4">Edit Profile</h1>
+    <div class="card">
+        <div class="card-header">
+            <img src="{{ current_user.picture }}" alt="{{ current_user.name }}'s avatar" class="img-thumbnail rounded-circle"
+                style="width: 150px; height: 150px;">
         </div>
-        {% if current_user.isAdmin %}
-        <div class="form-check">
-            {{ form.isActive.label(class="form-check-label") }}
-            {{ form.isActive(class="form-check-input") }}
+        <div class="card-body">
+            <form method="post">
+                {{ form.csrf_token }}
+                <div class="form-group">
+                    {{ form.nickname.label(class="form-label") }}
+                    {{ form.nickname(class="form-control") }}
+                </div>
+                {% if current_user.isAdmin %}
+                <div class="form-check mb-3">
+                    {{ form.isActive(class="form-check-input") }}
+                    {{ form.isActive.label(class="form-check-label") }}
+                </div>
+                <div class="form-check mb-3">
+                    {{ form.isSpecial(class="form-check-input") }}
+                    {{ form.isSpecial.label(class="form-check-label") }}
+                </div>
+                {% endif %}
+                <div class="form-check mb-3">
+                    {{ form.newsletter(class="form-check-input") }}
+                    {{ form.newsletter.label(class="form-check-label") }}
+                </div>
+                <div class="form-group">
+                    {{ form.submit(class="btn btn-primary") }}
+                </div>
+            </form>
         </div>
-        <div class="form-check">
-            {{ form.isSpecial.label(class="form-check-label") }}
-            {{ form.isSpecial(class="form-check-input") }}
-        </div>
-        {% endif %}
-        <div class="form-check">
-            {{ form.newsletter.label(class="form-check-label") }}
-            {{ form.newsletter(class="form-check-input") }}
-        </div>
-        <div class="form-group">
-            {{ form.submit(class="btn btn-primary") }}
-        </div>
-    </form>
+    </div>
 </div>
 {% endblock %}

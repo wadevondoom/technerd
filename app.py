@@ -86,15 +86,17 @@ def load_user(user_id):
         users_collection = user_db.users
         user = users_collection.find_one({"_id": user_id})
         if user:
-            print(
-                "Picture URL:", user_info.get("picture")
-            )  # Use user_info instead of user
+            # Use user_info instead of user
             return User(
                 user_id,
-                user_info.get("name"),  # Use user_info instead of user
-                user_info.get("email"),  # Use user_info instead of user
+                user.get("name"),
+                user.get("email"),
                 user_info.get("picture"),  # Use user_info instead of user
-                user_info.get("nickname"),  # Use user_info instead of user
+                user.get("nickname"),
+                user.get("isActive"),
+                user.get("isAdmin"),
+                user.get("isSpecial"),
+                user.get("newsletter"),
             )
     return None
 
@@ -747,8 +749,15 @@ def logout():
 @app.route("/profile", methods=["GET", "POST"])
 @login_required
 def profile():
-    form = ProfileForm()
-    user_image = current_user.picture if current_user.is_authenticated else None
+    if request.method == "GET":
+        form = ProfileForm(
+            nickname=current_user.nickname,
+            isActive=current_user.isActive,
+            isSpecial=current_user.isSpecial,
+            newsletter=current_user.newsletter,
+        )
+    else:
+        form = ProfileForm()
 
     if form.validate_on_submit():
         user_data = {"nickname": form.nickname.data, "newsletter": form.newsletter.data}
@@ -761,7 +770,7 @@ def profile():
 
         return redirect(url_for("profile"))
 
-    return render_template("profile.html", user=current_user, user_image=user_image, form=form)
+    return render_template("profile.html", user=current_user, form=form)
 
 
 if __name__ == "__main__":
