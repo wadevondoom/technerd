@@ -5,6 +5,7 @@ from bson import ObjectId
 from authlib.integrations.flask_client import OAuth
 from dotenv import find_dotenv, load_dotenv
 from flask import Flask, redirect, render_template, session, url_for, flash, request
+from flask_wtf.csrf import CSRFProtect
 from flask_login import (
     LoginManager,
     login_user,
@@ -36,7 +37,6 @@ from newsimport import get_top_news
 
 app = Flask(__name__)
 
-
 def cloudfront_url_for(endpoint, **values):
     if endpoint == "static":
         return f"https://d2cpmpsgqfmt9q.cloudfront.net{url_for(endpoint, **values)}"
@@ -44,7 +44,6 @@ def cloudfront_url_for(endpoint, **values):
 
 
 app.jinja_env.globals.update(url_for=cloudfront_url_for)
-
 app.config.update(
     {
         "SECRET_KEY": "".join(
@@ -54,7 +53,7 @@ app.config.update(
         )
     }
 )
-
+csrf = CSRFProtect(app)
 oauth = OAuth(app)
 
 ENV_FILE = find_dotenv()
