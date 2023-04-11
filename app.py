@@ -31,6 +31,7 @@ from news import News
 from comment import Comment
 from like import Like
 from user import User
+from newsimport import get_top_news
 
 
 app = Flask(__name__)
@@ -468,6 +469,11 @@ def admin():
     if not current_user.isAdmin:
         flash("You do not have permission to access this page.", "danger")
         return redirect(url_for("home"))
+
+    if request.method == "POST" and request.form.get("get_news"):
+        category = request.form.get("category")
+        num_articles = int(request.form.get("num_articles"))
+        get_top_news(category, num_articles)
 
     chronicles = Chronicle.get_all()
     artwork = Artwork.get_all()
