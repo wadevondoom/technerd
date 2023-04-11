@@ -2,16 +2,20 @@
 
 {% block content %}
 <style>
-    .nav-link.btn {
+    .admin-nav-link.btn {
         color: #333;
         border-color: #bbb;
         background-color: #eee;
     }
 
-    .nav-link.btn.active {
+    .admin-nav-link.btn.active {
         color: #fff;
         background-color: #007bff;
         border-color: #007bff;
+    }
+
+    .sidebar {
+        background-color: #d1e8e2;
     }
 </style>
 <div class="container-fluid">
@@ -21,17 +25,18 @@
             <div class="sidebar-sticky pt-3">
                 <ul class="nav flex-column nav-tabs">
                     <li class="nav-item">
-                        <button class="nav-link btn btn-light btn-block active" data-toggle="tab" href="#chronicles">
+                        <button class="admin-nav-link btn btn-light btn-block active" data-toggle="tab"
+                            href="#chronicles">
                             <i class="fa fa-book"></i> Chronicles
                         </button>
                     </li>
                     <li class="nav-item">
-                        <button class="nav-link btn btn-light btn-block" data-toggle="tab" href="#artwork">
+                        <button class="admin-nav-link btn btn-light btn-block" data-toggle="tab" href="#artwork">
                             <i class="fa fa-paint-brush"></i> Artwork
                         </button>
                     </li>
                     <li class="nav-item">
-                        <button class="nav-link btn btn-light btn-block" data-toggle="tab" href="#categories">
+                        <button class="admin-nav-link btn btn-light btn-block" data-toggle="tab" href="#categories">
                             <i class="fa fa-folder"></i> Categories
                         </button>
                     </li>
