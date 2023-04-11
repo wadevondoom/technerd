@@ -24,6 +24,7 @@ from helpers import save_image, db
 from news import News
 from comment import Comment
 from like import Like
+from user import User
 
 
 app = Flask(__name__)
@@ -453,7 +454,9 @@ def admin():
     chronicles = Chronicle.get_all()
     artwork = Artwork.get_all()
     categories = Category.get_all()
+    quotes = Quote.get_all()
     news = News.get_all()
+    users = User.get_all()
     user_image = current_user.picture if current_user.is_authenticated else None
     print(chronicles)
 
@@ -464,6 +467,8 @@ def admin():
         categories=categories,
         news=news,
         user_image=user_image,
+        users=users,
+        quotes=quotes,
     )
 
 

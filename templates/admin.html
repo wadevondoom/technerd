@@ -47,6 +47,21 @@
                             <i class="fa fa-folder"></i> Categories
                         </button>
                     </li>
+                    <li class="nav-item">
+                        <button class="admin-nav-link btn btn-light btn-block" data-toggle="tab" href="#quotes">
+                            <i class="fa fa-folder"></i> Quotes
+                        </button>
+                    </li>
+                    <li class="nav-item">
+                        <button class="admin-nav-link btn btn-light btn-block" data-toggle="tab" href="#news">
+                            <i class="fa fa-folder"></i> News
+                        </button>
+                    </li>
+                    <li class="nav-item">
+                        <button class="admin-nav-link btn btn-light btn-block" data-toggle="tab" href="#users">
+                            <i class="fa fa-folder"></i> Users
+                        </button>
+                    </li>
                 </ul>
             </div>
         </nav>
@@ -185,6 +200,163 @@
                         </div>
                     </div>
                 </div>
+                <!-- Quotes -->
+                <div class="tab-pane fade show active" id="quotes">
+                    <div class="card mb-4">
+                        <div class="card-header">
+                            <h2>Quotes</h2>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th>Author</th>
+                                            <th>Quote</th>
+                                            <th>Source</th>
+                                            <th></th>
+                                            <th></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for quote in quotes %}
+                                        <tr>
+                                            <td>{{ quote.author }}</td>
+                                            <td>{{ quote.quote }}</td>
+                                            <td>{{ quote.source }}</td>
+                                            <td>
+                                                <form
+                                                action="#"
+                                                method="post" id="#">
+                                                <input type="hidden" name="_method" value="EDIT">
+                                                <button type="submit" class="btn btn-link">Edit</button>
+                                            </form>
+                                            </td>
+                                            <td>
+                                                <form
+                                                    action="#"
+                                                    method="post" id="#">
+                                                    <input type="hidden" name="_method" value="DELETE">
+                                                    <button type="submit" class="btn btn-link">Delete</button>
+                                                </form>
+                                            </td>
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                                <!-- Add pagination for chronicles here -->
+                            </div>
+                            <a href="#" class="btn btn-primary">New Quote</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- News -->
+                <div class="tab-pane fade show active" id="news">
+                    <div class="card mb-4">
+                        <div class="card-header">
+                            <h2>News</h2>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th>Title</th>
+                                            <th>Lead</th> <!-- Description -->
+                                            <th>Source</th>
+                                            <th>Image</th> <!-- image_url -->
+                                            <th></th>
+                                            <th></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for article in news %}
+                                        <tr>
+                                            <td>{{ article.title }}</td>
+                                            <td>{{ article.lead }}</td>
+                                            <td>{{ article.source }}</td>
+                                            <td>{{ article.image_url }}</td>
+                                            <td>
+                                                <form
+                                                action="#"
+                                                method="post" id="#">
+                                                <input type="hidden" name="_method" value="EDIT">
+                                                <button type="submit" class="btn btn-link">Edit</button>
+                                            </form>
+                                            </td>
+                                            <td>
+                                                <form
+                                                    action="#"
+                                                    method="post" id="#">
+                                                    <input type="hidden" name="_method" value="DELETE">
+                                                    <button type="submit" class="btn btn-link">Delete</button>
+                                                </form>
+                                            </td>
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                                <!-- Add pagination for chronicles here -->
+                            </div>
+                            <a href="#" class="btn btn-primary">New Quote</a>
+                        </div>
+                    </div>
+                </div>
+
+               <!-- Users -->
+               <div class="tab-pane fade show active" id="users">
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <h2>Users</h2>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>Email</th> 
+                                        <th>Nickname</th>
+                                        <th>Picture</th>
+                                        <th></th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for user in users %}
+                                    <tr>
+                                        <td>{{ user.name }}</td>
+                                        <td>{{ user.email }}</td>
+                                        <td>{{ user.nickname }}</td>
+                                        <td>{{ user.picture }}</td>
+                                        <td>
+                                            <form
+                                            action="#"
+                                            method="post" id="#">
+                                            <input type="hidden" name="_method" value="EDIT">
+                                            <button type="submit" class="btn btn-link">Edit</button>
+                                        </form>
+                                        </td>
+                                        <td>
+                                            <form
+                                                action="#"
+                                                method="post" id="#">
+                                                <input type="hidden" name="_method" value="DELETE">
+                                                <button type="submit" class="btn btn-link">Delete</button>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                            <!-- Add pagination for chronicles here -->
+                        </div>
+                        <a href="#" class="btn btn-primary">New Quote</a>
+                    </div>
+                </div>
+            </div>
+                
             </div>
         </main>
     </div>

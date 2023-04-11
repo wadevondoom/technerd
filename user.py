@@ -36,3 +36,8 @@ class User(UserMixin):
         hashed_email = hashlib.md5(email.encode("utf-8")).hexdigest()[:10]
         identifier = f"user_{hashed_email}"
         return identifier
+
+    @staticmethod
+    def get_all():
+        users = db.users.find().sort("name", 1)
+        return users
