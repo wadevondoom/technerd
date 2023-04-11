@@ -676,7 +676,7 @@ def delete_chronicle(chronicle_id):
 @app.route("/edit_quote/<id>", methods=["GET", "POST"])
 @login_required
 def edit_quote(id):
-    quote = Chronicle.get_by_id(id)
+    quote = Quote.get_by_id(id)
     form = QuoteForm()
 
     if request.method == "POST":
