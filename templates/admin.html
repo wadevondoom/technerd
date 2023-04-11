@@ -217,16 +217,7 @@
                                             <td>{{ quote.quote }}</td>
                                             <td>{{ quote.source }}</td>
                                             <td>
-                                                <form action="#" method="post" id="#">
-                                                    <input type="hidden" name="_method" value="EDIT">
-                                                    <button type="submit" class="btn btn-link"><i class="fa fa-pencil"></i></button>
-                                                </form>
-                                            </td>
-                                            <td>
-                                                <form action="#" method="post" id="#">
-                                                    <input type="hidden" name="_method" value="DELETE">
-                                                    <button type="submit" class="btn btn-link"><i class="fa fa-trash"></i></button>
-                                                </form>
+                                                <a href="{{ url_for('edit_quote', id=quote['_id']) }}"><i class="fa fa-pencil"></i></a>
                                             </td>
                                         </tr>
                                         {% endfor %}

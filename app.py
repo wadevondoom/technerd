@@ -26,6 +26,7 @@ from forms import (
     ArtworkForm,
     CommentForm,
     ProfileForm,
+    QuoteForm,
 )
 from helpers import save_image, db
 from news import News
@@ -670,6 +671,27 @@ def delete_chronicle(chronicle_id):
 
 
 """End Chronicle functions"""
+
+
+@app.route("/edit_quote/<id>", methods=["GET", "POST"])
+@login_required
+def edit_quote(id):
+    quote = Chronicle.get_by_id(id)
+    form = QuoteForm()
+
+    if request.method == "POST":
+
+        # update the chronicle record in the database
+        quote["quote"] = request.form["title"]
+        quote["author"] = request.form["author"]
+        quote["source"] = request.form["source"]
+        quote["qotd"] = request.form['qotd']  # Assign the category name
+        db["quotes"].update_one({"_id": ObjectId(id)}, {"$set": quote})
+        flash("Successfull saved record for : " + quote["quote"])
+        return redirect(url_for("admin"))
+
+    # render the edit form with the current chronicle record data
+    return render_template("edit_quote.html", form=form, quote=quote)
 
 
 @app.route("/admin/categories/create", methods=["GET", "POST"])

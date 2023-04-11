@@ -39,11 +39,8 @@ class QuoteForm(FlaskForm):
     quote = StringField("quote", validators=[DataRequired()])
     author = StringField("author", validators=[DataRequired()])
     source = StringField("source")
-    source = StringField("qotd_url")
-    image = FileField(
-        "Image", validators=[FileAllowed(["jpg", "jpeg"], "Images only!")]
-    )
-    submit = SubmitField("Save Artwork")
+    qotd = StringField("qotd_url")
+    submit = SubmitField("Save Quote")
 
 
 class CreateCategoryForm(FlaskForm):
