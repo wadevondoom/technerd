@@ -2,21 +2,32 @@
 
 {% block content %}
 <style>
+    /* Sidebar background color */
+    .sidebar {
+        background-color: #d1e8e2;
+    }
+
+    /* Admin nav button style */
     .admin-nav-link.btn {
         color: #333;
+        background-color: #fff;
         border-color: #bbb;
-        background-color: #eee;
         margin-bottom: 1rem;
+        width: 100%;
+        text-align: left;
+    }
+
+    .admin-nav-link.btn:hover,
+    .admin-nav-link.btn:focus {
+        color: #333;
+        background-color: #f2f2f2;
+        border-color: #bbb;
     }
 
     .admin-nav-link.btn.active {
-        color: #000000;
-        background-color: #28df40;
-        border-color: #d3e910;
-    }
-
-    .sidebar {
-        background-color: #d1e8e2;
+        color: #fff;
+        background-color: #007bff;
+        border-color: #007bff;
     }
 </style>
 <div class="container-fluid sidebar">
