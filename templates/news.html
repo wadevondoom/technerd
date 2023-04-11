@@ -52,7 +52,7 @@
                     <div class="news-description">{{ article.description | safe }}...</div>
                     <div class="news-source mt-auto">
                         <i>Posted by {{ article.source }}</i>
-                        <a href="{{ url_for('n_detail', news_id=article['_id']) }}
+                        <a href="{{ url_for('n_detail', news_id=article['_id']) }}" class="stretched-link"></a>"
                 </div>
             </div>
         {% endfor %}
