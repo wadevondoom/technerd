@@ -749,15 +749,13 @@ def logout():
 @app.route("/profile", methods=["GET", "POST"])
 @login_required
 def profile():
+    form = ProfileForm()
+
     if request.method == "GET":
-        form = ProfileForm(
-            nickname=current_user.nickname,
-            isActive=current_user.isActive,
-            isSpecial=current_user.isSpecial,
-            newsletter=current_user.newsletter,
-        )
-    else:
-        form = ProfileForm()
+        form.nickname.data = current_user.nickname
+        form.isActive.data = current_user.isActive
+        form.isSpecial.data = current_user.isSpecial
+        form.newsletter.data = current_user.newsletter
 
     if form.validate_on_submit():
         user_data = {"nickname": form.nickname.data, "newsletter": form.newsletter.data}
