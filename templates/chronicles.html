@@ -38,8 +38,11 @@
         margin-bottom: 0;
     }
 </style>
-    <div class="container mt-3">
-        {% for chronicle in chronicles %}
+
+<div class="container mt-3">
+    <div class="row">
+        <div class="col-md-8">
+            {% for chronicle in chronicles %}
             <div class="row news-row">
                 <div class="col-md-4">
                     <a href="{{ url_for('detail', chronicle_id=chronicle['_id']) }}">
@@ -55,6 +58,13 @@
                     </div>
                 </div>
             </div>
-        {% endfor %}
+            {% endfor %}
+        </div>
+        <div class="col-md-4">
+            <div class="ad-space">
+                <!-- Place your advertising content here -->
+            </div>
+        </div>
     </div>
+</div>
 {% endblock %}
