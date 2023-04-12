@@ -334,14 +334,15 @@ h2 {
 }
 
 
-.h-50,
-.h-33 {
+
+.h-50 {
     padding: 10px;
     margin-bottom: 10px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     border: 1px solid #000;
     border-radius: 20px;
     background-color: #d3e7e2;
+    min-height: 600px;
 }
 
 .img-thumbnail-chronicle,
