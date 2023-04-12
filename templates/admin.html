@@ -135,6 +135,7 @@
                                             <td>
                                                 <form action="{{ url_for('delete_artwork', artwork_id=art['_id']) }}"
                                                     method="post">
+                                                    {{ csrf_token() }}
                                                     <button type="submit" class="btn btn-link text-dark" title="Delete">
                                                         <i class="fa fa-trash"></i>
                                                     </button>
@@ -177,6 +178,7 @@
                                                 <form
                                                     action="{{ url_for('delete_category', category_id=category['_id']) }}"
                                                     method="post" id="{{ category.id }}">
+                                                    {{ csrf_token() }}
                                                     <input type="hidden" name="_method" value="DELETE">
                                                     <button type="submit" class="btn btn-link"><i class="fa fa-trash"></i></button>
                                                 </form>
@@ -239,6 +241,7 @@
                         <div class="card-body">
                             <!-- Add the form for getting news -->
                             <form method="post">
+                                {{ csrf_token() }}
                                 <div class="form-group">
                                     <label for="category">Category:</label>
                                     <select name="category" class="form-control" id="category">
@@ -276,6 +279,7 @@
                                             <td><img src="{{ article.image_url }}" class="img-thumbnail-news"></td>
                                             <td>
                                                 <form action="#" method="post" id="#">
+                                                    {{ csrf_token() }}
                                                     <input type="hidden" name="_method" value="DELETE">
                                                     <button type="submit" class="btn btn-link"><i class="fa fa-trash"></i></button>
                                                 </form>
@@ -324,12 +328,14 @@
                                             <td>{{ user.newsletter }}</td>
                                             <td>
                                                 <form action="#" method="post" id="#">
+                                                    {{ csrf_token() }}
                                                     <input type="hidden" name="_method" value="EDIT">
                                                     <button type="submit" class="btn btn-link"><i class="fa fa-pencil"></i></button>
                                                 </form>
                                             </td>
                                             <td>
                                                 <form action="#" method="post" id="#">
+                                                    {{ csrf_token() }}
                                                     <input type="hidden" name="_method" value="DELETE">
                                                     <button type="submit" class="btn btn-link"><i class="fa fa-trash"></i></button>
                                                 </form>

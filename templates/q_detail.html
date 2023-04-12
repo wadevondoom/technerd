@@ -94,7 +94,7 @@
                 {% endfor %}
                 {% if current_user.is_authenticated %}
                 <form method="POST" action="{{ url_for('q_detail', quote_id=quote['_id']) }}">
-                    {{ comment_form.csrf_token }}
+                    {{ csrf_token() }}
                     <div class="form-group">
                         <label for="{{ comment_form.text.id }}">Leave a comment:</label>
                         {{ comment_form.text(class="form-control") }}
