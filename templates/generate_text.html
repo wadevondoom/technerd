@@ -3,7 +3,7 @@
 {% block content %}
 <h1>Generate Text</h1>
 <form method="POST" action="{{ url_for('create_chronicle') }}">
-    {{ csrf_field() }}
+    {{ form.csrf_token }}
     <div class="form-group">
         <label for="prompt">Prompt</label>
         <input type="text" id="prompt" name="prompt" class="form-control" required>

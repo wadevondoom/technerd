@@ -9,7 +9,7 @@
       </div>
       <div class="card-body">
         <form method="POST" action="{{ url_for('edit_chronicle', id=chronicle['_id']) }}">
-          {{ csrf_field() }}
+          {{ form.csrf_token }}
           <div class="form-group">
             {{ form.title.label(class="form-control-label") }}
             {{ form.title(class="form-control", value=chronicle["title"], required=True) }}
@@ -45,12 +45,12 @@
           {{ form.submit(class="btn btn-primary") }}
         </form>
         <form method="POST" action="{{ url_for('delete_chronicle', chronicle_id=chronicle['_id']) }}" class="mt-3">
-          {{ csrf_field() }}
+          {{ form.csrf_token }}
           <input type="hidden" name="_method" value="DELETE">
           <button type="submit" class="btn btn-danger">Delete</button>
         </form>
         <form method="GET" action="{{ url_for('admin') }}" class="mt-3">
-          {{ csrf_field() }}
+          {{ form.csrf_token }}
           <input type="hidden" name="_method" value="home">
           <button type="submit" class="btn btn-link">Return to Admin</button>
         </form>

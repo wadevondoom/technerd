@@ -9,7 +9,7 @@
                 <form method="POST" enctype="multipart/form-data" id="generate-form"
                     action="{{ url_for('save_chronicle') }}">
                     {{ form.hidden_tag() }}
-                    {{ csrf_field() }}
+                    {{ form.csrf_token }}
                     <div class="form-group">
                         {{ form.title.label(class="form-control-label") }}
                         {% if form.title.errors %}
