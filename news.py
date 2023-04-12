@@ -21,7 +21,7 @@ class News:
 
     @staticmethod
     def get_home_news():
-        news = db.articles.find().sort("_id", -1).limit(5)
+        news = db.articles.find().sort("_id", -1).limit(10)
         return news    
     
     @staticmethod

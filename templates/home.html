@@ -216,8 +216,8 @@
             <div class="col-md-8">
                 <div class="news-title">{{ article.title }}</div>
                 <div class="news-source">{{ article.source }}</div>
-                <div class="news-description">{{ article.description | safe }}</div>
-                <a href="{{ url_for('n_detail', news_id=article['_id']) }}" class="btn btn-outline-secondary news-readmore" target="_blank">Read More</a>
+                <!-- <div class="news-description">{{ article.description | safe }}</div> -->
+                <a href="{{ url_for('n_detail', news_id=article['_id']) }}" class="btn btn-outline-secondary news-readmore">Read More...</a>
             </div>
         </div>
         {% endfor %}
