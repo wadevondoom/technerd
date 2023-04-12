@@ -119,8 +119,8 @@
                 <form method="POST" action="{{ url_for('detail', chronicle_id=chronicle['_id']) }}">
                     {{ form.csrf_token }}
                     <div class="form-group">
-                        <label for="{{ comment_form.text.id }}">Leave a comment:</label>
-                        {{ comment_form.text(class="form-control") }}
+                        <label for="{{ form.text.id }}">Leave a comment:</label>
+                        {{ formass="form-control") }}
                     </div>
                     <button type="submit" class="btn btn-primary">Submit Comment</button>
                 </form>

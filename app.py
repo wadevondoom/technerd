@@ -156,13 +156,13 @@ def detail(chronicle_id):
         flash("Could not find chronicle.")
         redirect(url_for("chronicles"))
 
-    comment_form = CommentForm()
+    form = CommentForm()
 
     if request.method == "POST":
         author = current_user.nickname if current_user.is_authenticated else "Anonymous"
         avatar = current_user.picture
         Comment.save_comment(
-            chronicle_id, "chronicle", avatar, author, comment_form.text.data
+            chronicle_id, "chronicle", avatar, author, form.text.data
         )
         print(f"Comment saved")
         flash("Your comment has been posted.")
@@ -186,7 +186,7 @@ def detail(chronicle_id):
         chronicle=chronicle,
         related_chrons=related_chrons,
         user_image=user_image,
-        comment_form=comment_form,
+        form=form,
         comments=comments,
         like_count=like_count,
         liked=liked,
@@ -274,12 +274,12 @@ def art_detail(artwork_id):
         flash("Could not find artwork.")
         redirect(url_for("artwork"))
 
-    comment_form = CommentForm()
+    form = CommentForm()
 
     if request.method == "POST":
         author = current_user.nickname if current_user.is_authenticated else "Anonymous"
         avatar = current_user.picture
-        Comment.save_comment(artwork_id, "art", avatar, author, comment_form.text.data)
+        Comment.save_comment(artwork_id, "art", avatar, author, form.text.data)
         print(f"Comment saved")
         flash("Your comment has been posted.")
         return redirect(url_for("art_detail", artwork_id=artwork_id))
@@ -302,7 +302,7 @@ def art_detail(artwork_id):
         artwork=artwork,
         related_art=related_art,
         user_image=user_image,
-        comment_form=comment_form,
+        form=form,
         comments=comments,
         like_count=like_count,
         liked=liked,
@@ -331,12 +331,12 @@ def n_detail(news_id):
         flash("Could not find article.")
         redirect(url_for("news"))
 
-    comment_form = CommentForm()
+    form = CommentForm()
 
     if request.method == "POST":
         author = current_user.nickname if current_user.is_authenticated else "Anonymous"
         avatar = current_user.picture
-        Comment.save_comment(news_id, "news", avatar, author, comment_form.text.data)
+        Comment.save_comment(news_id, "news", avatar, author, form.text.data)
         print(f"Comment saved")
         flash("Your comment has been posted.")
         return redirect(url_for("n_detail", news_id=news_id))
@@ -348,7 +348,7 @@ def n_detail(news_id):
         news=article,
         related_news=related_n,
         user_image=user_image,
-        comment_form=comment_form,
+        form=form,
         comments=comments,
     )
 
@@ -372,12 +372,12 @@ def q_detail(quote_id):
         flash("Could not find quote.")
         redirect(url_for("quotes"))
 
-    comment_form = CommentForm()
+    form = CommentForm()
 
     if request.method == "POST":
         author = current_user.nickname if current_user.is_authenticated else "Anonymous"
         avatar = current_user.picture
-        Comment.save_comment(quote_id, "quote", avatar, author, comment_form.text.data)
+        Comment.save_comment(quote_id, "quote", avatar, author, form.text.data)
         print(f"Comment saved")
         flash("Your comment has been posted.")
         return redirect(url_for("q_detail", quote_id=quote_id))
@@ -389,7 +389,7 @@ def q_detail(quote_id):
         quote=quote,
         related_q=related_q,
         user_image=user_image,
-        comment_form=comment_form,
+        form=form,
         comments=comments,
     )
 

@@ -124,8 +124,8 @@
                 <form method="POST" action="{{ url_for('art_detail', artwork_id=artwork['_id']) }}">
                     {{ form.csrf_token }}
                     <div class="form-group">
-                        <label for="{{ comment_form.text.id }}">Leave a comment:</label>
-                        {{ comment_form.text(class="form-control") }}
+                        <label for="{{ form.text.id }}">Leave a comment:</label>
+                        {{ form.text(class="form-control") }}
                     </div>
                     <button type="submit" class="btn btn-primary">Submit Comment</button>
                 </form>
