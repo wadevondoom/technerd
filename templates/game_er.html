@@ -2,12 +2,13 @@
 
 {% block title %}Space Nerd{% endblock %}
 
-{% block content %}
+{% block extra_css %}
 <link rel="stylesheet" href="/static/game_style.css">
-<div class="main-content">
-    <div class="game-container">
-        <div id="gameCanvas"></div>
-    </div>
+{% endblock %}
+
+{% block game_container %} <!-- Add this line -->
+<div class="game-container">
+    <div id="gameCanvas"></div>
 </div>
 {% endblock %}
 
