@@ -82,23 +82,32 @@ function restartGame() {
     game.state.restart();
 }
 
-Based on the code you've provided, it looks like you have defined two states in your game: StartScreen and MainGame. However, I don't see any code in the MainGame state that would actually display anything on the screen.Here's what I suggest:
 
-Add some code to the MainGame state's create() function to display the player sprite, the ground sprite, and any platforms that you have defined. For example:
-arduino
-Copy code
 function create() {
-    // Display the background image
+    game.physics.startSystem(Phaser.Physics.ARCADE);
+    game.physics.arcade.gravity.y = 1000;
+
+
+    // Set up the background
     background = game.add.tileSprite(0, 0, game.width, game.height, 'background');
     background.fixedToCamera = true;
 
-    // Display the ground sprite
+    // Set up the ground
+    ground = game.add.tileSprite(0, game.height - 173, game.width, 173, 'ground');
+    game.physics.arcade.enable(ground);
+    ground.body.immovable
+
+    // Set up the background
+    background = game.add.tileSprite(0, 0, game.width, game.height, 'background');
+    background.fixedToCamera = true;
+
+    // Set up the ground
     ground = game.add.tileSprite(0, game.height - 173, game.width, 173, 'ground');
     game.physics.arcade.enable(ground);
     ground.body.immovable = true;
     ground.body.allowGravity = false;
 
-    // Display the player sprite
+    // Set up the player
     player = game.add.sprite(100, game.world.height - 300, 'player1');
     game.physics.arcade.enable(player);
     player.body.collideWorldBounds = true;
@@ -108,11 +117,24 @@ function create() {
     player.animations.add('walk', ['player1', 'player2'], 10, true);
     player.animations.play('walk');
 
-    // Display any platforms that you have defined
-    platforms.forEach(function (platform) {
-        platform.visible = true;
-    });
+    // Set up the platforms group
+    platforms = game.add.group();
+    platforms.enableBody = true;
+
+    // Create custom platforms
+    createPlatform(400, 400, 300, 20); // Example platform
+    createPlatform(700, 250, 200, 20); // Another example platform
+
+    // Set up input for player movement
+    cursors = game.input.keyboard.createCursorKeys();
+
+    // Set up the camera to follow the player
+    game.camera.follow(player);
+
+    // Start the game with the StartScreen state
+    game.state.start('StartScreen');
 }
+
 
 function update() {
     // Check for collisions
@@ -140,7 +162,7 @@ function update() {
     }
 
     // Update the camera's position
-    game.camera.follow(player);
+    game.camera.x = player.x - 400; // Set the x position of the camera to keep the player in the center of the screen
 }
 
 // Define the MainGame state
