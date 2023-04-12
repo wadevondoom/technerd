@@ -20,20 +20,17 @@ function preload() {
 }
 
 function create() {
-    game.physics.startSystem(Phaser.Physics.ARCADE);
-    game.physics.arcade.gravity.y = 1000;
-
-    // Set up the background
+    // Display the background image
     background = game.add.tileSprite(0, 0, game.width, game.height, 'background');
     background.fixedToCamera = true;
 
-    // Set up the ground
+    // Display the ground sprite
     ground = game.add.tileSprite(0, game.height - 173, game.width, 173, 'ground');
     game.physics.arcade.enable(ground);
     ground.body.immovable = true;
     ground.body.allowGravity = false;
 
-    // Set up the player
+    // Display the player sprite
     player = game.add.sprite(100, game.world.height - 300, 'player1');
     game.physics.arcade.enable(player);
     player.body.collideWorldBounds = true;
@@ -43,19 +40,10 @@ function create() {
     player.animations.add('walk', ['player1', 'player2'], 10, true);
     player.animations.play('walk');
 
-    // Set up the platforms group
-    platforms = game.add.group();
-    platforms.enableBody = true;
-
-    // Create custom platforms
-    createPlatform(400, 400, 300, 20); // Example platform
-
-    // Set up input for player movement
-    cursors = game.input.keyboard.createCursorKeys();
-
-    // Add a start button
-    const startButton = game.add.button(game.world.centerX, game.world.centerY, 'startButton', startGame, this);
-    startButton.anchor.set(0.5);
+    // Display any platforms that you have defined
+    platforms.forEach(function (platform) {
+        platform.visible = true;
+    });
 }
 
 function createPlatform(x, y, width, height) {
@@ -94,15 +82,65 @@ function restartGame() {
     game.state.restart();
 }
 
+Based on the code you've provided, it looks like you have defined two states in your game: StartScreen and MainGame. However, I don't see any code in the MainGame state that would actually display anything on the screen.Here's what I suggest:
+
+Add some code to the MainGame state's create() function to display the player sprite, the ground sprite, and any platforms that you have defined. For example:
+arduino
+Copy code
+function create() {
+    // Display the background image
+    background = game.add.tileSprite(0, 0, game.width, game.height, 'background');
+    background.fixedToCamera = true;
+
+    // Display the ground sprite
+    ground = game.add.tileSprite(0, game.height - 173, game.width, 173, 'ground');
+    game.physics.arcade.enable(ground);
+    ground.body.immovable = true;
+    ground.body.allowGravity = false;
+
+    // Display the player sprite
+    player = game.add.sprite(100, game.world.height - 300, 'player1');
+    game.physics.arcade.enable(player);
+    player.body.collideWorldBounds = true;
+    player.anchor.setTo(0.5, 0.5);
+
+    // Create a simple two-frame walking animation
+    player.animations.add('walk', ['player1', 'player2'], 10, true);
+    player.animations.play('walk');
+
+    // Display any platforms that you have defined
+    platforms.forEach(function (platform) {
+        platform.visible = true;
+    });
+}
+
 function update() {
-    game.physics.arcade.collide(player, ground, gameOver);
+    // Check for collisions
+    game.physics.arcade.collide(player, ground);
     game.physics.arcade.collide(player, platforms);
 
-    // Player movement
-    player.body.velocity.x = 200; // Constant horizontal speed
-    if (cursors.up.isDown && (player.body.touching.down || player.body.onFloor())) {
-        player.body.velocity.y = -500; // Adjust jump height as needed
+    // Update the player's movement
+    player.body.velocity.x = 0;
+
+    if (cursors.left.isDown) {
+        player.body.velocity.x = -150;
+        player.animations.play('walk');
+        player.scale.x = -1;
+    } else if (cursors.right.isDown) {
+        player.body.velocity.x = 150;
+        player.animations.play('walk');
+        player.scale.x = 1;
+    } else {
+        player.animations.stop();
+        player.frame = 0;
     }
+
+    if (cursors.up.isDown && player.body.touching.down) {
+        player.body.velocity.y = -350;
+    }
+
+    // Update the camera's position
+    game.camera.follow(player);
 }
 
 // Define the MainGame state
