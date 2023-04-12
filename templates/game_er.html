@@ -33,7 +33,7 @@
 {% block extra_js %}
 <script>
   function openGameWindow() {
-    window.open('/templates/game.html', 'gameWindow', 'width=800,height=600,menubar=no,toolbar=no');
+    window.open("{{ url_for('login') }}", 'gameWindow', 'width=800,height=600,menubar=no,toolbar=no');
   }
 </script>
 {% endblock %}
