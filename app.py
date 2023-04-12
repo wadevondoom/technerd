@@ -40,6 +40,7 @@ from newsimport import get_top_news
 app = Flask(__name__)
 CORS(app)
 
+
 def cloudfront_url_for(endpoint, **values):
     if endpoint == "static":
         return f"https://d2cpmpsgqfmt9q.cloudfront.net{url_for(endpoint, **values)}"
@@ -161,9 +162,7 @@ def detail(chronicle_id):
     if request.method == "POST":
         author = current_user.nickname if current_user.is_authenticated else "Anonymous"
         avatar = current_user.picture
-        Comment.save_comment(
-            chronicle_id, "chronicle", avatar, author, form.text.data
-        )
+        Comment.save_comment(chronicle_id, "chronicle", avatar, author, form.text.data)
         print(f"Comment saved")
         flash("Your comment has been posted.")
         return redirect(url_for("detail", chronicle_id=chronicle_id))
@@ -219,6 +218,7 @@ def like_chronicle(chronicle_id):
 
 
 @app.route("/game")
+@login_required
 def games():
     user_image = current_user.picture if current_user.is_authenticated else None
     return render_template(
@@ -226,10 +226,13 @@ def games():
         user_image=user_image,
     )
 
-@app.route('/play')
+
+@app.route("/play")
+@login_required
 def play():
     user_image = current_user.picture if current_user.is_authenticated else None
-    return render_template('play.html', user_image=user_image)
+    return render_template("play.html", user_image=user_image)
+
 
 """ Artwork """
 
@@ -455,9 +458,6 @@ def search():
         )
 
     return render_template("search.html")
-
-
-
 
 
 """Admin routes"""
