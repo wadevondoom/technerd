@@ -1,19 +1,39 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends "base.html" %}
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Space Nerd</title>
-    <link rel="stylesheet" href="/static/game_style.css">
-</head>
+{% block title %}Space Nerd{% endblock %}
 
-<body>
-    <div class="game-container">
-        <div id="gameCanvas"></div>
+{% block extra_css %}
+<link rel="stylesheet" href="/static/game_style.css">
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <!-- Card 1 -->
+        <div class="col-md-4">
+            <div class="card-game">
+                <img src="/static/img/shooter_thumbnail.jpg" class="card-img-top" alt="Game Thumbnail" onclick="openGameWindow();">
+                <div class="card-body">
+                    <h5 class="card-title">Space Nerd</h5>
+                </div>
+            </div>
+        </div>
+        <!-- Card 2 -->
+        <div class="col-md-4">
+            <!-- Add content for the second card -->
+        </div>
+        <!-- Card 3 -->
+        <div class="col-md-4">
+            <!-- Add content for the third card -->
+        </div>
     </div>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/phaser/2.6.2/phaser.min.js"></script>
-    <script src="/static/js/game.js"></script>
-</body>
+</div>
+{% endblock %}
 
-</html>
+{% block extra_js %}
+<script>
+  function openGameWindow() {
+    window.open("{{ url_for('play') }}", 'gameWindow', 'width=800,height=600,menubar=no,toolbar=no');
+  }
+</script>
+{% endblock %}

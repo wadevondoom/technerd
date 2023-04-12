@@ -222,7 +222,7 @@ def like_chronicle(chronicle_id):
 def games():
     user_image = current_user.picture if current_user.is_authenticated else None
     return render_template(
-        "game_er.html",
+        "game.html",
         user_image=user_image,
     )
 
