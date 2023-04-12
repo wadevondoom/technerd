@@ -96,7 +96,7 @@
                     {% else %}
                     <form action="{{ url_for('like_artwork', artwork_id=artwork['_id']) }}" method="post"
                         class="d-inline-block">
-                        {{ csrf_token() }}
+                        {{ csrf_field() }}
                         <button class="btn btn-primary btn-sm mb-2" type="submit">Like</button>
                     </form>
                     {% endif %}
@@ -122,7 +122,7 @@
                 {% endfor %}
                 {% if current_user.is_authenticated %}
                 <form method="POST" action="{{ url_for('art_detail', artwork_id=artwork['_id']) }}">
-                    {{ csrf_token() }}
+                    {{ csrf_field() }}
                     <div class="form-group">
                         <label for="{{ comment_form.text.id }}">Leave a comment:</label>
                         {{ comment_form.text(class="form-control") }}

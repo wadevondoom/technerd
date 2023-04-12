@@ -10,7 +10,7 @@
         </div>
         <div class="card-body">
             <form method="post">
-                {{ csrf_token() }}
+                {{ csrf_field() }}
                 <div class="form-group">
                     {{ form.nickname.label(class="form-label") }}
                     {{ form.nickname(class="form-control") }}
