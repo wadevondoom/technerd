@@ -59,7 +59,8 @@
                 {% if chronicles %}
                 <div class="col-lg-4 mb-5">
                     <div class="h-100">
-                        <h3 class="text-center" style="font-family:Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif">LATEST</h3>
+                        <h3 class="text-center"
+                            style="font-family:Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif">LATEST</h3>
                         <a href="{{ url_for('detail', chronicle_id=chronicles[0]['_id']) }}"><img
                                 src="{{ url_for('static', filename=chronicles[0].image[8:]) }}"
                                 alt="{{ chronicles[0].title }}" class="img-fluid mx-auto img-home-chronicle"></a>
@@ -82,7 +83,8 @@
                             <div class="h-50">
                                 <a href="{{ url_for('detail', chronicle_id=chronicles[1]['_id']) }}"><img
                                         src="{{ url_for('static', filename=chronicles[1].image[8:]) }}"
-                                        alt="{{ chronicles[1].title }}" class="img-fluid img-thumbnail-chronicle mx-auto"></a>
+                                        alt="{{ chronicles[1].title }}"
+                                        class="img-fluid img-thumbnail-chronicle mx-auto"></a>
                                 <div class="justify-content-center mt-3 text-center">
                                     <h5 class="mb-2 text-muted d-inline-block"
                                         style="padding: 5px 15px; background-color: orange; color: white; text-align: center; border-radius: 10px;">
@@ -96,24 +98,22 @@
                                 </div>
                             </div>
                         </div>
-                    
-                        <div class="flex-1 mt-4">
-                            <div class="h-50">
-                                <a href="{{ url_for('detail', chronicle_id=chronicles[2]['_id']) }}"><img
-                                        src="{{ url_for('static', filename=chronicles[2].image[8:]) }}"
-                                        alt="{{ chronicles[2].title }}"
-                                        class="img-fluid img-thumbnail-chronicle my-3 mx-auto"></a>
-                                <div class="justify-content-center mt-3 text-center">
-                                    <h5 class="mb-2 text-muted d-inline-block"
-                                        style="padding: 5px 15px; background-color: orange; color: white; text-align: center; border-radius: 10px;">
-                                        {{ chronicles[2].category_name }}</h5>
-                                </div>
-                                <h4 class="mt-3">{{ chronicles[2].title }}</h4>
-                                <p>{{ chronicles[2].content[:80] | safe }}...</p>
-                                <div class="d-flex justify-content-center">
-                                    <a href="{{ url_for('detail', chronicle_id=chronicles[2]['_id']) }}"
-                                        class="btn btn-outline-secondary">Read More &rarr;</a>
-                                </div>
+
+                        <div class="h-100 d-flex flex-column">
+                            <a href="{{ url_for('detail', chronicle_id=chronicles[2]['_id']) }}"><img
+                                    src="{{ url_for('static', filename=chronicles[2].image[8:]) }}"
+                                    alt="{{ chronicles[2].title }}"
+                                    class="img-fluid img-thumbnail-chronicle my-3 mx-auto"></a>
+                            <div class="justify-content-center mt-3 text-center">
+                                <h5 class="mb-2 text-muted d-inline-block"
+                                    style="padding: 5px 15px; background-color: orange; color: white; text-align: center; border-radius: 10px;">
+                                    {{ chronicles[2].category_name }}</h5>
+                            </div>
+                            <h4 class="mt-3">{{ chronicles[2].title }}</h4>
+                            <p>{{ chronicles[2].content[:80] | safe }}...</p>
+                            <div class="d-flex justify-content-center">
+                                <a href="{{ url_for('detail', chronicle_id=chronicles[2]['_id']) }}"
+                                    class="btn btn-outline-secondary">Read More &rarr;</a>
                             </div>
                         </div>
                     </div>
@@ -138,115 +138,113 @@
                                 </div>
                             </div>
                         </div>
-                            <div class="flex-1 mt-4">
-                                <div class="h-50">
-                                    <a href="{{ url_for('detail', chronicle_id=chronicles[4]['_id']) }}"><img
-                                            src="{{ url_for('static', filename=chronicles[4].image[8:]) }}"
-                                            alt="{{ chronicles[4].title }}" class="img-thumbnail-chronicle my-3"></a>
-                                    <div class="justify-content-center my-3 text-center">
-                                        <h5 class="mb-2 text-muted d-inline-block"
-                                            style="padding: 5px 15px; background-color: orange; color: white; text-align: center; border-radius: 10px;">
-                                            {{ chronicles[4].category_name }}</h5>
-                                    </div>
-                                    <h5>{{ chronicles[4].title }}</h5>
-                                    <p>{{ chronicles[4].content[:80] | safe }}...</p>
-                                    <div class="d-flex justify-content-center my-3">
-                                        <a href="{{ url_for('detail', chronicle_id=chronicles[4]['_id']) }}"
-                                            class="btn btn-outline-secondary">Read More &rarr;</a>
-                                    </div>
-                                </div>
+                        <div class="h-100 d-flex flex-column">
+                            <a href="{{ url_for('detail', chronicle_id=chronicles[4]['_id']) }}"><img
+                                    src="{{ url_for('static', filename=chronicles[4].image[8:]) }}"
+                                    alt="{{ chronicles[4].title }}" class="img-thumbnail-chronicle my-3"></a>
+                            <div class="justify-content-center my-3 text-center">
+                                <h5 class="mb-2 text-muted d-inline-block"
+                                    style="padding: 5px 15px; background-color: orange; color: white; text-align: center; border-radius: 10px;">
+                                    {{ chronicles[4].category_name }}</h5>
+                            </div>
+                            <h5>{{ chronicles[4].title }}</h5>
+                            <p>{{ chronicles[4].content[:80] | safe }}...</p>
+                            <div class="d-flex justify-content-center my-3">
+                                <a href="{{ url_for('detail', chronicle_id=chronicles[4]['_id']) }}"
+                                    class="btn btn-outline-secondary">Read More &rarr;</a>
                             </div>
                         </div>
-                </div>
-                </div>
-                {% else %}
-                <p>No chronicles found.</p>
-                {% endif %}
-            </div>
-        </div>
-
-
-        <!-- Quotes -->
-        <div>
-            <img src="{{ url_for('static', filename='img/quotes.jpg') }}" alt="Quotes" class="img-fluid">
-        </div>
-        <div class="card text-white my-3 py-4" style="background-color: #31525b; border: 3px solid #ffa101;">
-            <div class="card-body">
-                <div class="row" style="padding-right:10px; padding-left:10px;">
-                    <div class="col-8" style="padding-left: 50px;">
-                        <blockquote class="blockquote">
-                            <p class="mb-0"
-                                style="font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif">
-                                "{{ quote.quote }}"</p>
-                        </blockquote>
-                        <hr class="hr-quote">
-                        <div class="">
-                            {% if quote.author %}
-                            <span style="margin-right: 5px;"><i class="bi bi-megaphone"></i></span>
-                            <strong>{{ quote.author }}</strong>
-                            {% endif %}
-                            <br>
-                            {% if quote.source %}
-                            <span style="margin-right: 5px;"><i class="bi bi-caret-right-fill"></i></span>
-                            <strong><small class="text-light text-uppercase">{{ quote.source }}</small></strong>
-                            {% endif %}
-                        </div>
                     </div>
-                    <div class="col-4 d-flex flex-column justify-content-start align-items-end">
+                </div>
+            </div>
+            {% else %}
+            <p>No chronicles found.</p>
+            {% endif %}
+        </div>
+    </div>
 
-                        {% if quote.qotd %}
-                        <div class="btn-wrapper mb-1">
-                            <a href="{{ quote.qotd }}" class="btn text-white custom-btn">Quote origin</a>
-                        </div>
+
+    <!-- Quotes -->
+    <div>
+        <img src="{{ url_for('static', filename='img/quotes.jpg') }}" alt="Quotes" class="img-fluid">
+    </div>
+    <div class="card text-white my-3 py-4" style="background-color: #31525b; border: 3px solid #ffa101;">
+        <div class="card-body">
+            <div class="row" style="padding-right:10px; padding-left:10px;">
+                <div class="col-8" style="padding-left: 50px;">
+                    <blockquote class="blockquote">
+                        <p class="mb-0"
+                            style="font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif">
+                            "{{ quote.quote }}"</p>
+                    </blockquote>
+                    <hr class="hr-quote">
+                    <div class="">
+                        {% if quote.author %}
+                        <span style="margin-right: 5px;"><i class="bi bi-megaphone"></i></span>
+                        <strong>{{ quote.author }}</strong>
                         {% endif %}
-                        <div class="btn-wrapper">
-                            <a href="/quotes" class="btn text-white custom-btn">More quotes</a>
-                        </div>
+                        <br>
+                        {% if quote.source %}
+                        <span style="margin-right: 5px;"><i class="bi bi-caret-right-fill"></i></span>
+                        <strong><small class="text-light text-uppercase">{{ quote.source }}</small></strong>
+                        {% endif %}
                     </div>
                 </div>
-            </div>
-        </div>
+                <div class="col-4 d-flex flex-column justify-content-start align-items-end">
 
-        <div>
-            <img src="{{ url_for('static', filename='img/news.jpg') }}" alt="News" class="img-fluid">
-        </div>
-        <div class="container my-3">
-            {% for article in news %}
-            <div class="row news-row chronicle-section">
-                <div class="col-md-4">
-                    <img src="{{ article.image_url }}" alt="{{ article.title }}" class="home-story-img">
-                </div>
-                <div class="col-md-8">
-                    <div class="news-title">{{ article.title }}</div>
-                    <div class="news-source">{{ article.source }}</div>
-                    <div class="news-description">{{ article.description | safe }}</div>
-                    <a href="{{ article.url }}" class="btn btn-primary news-readmore" target="_blank">Read More</a>
-                </div>
-            </div>
-            {% endfor %}
-        </div>
-        <div>
-            <img src="{{ url_for('static', filename='img/artwork.jpg') }}" alt="AI Artwork" class="img-fluid">
-        </div>
-        <div class="card my-3 py-4" class="chronicle-section" style="border: solid 1px #000;">
-            <div class="card-header text-dark">
-                <h4 class="card-title text-center">Visit our AI Artwork Gallery</h4>
-            </div>
-            <div class="card-body">
-                <div class="owl-carousel">
-                    {% for art in artwork %}
-                    <div>
-                        <a href="{{ url_for('artwork') }}"><img class="img-fluid rounded mb-4 mb-lg-0"
-                                src="{{ url_for('static', filename=art.image[8:] ) }}" class="img-fluid mx-auto"
-                                alt="{{ art.title }}"></a>
+                    {% if quote.qotd %}
+                    <div class="btn-wrapper mb-1">
+                        <a href="{{ quote.qotd }}" class="btn text-white custom-btn">Quote origin</a>
                     </div>
-                    {% endfor %}
+                    {% endif %}
+                    <div class="btn-wrapper">
+                        <a href="/quotes" class="btn text-white custom-btn">More quotes</a>
+                    </div>
                 </div>
             </div>
-            <div class="card-footer text-dark text-center">
-                <p>Check out our <a href="{{ url_for('artwork') }}">Artwork Gallery</a> for more amazing pieces!</p>
+        </div>
+    </div>
+
+    <div>
+        <img src="{{ url_for('static', filename='img/news.jpg') }}" alt="News" class="img-fluid">
+    </div>
+    <div class="container my-3">
+        {% for article in news %}
+        <div class="row news-row chronicle-section">
+            <div class="col-md-4">
+                <img src="{{ article.image_url }}" alt="{{ article.title }}" class="home-story-img">
+            </div>
+            <div class="col-md-8">
+                <div class="news-title">{{ article.title }}</div>
+                <div class="news-source">{{ article.source }}</div>
+                <div class="news-description">{{ article.description | safe }}</div>
+                <a href="{{ article.url }}" class="btn btn-primary news-readmore" target="_blank">Read More</a>
             </div>
         </div>
+        {% endfor %}
+    </div>
+    <div>
+        <img src="{{ url_for('static', filename='img/artwork.jpg') }}" alt="AI Artwork" class="img-fluid">
+    </div>
+    <div class="card my-3 py-4" class="chronicle-section" style="border: solid 1px #000;">
+        <div class="card-header text-dark">
+            <h4 class="card-title text-center">Visit our AI Artwork Gallery</h4>
+        </div>
+        <div class="card-body">
+            <div class="owl-carousel">
+                {% for art in artwork %}
+                <div>
+                    <a href="{{ url_for('artwork') }}"><img class="img-fluid rounded mb-4 mb-lg-0"
+                            src="{{ url_for('static', filename=art.image[8:] ) }}" class="img-fluid mx-auto"
+                            alt="{{ art.title }}"></a>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        <div class="card-footer text-dark text-center">
+            <p>Check out our <a href="{{ url_for('artwork') }}">Artwork Gallery</a> for more amazing pieces!</p>
+        </div>
+    </div>
 </section>
 
 
