@@ -58,54 +58,76 @@
             <div class="row gx-4 gx-lg-5">
                 {% if chronicles %}
                 <div class="col-lg-4 col-md-6 mb-4">
-                    <div class="card h-100">
+                    <div class="h-100">
                         <a href="{{ url_for('detail', chronicle_id=chronicles[0]['_id']) }}"><img
-                                src="{{ url_for('static', filename=chronicles[0].image[8:]) }}"
-                                alt="{{ chronicles[0].title }}" class="img-fluid mx-auto img-home-chronicle"></a>
-                        <div class="card-body">
-                            <div class="justify-content-center text-center">
-                                <h5 class="mb-2 text-muted d-inline-block"
-                                    style="padding: 5px 15px; background-color: orange; color: white; text-align: center; border-radius: 10px;">
-                                    {{ chronicles[0].category_name }}</h5>
-                            </div>
-                            <h2 class="mt-3">{{ chronicles[0].title }}</h2>
-                            <p>{{ chronicles[0].content[:500] | safe }}...</p>
+                                src="{{ url_for('static', filename=chronicles[0].image[8:]) }}" alt="{{ chronicles[0].title }}"
+                                class="img-fluid mx-auto img-home-chronicle"></a>
+                        <div class="justify-content-center text-center">
+                            <h5 class="mb-2 text-muted d-inline-block"
+                                style="padding: 5px 15px; background-color: orange; color: white; text-align: center; border-radius: 10px;">
+                                {{ chronicles[0].category_name }}</h5>
                         </div>
-                        <div class="card-footer d-flex justify-content-center">
+                        <h2 class="mt-3">{{ chronicles[0].title }}</h2>
+                        <p>{{ chronicles[0].content[:500] | safe }}...</p>
+                        <div class="d-flex justify-content-center mb-4">
                             <a href="{{ url_for('detail', chronicle_id=chronicles[0]['_id']) }}"
                                 class="btn btn-outline-secondary">Read More &rarr;</a>
                         </div>
                     </div>
                 </div>
-
-                {% for chronicle in chronicles[1:5] %}
-                <div class="col-lg-4 col-md-6 mb-4">
-                    <div class="card h-100">
-                        <a href="{{ url_for('detail', chronicle_id=chronicle['_id']) }}"><img
-                                src="{{ url_for('static', filename=chronicle.image[8:]) }}" alt="{{ chronicle.title }}"
-                                class="img-fluid img-thumbnail-chronicle mx-auto"></a>
-                        <div class="card-body">
-                            <div class="justify-content-center mt-3 text-center">
-                                <h5 class="mb-2 text-muted d-inline-block"
-                                    style="padding: 5px 15px; background-color: orange; color: white; text-align: center; border-radius: 10px;">
-                                    {{ chronicle.category_name }}</h5>
+                <div class="col-lg-8 col-md-6 mb-4">
+                    <div class="row gx-4 gx-lg-5">
+                        {% for chronicle in chronicles[1:3] %}
+                        <div class="col-md-6 mb-4">
+                            <div class="h-100">
+                                <a href="{{ url_for('detail', chronicle_id=chronicle['_id']) }}"><img
+                                        src="{{ url_for('static', filename=chronicle.image[8:]) }}" alt="{{ chronicle.title }}"
+                                        class="img-fluid img-thumbnail-chronicle mx-auto"></a>
+                                <div class="justify-content-center mt-3 text-center">
+                                    <h5 class="mb-2 text-muted d-inline-block"
+                                        style="padding: 5px 15px; background-color: orange; color: white; text-align: center; border-radius: 10px;">
+                                        {{ chronicle.category_name }}</h5>
+                                </div>
+                                <h4 class="mt-3">{{ chronicle.title }}</h4>
+                                <p>{{ chronicle.content[:100] | safe }}...</p>
+                                <div class="d-flex justify-content-center mb-4">
+                                    <a href="{{ url_for('detail', chronicle_id=chronicle['_id']) }}"
+                                        class="btn btn-outline-secondary">Read More &rarr;</a>
+                                </div>
                             </div>
-                            <h4 class="mt-3">{{ chronicle.title }}</h4>
-                            <p>{{ chronicle.content[:100] | safe }}...</p>
                         </div>
-                        <div class="card-footer d-flex justify-content-center">
-                            <a href="{{ url_for('detail', chronicle_id=chronicle['_id']) }}"
-                                class="btn btn-outline-secondary">Read More &rarr;</a>
+                        {% endfor %}
+                    </div>
+                    <div class="row gx-4 gx-lg-5">
+                        {% for chronicle in chronicles[3:5] %}
+                        <div class="col-md-6 mb-4">
+                            <div class="h-100">
+                                <a href="{{ url_for('detail', chronicle_id=chronicle['_id']) }}"><img
+                                        src="{{ url_for('static', filename=chronicle.image[8:]) }}" alt="{{ chronicle.title }}"
+                                        class="img-fluid img-thumbnail-chronicle mx-auto"></a>
+                                        <div class="justify-content-center mt-3 text-center">
+                                            <h5 class="mb-2 text-muted d-inline-block"
+                                                style="padding: 5px 15px; background-color: orange; color: white; text-align: center; border-radius: 10px;">
+                                                {{ chronicle.category_name }}</h5>
+                                        </div>
+                                        <h4 class="mt-3">{{ chronicle.title }}</h4>
+                                        <p>{{ chronicle.content[:100] | safe }}...</p>
+                                        <div class="d-flex justify-content-center mb-4">
+                                            <a href="{{ url_for('detail', chronicle_id=chronicle['_id']) }}"
+                                                class="btn btn-outline-secondary">Read More &rarr;</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                {% endfor %}
+                            </div>
                         </div>
+                        {% else %}
+                        <p>No chronicles found.</p>
+                        {% endif %}
                     </div>
                 </div>
-                {% endfor %}
-
-                {% else %}
-                <p>No chronicles found.</p>
-                {% endif %}
-            </div>
-        </div>
+                
+        
 
 
         <!-- Quotes -->
