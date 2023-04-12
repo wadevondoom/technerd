@@ -226,10 +226,10 @@ def games():
         user_image=user_image,
     )
 
-@app.route('/game.html')
-def game():
+@app.route('/play')
+def play():
     user_image = current_user.picture if current_user.is_authenticated else None
-    return render_template('game.html', user_image=user_image)
+    return render_template('play.html', user_image=user_image)
 
 """ Artwork """
 
