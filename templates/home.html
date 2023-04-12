@@ -77,59 +77,62 @@
                 </div>
                 <div class="col-lg-8 col-md-6 mb-4">
                     <div class="row gx-4 gx-lg-5">
-                        {% for chronicle in chronicles[1:3] %}
-                        <div class="col-md-6 mb-4">
-                            <div class="h-100">
-                                <a href="{{ url_for('detail', chronicle_id=chronicle['_id']) }}"><img
-                                        src="{{ url_for('static', filename=chronicle.image[8:]) }}" alt="{{ chronicle.title }}"
-                                        class="img-fluid img-thumbnail-chronicle mx-auto"></a>
-                                <div class="justify-content-center mt-3 text-center">
-                                    <h5 class="mb-2 text-muted d-inline-block"
-                                        style="padding: 5px 15px; background-color: orange; color: white; text-align: center; border-radius: 10px;">
-                                        {{ chronicle.category_name }}</h5>
-                                </div>
-                                <h4 class="mt-3">{{ chronicle.title }}</h4>
-                                <p>{{ chronicle.content[:100] | safe }}...</p>
-                                <div class="d-flex justify-content-center mb-4">
-                                    <a href="{{ url_for('detail', chronicle_id=chronicle['_id']) }}"
-                                        class="btn btn-outline-secondary">Read More &rarr;</a>
-                                </div>
-                            </div>
+                      <div class="col-md-12 mb-4">
+                        {% if chronicles|length > 0 %}
+                        {% set chronicle = chronicles[0] %}
+                        <div class="h-100">
+                          <a href="{{ url_for('detail', chronicle_id=chronicle['_id']) }}"><img
+                              src="{{ url_for('static', filename=chronicle.image[8:]) }}" alt="{{ chronicle.title }}"
+                              class="img-fluid img-thumbnail-chronicle mx-auto"></a>
+                          <div class="justify-content-center mt-3 text-center">
+                            <h5 class="mb-2 text-muted d-inline-block"
+                                style="padding: 5px 15px; background-color: orange; color: white; text-align: center; border-radius: 10px;">
+                              {{ chronicle.category_name }}</h5>
+                          </div>
+                          <h4 class="mt-3">{{ chronicle.title }}</h4>
+                          <p>{{ chronicle.content[:100] | safe }}...</p>
+                          <div class="d-flex justify-content-center mb-4">
+                            <a href="{{ url_for('detail', chronicle_id=chronicle['_id']) }}"
+                                class="btn btn-outline-secondary">Read More &rarr;</a>
+                          </div>
                         </div>
-                        {% endfor %}
-                    </div>
-                    <div class="row gx-4 gx-lg-5">
-                        {% for chronicle in chronicles[3:5] %}
-                        <div class="col-md-6 mb-4">
-                            <div class="h-100">
-                                <a href="{{ url_for('detail', chronicle_id=chronicle['_id']) }}"><img
-                                        src="{{ url_for('static', filename=chronicle.image[8:]) }}" alt="{{ chronicle.title }}"
-                                        class="img-fluid img-thumbnail-chronicle mx-auto"></a>
-                                        <div class="justify-content-center mt-3 text-center">
-                                            <h5 class="mb-2 text-muted d-inline-block"
-                                                style="padding: 5px 15px; background-color: orange; color: white; text-align: center; border-radius: 10px;">
-                                                {{ chronicle.category_name }}</h5>
-                                        </div>
-                                        <h4 class="mt-3">{{ chronicle.title }}</h4>
-                                        <p>{{ chronicle.content[:100] | safe }}...</p>
-                                        <div class="d-flex justify-content-center mb-4">
-                                            <a href="{{ url_for('detail', chronicle_id=chronicle['_id']) }}"
-                                                class="btn btn-outline-secondary">Read More &rarr;</a>
-                                        </div>
-                                    </div>
-                                </div>
-                                {% endfor %}
-                            </div>
-                        </div>
-                        {% else %}
-                        <p>No chronicles found.</p>
                         {% endif %}
+                      </div>
+                      {% for chronicle in chronicles[1:5] %}
+                      {% if loop.index == 2 %}
+                      <div class="col-md-6 mb-4">
+                        <div class="row">
+                          {% endif %}
+                          <div class="col-md-6 mb-4">
+                            <div class="h-100">
+                              <a href="{{ url_for('detail', chronicle_id=chronicle['_id']) }}"><img
+                                  src="{{ url_for('static', filename=chronicle.image[8:]) }}" alt="{{ chronicle.title }}"
+                                  class="img-fluid img-thumbnail-chronicle mx-auto"></a>
+                              <div class="justify-content-center mt-3 text-center">
+                                <h5 class="mb-2 text-muted d-inline-block"
+                                    style="padding: 5px 15px; background-color: orange; color: white; text-align: center; border-radius: 10px;">
+                                  {{ chronicle.category_name }}</h5>
+                              </div>
+                              <h4 class="mt-3">{{ chronicle.title }}</h4>
+                              <p>{{ chronicle.content[:100] | safe }}...</p>
+                              <div class="d-flex justify-content-center mb-4">
+                                <a href="{{ url_for('detail', chronicle_id=chronicle['_id']) }}"
+                                    class="btn btn-outline-secondary">Read More &rarr;</a>
+                              </div>
+                            </div>
+                          </div>
+                          {% if loop.index == 5 %}
+                        </div>
+                      </div>
+                      {% endif %}
+                      {% endfor %}
+                      {% if chronicles|length == 0 %}
+                      <p>No chronicles found.</p>
+                      {% endif %}
                     </div>
-                </div>
+                  </div>
+                  
                 
-        
-
-
         <!-- Quotes -->
         <div>
             <img src="{{ url_for('static', filename='img/quotes.jpg') }}" alt="Quotes" class="img-fluid">
