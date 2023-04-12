@@ -1,153 +1,87 @@
-// game.js
 
-var game = new Phaser.Game(800, 600, Phaser.AUTO, 'gameCanvas', { preload: preload, create: create, update: update });
-var StartScreen = {
-    preload: function () {
-        game.load.image('startButton', '/static/assets/startButton.png');
-    },
-
-    create: function () {
-        var startButton = game.add.button(game.world.centerX, game.world.centerY, 'startButton', startGame, this);
-        startButton.anchor.set(0.5);
-    }
-};
-
-var player;
-var cursors;
-var platforms;
-var ground;
-var background;
-var gameOverText;
-var restartButton;
+var game = new Phaser.Game(800, 600, Phaser.CANVAS, 'phaser-example', { preload: preload, create: create, update: update, render: render });
 
 function preload() {
-    game.load.crossOrigin = 'anonymous';
-    game.load.image('player1', '/static/assets/p1.png');
-    game.load.image('player2', '/static/assets/p2.png');
-    game.load.image('ground', '/static/assets/ground.png');
-    game.load.image('background', '/static/assets/background.png');
-    game.load.image('startButton', '/static/assets/startButton.png');
+
+    game.load.image('bullet', '/static/assets/shmup-bullet.png');
+    game.load.image('ship', '/static/assets/p1.png');
+
 }
+
+var sprite;
+var weapon;
+var cursors;
+var fireButton;
 
 function create() {
-    game.physics.startSystem(Phaser.Physics.ARCADE);
-    game.physics.arcade.gravity.y = 1000;
 
+    //  Creates 30 bullets, using the 'bullet' graphic
+    weapon = game.add.weapon(30, 'bullet');
 
-    // Set up the background
-    background = game.add.tileSprite(0, 0, game.width, game.height, 'background');
-    background.fixedToCamera = true;
+    //  The bullet will be automatically killed when it leaves the world bounds
+    weapon.bulletKillType = Phaser.Weapon.KILL_WORLD_BOUNDS;
 
-    // Set up the ground
-    ground = game.add.tileSprite(0, game.height - 173, game.width, 173, 'ground');
-    game.physics.arcade.enable(ground);
-    ground.body.immovable = true;
-    ground.body.allowGravity = false;
+    //  The speed at which the bullet is fired
+    weapon.bulletSpeed = 600;
 
-    // Set up the player
-    player = game.add.sprite(100, game.world.height - 300, 'player1');
-    game.physics.arcade.enable(player);
-    player.body.collideWorldBounds = true;
-    player.anchor.setTo(0.5, 0.5);
+    //  Speed-up the rate of fire, allowing them to shoot 1 bullet every 60ms
+    weapon.fireRate = 100;
 
-    // Create a simple two-frame walking animation
-    var frameNames = Phaser.Animation.generateFrameNames('player', 1, 2, '', 0);
-    player.animations.add('walk', frameNames, 10, true);
+    sprite = this.add.sprite(400, 300, 'ship');
 
-    // Set up the platforms group
-    platforms = game.add.group();
-    platforms.enableBody = true;
-    game.physics.arcade.enable(platforms); // Add this line
+    sprite.anchor.set(0.5);
 
-    // Create custom platforms
-    createPlatform(400, 400, 300, 20); // Example platform
-    createPlatform(700, 250, 200, 20); // Another example platform
+    game.physics.arcade.enable(sprite);
 
-    // Set up input for player movement
-    cursors = game.input.keyboard.createCursorKeys();
+    sprite.body.drag.set(70);
+    sprite.body.maxVelocity.set(200);
 
-    // Set up the camera to follow the player
-    game.camera.follow(player);
+    //  Tell the Weapon to track the 'player' Sprite
+    //  With no offsets from the position
+    //  But the 'true' argument tells the weapon to track sprite rotation
+    weapon.trackSprite(sprite, 0, 0, true);
 
-    // Start the game with the StartScreen state
-    game.state.start('StartScreen');
+    cursors = this.input.keyboard.createCursorKeys();
+
+    fireButton = this.input.keyboard.addKey(Phaser.KeyCode.SPACEBAR);
+
 }
-
-function createPlatform(x, y, width, height) {
-    const platform = game.add.graphics(x, y);
-    platform.beginFill(0xffffff);
-    platform.lineStyle(2, 0xffffff, 1);
-    platform.drawRoundedRect(0, 0, width, height, 10);
-    platform.endFill();
-
-    game.physics.arcade.enable(platform);
-    platform.body.immovable = true;
-    platform.body.allowGravity = false;
-    platforms.add(platform);
-}
-
-function startGame() {
-    game.state.start('MainGame');
-}
-
-function gameOver() {
-    player.kill(); // Hide the player
-    gameOverText = game.add.text(game.world.centerX, game.world.centerY - 100, 'Game Over', { font: '48px Arial', fill: '#ff0000' });
-    gameOverText.anchor.set(0.5);
-
-    // Add a restart button
-    restartButton = game.add.button(game.world.centerX, game.world.centerY, 'startButton', restartGame, this);
-    restartButton.anchor.set(0.5);
-}
-
-function restartGame() {
-    // Clean up game over elements
-    gameOverText.destroy();
-    restartButton.destroy();
-
-    // Reset the game state
-    game.state.restart();
-}
-
-
 
 function update() {
-    // Check for collisions
-    game.physics.arcade.collide(player, ground);
-    game.physics.arcade.collide(player, platforms);
 
-    // Update the player's movement
-    player.body.velocity.x = 0;
-
-    if (cursors.left.isDown) {
-        player.body.velocity.x = -150;
-        player.animations.play('walk');
-        player.scale.x = -1;
-    } else if (cursors.right.isDown) {
-        player.body.velocity.x = 150;
-        player.animations.play('walk');
-        player.scale.x = 1;
-    } else {
-        player.animations.stop();
-        player.frame = 0;
+    if (cursors.up.isDown)
+    {
+        game.physics.arcade.accelerationFromRotation(sprite.rotation, 300, sprite.body.acceleration);
+    }
+    else
+    {
+        sprite.body.acceleration.set(0);
     }
 
-    if (cursors.up.isDown && player.body.touching.down) {
-        player.body.velocity.y = -350;
+    if (cursors.left.isDown)
+    {
+        sprite.body.angularVelocity = -300;
+    }
+    else if (cursors.right.isDown)
+    {
+        sprite.body.angularVelocity = 300;
+    }
+    else
+    {
+        sprite.body.angularVelocity = 0;
     }
 
-    // Update the camera's position
-    game.camera.x = player.x - 400; // Set the x position of the camera to keep the player in the center of the screen
+    if (fireButton.isDown)
+    {
+        weapon.fire();
+    }
+
+    game.world.wrap(sprite, 16);
+
 }
 
-// Define the MainGame state
-var MainGame = {
-    preload: preload,
-    create: create,
-    update: update
-};
+function render() {
 
-// Add the MainGame state to the game and start with the StartScreen state
-game.state.add('MainGame', MainGame);
-game.state.add('StartScreen', StartScreen);
-game.state.start('StartScreen');
+    weapon.debug();
+
+}
