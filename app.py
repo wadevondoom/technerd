@@ -252,7 +252,7 @@ def like_artwork(artwork_id):
     like = Like.get_by_user_and_content_id(user_id, artwork_id)
     if like is not None:
         flash("You already liked this artwork.")
-        return redirect(url_for("art_detail", artwork_id=artwork_id))
+        return redirect(url_for("art_detail", like=like, artwork_id=artwork_id))
 
     Like.add_like(user_id, "artwork", artwork_id)
     artwork = Artwork.get_by_id(ObjectId(artwork_id))
