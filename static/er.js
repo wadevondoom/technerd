@@ -5,7 +5,7 @@ const game = new Phaser.Game(800, 600, Phaser.AUTO, 'gameCanvas', null);
 const StartScreen = {
     preload: function () {
         // Load button image or any other assets needed for the start screen
-        game.load.image('startButton', 'assets/startButton.png');
+        game.load.image('startButton', '/static/assets/startButton.png');
     },
     create: function () {
         // Add a start button
