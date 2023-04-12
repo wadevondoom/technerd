@@ -1,11 +1,13 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Phaser Game</title>
-</head>
-<body>
+{% extends "base.html" %}
+
+{% block title %}Phaser Game{% endblock %}
+
+{% block content %}
+    <link rel="stylesheet" href="/static/game_style.css">
     <div id="gameCanvas"></div>
+{% endblock %}
+
+{% block extra_js %}
     <script src="https://cdnjs.cloudflare.com/ajax/libs/phaser/2.6.2/phaser.min.js"></script>
     <script src="/static/js/game.js"></script>
-</body>
-</html>
+{% endblock %}
