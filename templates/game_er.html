@@ -12,7 +12,8 @@
         <!-- Card 1 -->
         <div class="col-md-4">
             <div class="card">
-                <img src="/static/img/shooter_thumbnail.jpg" class="card-img-top" alt="Game Thumbnail" data-toggle="modal" data-target="#gameModal">
+                <img src="/static/img/shooter_thumbnail.jpg" class="card-img-top" alt="Game Thumbnail"
+                    data-toggle="modal" data-target="#gameModal">
                 <div class="card-body">
                     <h5 class="card-title">Space Nerd</h5>
                 </div>
@@ -40,9 +41,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                <div class="game-container">
-                    <div id="gameCanvas"></div>
-                </div>
+                <div id="gameCanvas"></div>
             </div>
         </div>
     </div>
@@ -52,4 +51,11 @@
 {% block extra_js %}
 <script src="https://cdnjs.cloudflare.com/ajax/libs/phaser/2.6.2/phaser.min.js"></script>
 <script src="/static/js/game.js"></script>
+<script>
+    $('#gameModal').on('shown.bs.modal', function () {
+        if (!game) {
+            initializeGame();
+        }
+    });
+</script>
 {% endblock %}

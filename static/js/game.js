@@ -1,6 +1,12 @@
 
 var game = new Phaser.Game(800, 600, Phaser.CANVAS, 'phaser-example', { preload: preload, create: create, update: update, render: render });
 
+
+function initializeGame() {
+    game = new Phaser.Game(800, 600, Phaser.AUTO, 'gameCanvas', { preload: preload, create: create, update: update });
+}
+
+
 function preload() {
 
     game.load.image('bullet', '/static/assets/shmup-bullet.png');
@@ -49,30 +55,24 @@ function create() {
 
 function update() {
 
-    if (cursors.up.isDown)
-    {
+    if (cursors.up.isDown) {
         game.physics.arcade.accelerationFromRotation(sprite.rotation, 300, sprite.body.acceleration);
     }
-    else
-    {
+    else {
         sprite.body.acceleration.set(0);
     }
 
-    if (cursors.left.isDown)
-    {
+    if (cursors.left.isDown) {
         sprite.body.angularVelocity = -300;
     }
-    else if (cursors.right.isDown)
-    {
+    else if (cursors.right.isDown) {
         sprite.body.angularVelocity = 300;
     }
-    else
-    {
+    else {
         sprite.body.angularVelocity = 0;
     }
 
-    if (fireButton.isDown)
-    {
+    if (fireButton.isDown) {
         weapon.fire();
     }
 
