@@ -118,8 +118,3 @@ function update() {
         player.body.velocity.y = -500; // Adjust jump height as needed
     }
 }
-
-
-
-
-
