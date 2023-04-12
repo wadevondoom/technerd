@@ -1,6 +1,16 @@
 // game.js
 
 var game = new Phaser.Game(800, 600, Phaser.AUTO, 'gameCanvas', { preload: preload, create: create, update: update });
+var StartScreen = {
+    preload: function () {
+        game.load.image('startButton', '/static/assets/startButton.png');
+    },
+
+    create: function () {
+        var startButton = game.add.button(game.world.centerX, game.world.centerY, 'startButton', startGame, this);
+        startButton.anchor.set(0.5);
+    }
+};
 
 var player;
 var cursors;
@@ -140,4 +150,5 @@ var MainGame = {
 
 // Add the MainGame state to the game and start with the StartScreen state
 game.state.add('MainGame', MainGame);
-game.state.start('MainGame');
+game.state.add('StartScreen', StartScreen);
+game.state.start('StartScreen');
