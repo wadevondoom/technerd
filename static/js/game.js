@@ -29,6 +29,49 @@ function preload() {
     game.load.image('startButton', '/static/assets/startButton.png');
 }
 
+function create() {
+    game.physics.startSystem(Phaser.Physics.ARCADE);
+    game.physics.arcade.gravity.y = 1000;
+
+
+    // Set up the background
+    background = game.add.tileSprite(0, 0, game.width, game.height, 'background');
+    background.fixedToCamera = true;
+
+    // Set up the ground
+    ground = game.add.tileSprite(0, game.height - 173, game.width, 173, 'ground');
+    game.physics.arcade.enable(ground);
+    ground.body.immovable = true;
+    ground.body.allowGravity = false;
+
+    // Set up the player
+    player = game.add.sprite(100, game.world.height - 300, 'player1');
+    game.physics.arcade.enable(player);
+    player.body.collideWorldBounds = true;
+    player.anchor.setTo(0.5, 0.5);
+
+    // Create a simple two-frame walking animation
+    var frameNames = Phaser.Animation.generateFrameNames('player', 1, 2, '', 0);
+    player.animations.add('walk', frameNames, 10, true);
+
+    // Set up the platforms group
+    platforms = game.add.group();
+    platforms.enableBody = true;
+    game.physics.arcade.enable(platforms); // Add this line
+
+    // Create custom platforms
+    createPlatform(400, 400, 300, 20); // Example platform
+    createPlatform(700, 250, 200, 20); // Another example platform
+
+    // Set up input for player movement
+    cursors = game.input.keyboard.createCursorKeys();
+
+    // Set up the camera to follow the player
+    game.camera.follow(player);
+
+    // Start the game with the StartScreen state
+    game.state.start('StartScreen');
+}
 
 function createPlatform(x, y, width, height) {
     const platform = game.add.graphics(x, y);
@@ -66,50 +109,6 @@ function restartGame() {
     game.state.restart();
 }
 
-
-function create() {
-    game.physics.startSystem(Phaser.Physics.ARCADE);
-    game.physics.arcade.gravity.y = 1000;
-
-
-    // Set up the background
-    background = game.add.tileSprite(0, 0, game.width, game.height, 'background');
-    background.fixedToCamera = true;
-
-    // Set up the ground
-    ground = game.add.tileSprite(0, game.height - 173, game.width, 173, 'ground');
-    game.physics.arcade.enable(ground);
-    ground.body.immovable = true;
-    ground.body.allowGravity = false;
-
-    // Set up the player
-    player = game.add.sprite(100, game.world.height - 300, 'player1');
-    game.physics.arcade.enable(player);
-    player.body.collideWorldBounds = true;
-    player.anchor.setTo(0.5, 0.5);
-
-    // Create a simple two-frame walking animation
-    player.animations.add('walk', ['player1', 'player2'], 10, true);
-    player.animations.play('walk');
-
-    // Set up the platforms group
-    platforms = game.add.group();
-    platforms.enableBody = true;
-    game.physics.arcade.enable(platforms); // Add this line
-
-    // Create custom platforms
-    createPlatform(400, 400, 300, 20); // Example platform
-    createPlatform(700, 250, 200, 20); // Another example platform
-
-    // Set up input for player movement
-    cursors = game.input.keyboard.createCursorKeys();
-
-    // Set up the camera to follow the player
-    game.camera.follow(player);
-
-    // Start the game with the StartScreen state
-    game.state.start('StartScreen');
-}
 
 
 function update() {
