@@ -13,6 +13,7 @@ from flask_login import (
     login_required,
     current_user,
 )
+from flask_cors import CORS
 
 from user import User
 from artwork import Artwork
@@ -37,7 +38,7 @@ from newsimport import get_top_news
 
 
 app = Flask(__name__)
-
+CORS(app)
 
 def cloudfront_url_for(endpoint, **values):
     if endpoint == "static":

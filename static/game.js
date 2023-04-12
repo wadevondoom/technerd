@@ -5,6 +5,7 @@ const game = new Phaser.Game(800, 600, Phaser.AUTO, 'gameCanvas', null);
 const StartScreen = {
     preload: function () {
         // Load button image or any other assets needed for the start screen
+        game.load.crossOrigin = 'anonymous';
         game.load.image('startButton', '/static/assets/startButton.png');
     },
     create: function () {
@@ -36,6 +37,7 @@ let gameOverText;
 let restartButton;
 
 function preload() {
+    game.load.crossOrigin = 'anonymous';
     game.load.image('player1', '/static/assets/p1.png');
     game.load.image('player2', '/static/assets/p2.png');
     game.load.image('ground', '/static/assets/ground.png');
