@@ -1,18 +1,13 @@
 {% extends "base.html" %}
 
-{% block title %}Space Nerd{% endblock %}
-
-{% block extra_css %}
-<link rel="stylesheet" href="/static/game_style.css">
-{% endblock %}
+{% block title %}Phaser Game{% endblock %}
 
 {% block content %}
-<div class="game-container">
+    <link rel="stylesheet" href="/static/game_style.css">
     <div id="gameCanvas"></div>
-</div>
 {% endblock %}
 
 {% block extra_js %}
-<script src="https://cdnjs.cloudflare.com/ajax/libs/phaser/2.6.2/phaser.min.js"></script>
-<script src="/static/js/game.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/phaser/2.6.2/phaser.min.js"></script>
+    <script src="/static/js/game.js"></script>
 {% endblock %}
