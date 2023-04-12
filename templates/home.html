@@ -147,7 +147,7 @@
                                     style="padding: 5px 15px; background-color: orange; color: white; text-align: center; border-radius: 10px;">
                                     {{ chronicles[4].category_name }}</h5>
                             </div>
-                            <h5>{{ chronicles[4].title }}</h5>
+                            <h4>{{ chronicles[4].title }}</h4>
                             <p>{{ chronicles[4].content[:80] | safe }}...</p>
                             <div class="d-flex justify-content-center my-3">
                                 <a href="{{ url_for('detail', chronicle_id=chronicles[4]['_id']) }}"
