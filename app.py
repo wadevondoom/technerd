@@ -226,6 +226,10 @@ def game():
         user_image=user_image,
     )
 
+@app.route('/game.html')
+def game():
+    user_image = current_user.picture if current_user.is_authenticated else None
+    return render_template('game.html', user_image=user_image)
 
 """ Artwork """
 
@@ -451,6 +455,9 @@ def search():
         )
 
     return render_template("search.html")
+
+
+
 
 
 """Admin routes"""

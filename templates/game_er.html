@@ -12,8 +12,7 @@
         <!-- Card 1 -->
         <div class="col-md-4">
             <div class="card">
-                <img src="/static/img/shooter_thumbnail.jpg" class="card-img-top" alt="Game Thumbnail"
-                    data-toggle="modal" data-target="#gameModal">
+                <img src="/static/img/shooter_thumbnail.jpg" class="card-img-top" alt="Game Thumbnail" onclick="openGameWindow();">
                 <div class="card-body">
                     <h5 class="card-title">Space Nerd</h5>
                 </div>
@@ -29,33 +28,12 @@
         </div>
     </div>
 </div>
-
-<!-- Game Modal -->
-<div class="modal fade" id="gameModal" tabindex="-1" role="dialog" aria-labelledby="gameModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="gameModalLabel">Space Nerd</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <div id="gameCanvas"></div>
-            </div>
-        </div>
-    </div>
-</div>
 {% endblock %}
 
 {% block extra_js %}
-<script src="https://cdnjs.cloudflare.com/ajax/libs/phaser/2.6.2/phaser.min.js"></script>
-<script src="/static/js/game.js"></script>
 <script>
-    $('#gameModal').on('shown.bs.modal', function () {
-        if (!game) {
-            initializeGame();
-        }
-    });
+  function openGameWindow() {
+    window.open('/templates/game.html', 'gameWindow', 'width=800,height=600,menubar=no,toolbar=no');
+  }
 </script>
 {% endblock %}
