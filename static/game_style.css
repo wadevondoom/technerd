@@ -9,3 +9,13 @@
     margin: 20px 0;
     padding: 20px;
 }
+
+.main-content {
+    display: flex;
+    flex-direction: column;
+    min-height: calc(100vh - 80px);
+}
+
+footer {
+    margin-top: auto;
+}
