@@ -1,40 +1,14 @@
 // game.js
 
-const game = new Phaser.Game(800, 600, Phaser.AUTO, 'gameCanvas', null);
+var game = new Phaser.Game(800, 600, Phaser.AUTO, 'gameCanvas', { preload: preload, create: create, update: update });
 
-const StartScreen = {
-    preload: function () {
-        // Load button image or any other assets needed for the start screen
-        game.load.crossOrigin = 'anonymous';
-        game.load.image('startButton', '/static/assets/startButton.png');
-    },
-    create: function () {
-        // Add a start button
-        const startButton = game.add.button(game.world.centerX, game.world.centerY, 'startButton', this.startGame, this);
-        startButton.anchor.set(0.5);
-    },
-    startGame: function () {
-        game.state.start('MainGame');
-    }
-};
-
-const MainGame = {
-    preload: preload,
-    create: create,
-    update: update,
-};
-
-game.state.add('StartScreen', StartScreen);
-game.state.add('MainGame', MainGame);
-game.state.start('StartScreen');
-
-
-let player;
-let cursors;
-let ground;
-let background;
-let gameOverText;
-let restartButton;
+var player;
+var cursors;
+var platforms;
+var ground;
+var background;
+var gameOverText;
+var restartButton;
 
 function preload() {
     game.load.crossOrigin = 'anonymous';
@@ -42,6 +16,7 @@ function preload() {
     game.load.image('player2', '/static/assets/p2.png');
     game.load.image('ground', '/static/assets/ground.png');
     game.load.image('background', '/static/assets/background.png');
+    game.load.image('startButton', '/static/assets/startButton.png');
 }
 
 function create() {
@@ -77,6 +52,10 @@ function create() {
 
     // Set up input for player movement
     cursors = game.input.keyboard.createCursorKeys();
+
+    // Add a start button
+    const startButton = game.add.button(game.world.centerX, game.world.centerY, 'startButton', startGame, this);
+    startButton.anchor.set(0.5);
 }
 
 function createPlatform(x, y, width, height) {
@@ -90,6 +69,10 @@ function createPlatform(x, y, width, height) {
     platform.body.immovable = true;
     platform.body.allowGravity = false;
     platforms.add(platform);
+}
+
+function startGame() {
+    game.state.start('MainGame');
 }
 
 function gameOver() {
@@ -110,6 +93,7 @@ function restartGame() {
     // Reset the game state
     game.state.restart();
 }
+
 function update() {
     game.physics.arcade.collide(player, ground, gameOver);
     game.physics.arcade.collide(player, platforms);
@@ -120,3 +104,14 @@ function update() {
         player.body.velocity.y = -500; // Adjust jump height as needed
     }
 }
+
+// Define the MainGame state
+var MainGame = {
+    preload: preload,
+    create: create,
+    update: update
+};
+
+// Add the MainGame state to the game and start with the StartScreen state
+game.state.add('MainGame', MainGame);
+game.state.start('MainGame');
