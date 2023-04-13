@@ -693,7 +693,7 @@ import os
 @app.route("/admin/images", methods=["GET", "POST"])
 @login_required
 def manage_images():
-    image_folder = "static/media/upload/"
+    image_folder = "/app/static/media/uploads/"
     image_files = [
         f
         for f in os.listdir(image_folder)
