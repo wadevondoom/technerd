@@ -41,6 +41,7 @@ let hitPoints = 3;
 let hitPointsText;
 
 let glitchyEnemy;
+let glitchyspeed;
 let baseSpeedMin = 100;
 let baseSpeedMax = 200;
 let speedRangeIncrease = 50;
@@ -123,7 +124,7 @@ function createGlitchyEnemy() {
     // Calculate speed range based on player score
     const speedMin = baseSpeedMin + Math.floor(score / 1000) * speedRangeIncrease;
     const speedMax = baseSpeedMax + Math.floor(score / 1000) * speedRangeIncrease;
-    const speed = game.rnd.integerInRange(speedMin, speedMax);
+    glitchyspeed = game.rnd.integerInRange(speedMin, speedMax);
 
     // Create new glitchyEnemy with random speed
     glitchyEnemy = game.add.sprite(spawnX, spawnY, 'enemy3');
@@ -131,15 +132,17 @@ function createGlitchyEnemy() {
     game.physics.arcade.enable(glitchyEnemy);
     glitchyEnemy.body.collideWorldBounds = true;
     glitchyEnemy.body.bounce.set(1);
-    game.physics.arcade.velocityFromAngle(Math.random() * 360, speed, glitchyEnemy.body.velocity);
+    game.physics.arcade.velocityFromAngle(Math.random() * 360, glitchyspeed, glitchyEnemy.body.velocity);
 
     // Add the new glitchyEnemy to the enemy group
     enemyGroup.add(glitchyEnemy);
 }
 
 
-function moveGlitchyEnemy(glitchyEnemy, speed) {
+
+function moveGlitchyEnemy() {
     if (!glitchyEnemy.moveTimer || glitchyEnemy.moveTimer <= 0) {
+        const speed = glitchyspeed;
         const angle = Math.random() * 360;
         game.physics.arcade.velocityFromAngle(angle, speed, glitchyEnemy.body.velocity);
         glitchyEnemy.moveTimer = game.time.now + 1500; // Change direction every 2 seconds
