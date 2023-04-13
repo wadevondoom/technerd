@@ -9,8 +9,14 @@ function initializeGame() {
 
 function preload() {
 
-    game.load.image('bullet', '/static/assets/shmup-bullet.png');
-    game.load.image('ship', '/static/assets/ship.png');
+    game.load.image('bullet', '/static/assets/sprites/shmup-bullet.png');
+    game.load.image('ship', '/static/assets/sprites/ship.png');
+    game.load.image('background', '/static/assets/background');
+    game.load.image('enemy1', '/static/assets/sprites/braino.png');
+    game.load.image('enemy2', '/static/assets/sprites/glitchy.png');
+    game.load.image('enemy3', '/static/assets/sprites/malware.png');
+    game.load.image('enemy4', '/static/assets/sprites/roguebot.png');
+    game.load.image('startButton', '/static/assets/startButton.png');
 
 }
 
