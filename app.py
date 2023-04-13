@@ -1,5 +1,6 @@
 import random, string
 from os import environ as env
+import os
 from urllib.parse import quote_plus, urlencode
 from bson import ObjectId
 from authlib.integrations.flask_client import OAuth
@@ -575,7 +576,6 @@ def create_chronicle():
             # If the DALLE generated image URL is available
             image = form.dalle_image_url.data
 
-
         chronicle = Chronicle(title, author, content, category_name, image)
         chronicle.save()
         flash("Chronicle created successfully!", "success")
@@ -682,6 +682,29 @@ def delete_chronicle(chronicle_id):
 
 
 """End Chronicle functions"""
+
+
+""" Image management """
+
+
+@app.route("/admin/images", methods=["GET", "POST"])
+@login_required
+def manage_images():
+    image_folder = os.path.join("static", "media", "upload")
+    image_files = [
+        f
+        for f in os.listdir(image_folder)
+        if os.path.isfile(os.path.join(image_folder, f))
+    ]
+
+    if request.method == "POST":
+        images_to_delete = request.form.getlist("delete_images")
+        for img in images_to_delete:
+            os.remove(os.path.join(image_folder, img))
+        flash("Selected images deleted successfully!", "success")
+        return redirect(url_for("manage_images"))
+
+    return render_template("manage_images.html", images=image_files)
 
 
 @app.route("/edit_quote/<id>", methods=["GET", "POST"])

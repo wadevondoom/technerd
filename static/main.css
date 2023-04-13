@@ -481,3 +481,36 @@ h5 {
         margin-top: 0;
     }
 }
+
+.image-checkbox {
+    cursor: pointer;
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    border: 4px solid transparent;
+    outline: none;
+    margin-bottom: 8px;
+    position: relative;
+}
+
+.image-checkbox input[type="checkbox"] {
+    display: none;
+}
+
+.image-checkbox:hover {
+    border: 4px solid #00f;
+}
+
+.image-checkbox input[type="checkbox"]:checked+.fa {
+    display: block !important;
+}
+
+.image-checkbox .fa {
+    position: absolute;
+    color: #00f;
+    background-color: #fff;
+    padding: 2px;
+    top: 0;
+    right: 0;
+    display: none;
+}
