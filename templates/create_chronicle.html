@@ -12,6 +12,10 @@
                     enctype="multipart/form-data">
                     {{ form.csrf_token }}
                     <div class="form-group">
+                        {{ form.prompt.label(class="form-control-label") }}
+                        {{ form.prompt(class="form-control") }}
+                    </div>
+                    <div class="form-group">
                         {{ form.title.label(class="form-control-label") }}
                         {{ form.title(class="form-control", required=True) }}
                     </div>
@@ -57,11 +61,11 @@
     </div>
 </div>
 <script>
-    document.getElementById("save-content").addEventListener("click", function () {
+    document.getElementById("save_content").addEventListener("click", function () {
         document.getElementById("chronicle-form").submit();
     });
 
-    document.getElementById("generate-content").addEventListener("click", async function () {
+    document.getElementById("generate_content").addEventListener("click", async function () {
         const prompt = document.getElementById("prompt").value;
         if (!prompt) {
             alert("Please enter a prompt to generate content.");
@@ -85,7 +89,7 @@
         }
     });
 
-    document.getElementById("generate-image").addEventListener("click", async function () {
+    document.getElementById("generate_image").addEventListener("click", async function () {
         const prompt = document.getElementById("prompt").value;
         if (!prompt) {
             alert("Please enter a prompt to generate an image.");
