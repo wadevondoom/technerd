@@ -571,6 +571,10 @@ def create_chronicle():
             brain = Brain("user", prompt)
             image_bytes = brain.get_dalle_image()
             image = save_dalle_image(image_bytes)
+        elif form.dalle_image_url.data:
+            # If the DALLE generated image URL is available
+            image = form.dalle_image_url.data
+
 
         chronicle = Chronicle(title, author, content, category_name, image)
         chronicle.save()

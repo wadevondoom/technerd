@@ -51,6 +51,7 @@
                         {{ form.image.label(class="form-control-label") }}
                         {{ form.image(id="image-url", class="form-control-file") }}
                     </div>
+                    <input type="hidden" id="dalle-image-url" name="dalle_image_url" value="">
                     <button type="button" id="generate-content" class="btn btn-secondary">Generate Content</button>
                     <button type="button" id="generate-image" class="btn btn-secondary">Generate Image</button>
                     <button type="button" id="save-content" class="btn btn-primary">Save Content</button>
@@ -62,9 +63,6 @@
                 </form>
             </div>
         </div>
-    </div>
-    <div class="col-md-6">
-        <img src="" alt="Chronicle Image" class="img-fluid mt-3" id="chronicle-image" style="display:none;">
     </div>
     <div class="col-md-6">
         <img src="" alt="Chronicle Image" class="img-fluid mt-3" id="chronicle-image" style="display:none;">
@@ -129,6 +127,8 @@
 
         if (response.ok) {
             const data = await response.json();
+            // Set the value of the hidden input field
+            document.getElementById("dalle-image-url").value = data.image_url;
             document.getElementById("chronicle-image").src = data.image_url;
             document.getElementById("chronicle-image").style.display = "block";
             document.getElementById("image-url").value = data.image_url;

@@ -22,6 +22,7 @@ class ChronicleForm(FlaskForm):
     image = FileField(
         "Image", validators=[FileAllowed(["jpg", "jpeg"], "Images only!")]
     )
+    dalle_image_url = HiddenField()
     generate_content = SubmitField("Generate Content")
     generate_image = SubmitField("Generate Image")
     save_content = SubmitField("Save Content")
