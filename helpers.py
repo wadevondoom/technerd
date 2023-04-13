@@ -1,8 +1,5 @@
-import asyncio
-import json
+import asyncio, json, os, uuid, imghdr
 from pymongo import MongoClient
-import os
-import uuid
 from werkzeug.utils import secure_filename
 from flask import url_for
 
@@ -42,14 +39,24 @@ def save_image(file):
 def save_dalle_image(image_bytes):
     if not image_bytes:
         return None
-    ext = "jpg"  # Assume the image format is JPEG
+
+    # Detect the image format
+    ext = imghdr.what(None, h=image_bytes)
+    if not ext:
+        print("Error: Unable to detect image format.")
+        return None
+
     os.makedirs(UPLOAD_FOLDER, exist_ok=True)
     new_filename = str(uuid.uuid4()) + "." + ext  # Generate a unique filename
-    with open(os.path.join(UPLOAD_FOLDER, new_filename), "wb") as f:
-        f.write(image_bytes)
 
-    # Generate a URL for the saved file
-    url = url_for("static", filename="media/uploads/" + new_filename)
+    try:
+        with open(os.path.join(UPLOAD_FOLDER, new_filename), "wb") as f:
+            f.write(image_bytes)
 
-    print(url)
-    return url
+        # Generate a URL for the saved file
+        url = url_for("static", filename="media/uploads/" + new_filename)
+        print(url)
+        return url
+    except Exception as e:
+        print(f"Error saving image: {e}")
+        return None
