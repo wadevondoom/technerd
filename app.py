@@ -53,8 +53,6 @@ CORS(app)
 
 STATIC_URL="https://d2cpmpsgqfmt9q.cloudfront.net"
 
-
-app.jinja_env.globals.update(url_for=cloudfront_url_for)
 app.config.update(
     {
         "SECRET_KEY": "".join(
