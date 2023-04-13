@@ -41,6 +41,16 @@ let gameState = GameState.Start;
 
 function create() {
 
+    // Create Player Sprite
+    player = game.add.sprite(400, 300, 'ship');
+    player.anchor.set(0.5);
+    game.physics.arcade.enable(player);
+    player.body.drag.set(70);
+    player.body.maxVelocity.set(200);
+
+    //Create Glitchy
+    createGlitchyEnemy();
+
     // Add the background image to the game
     background = game.add.sprite(0, 0, 'background');
     //  Creates 30 bullets, using the 'bullet' graphic
@@ -70,19 +80,6 @@ function create() {
     playerGroup.setAll('collisionGroup', playerGroup);
     enemyGroup.setAll('collisionGroup', enemyGroup);
     bulletGroup.setAll('collisionGroup', bulletGroup);
-
-    // Check for collisions between player and enemies
-    game.physics.arcade.collide(playerGroup, enemyGroup, handlePlayerCollision, null, this);
-
-    // Check for collisions between bullets and enemies
-    game.physics.arcade.collide(bulletGroup, enemyGroup, killGlitchyEnemy, null, this);
-
-    // Create Player Sprite
-    player = game.add.sprite(400, 300, 'ship');
-    player.anchor.set(0.5);
-    game.physics.arcade.enable(player);
-    player.body.drag.set(70);
-    player.body.maxVelocity.set(200);
 
     // Add Hit Points Text
     hitPointsText = game.add.text(game.world.width - 16, 16, `HP: ${hitPoints}`, { fontSize: '32px', fill: '#fff' });
@@ -204,25 +201,6 @@ function update() {
 
             // Update Glitchy movement
             moveGlitchyEnemy();
-
-            // Create collision groups
-            var playerGroup = game.physics.arcade.add.group();
-            var enemyGroup = game.physics.arcade.add.group();
-            var bulletGroup = game.physics.arcade.add.group();
-
-            // Add player to player group
-            playerGroup.add(player);
-
-            // Add enemies to enemy group
-            enemyGroup.add(glitchyEnemy);
-
-            // Add bullets to bullet group
-            bulletGroup.add(weapon.bullets);
-
-            // Set collision groups
-            playerGroup.setAll('collisionGroup', playerGroup);
-            enemyGroup.setAll('collisionGroup', enemyGroup);
-            bulletGroup.setAll('collisionGroup', bulletGroup);
 
             // Check for collisions between player and enemies
             game.physics.arcade.collide(playerGroup, enemyGroup, handlePlayerCollision, null, this);
