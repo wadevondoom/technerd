@@ -24,8 +24,12 @@ var sprite;
 var weapon;
 var cursors;
 var fireButton;
+var background;
 
 function create() {
+
+    // Add the background image to the game
+    background = game.add.sprite(0, 0, 'background');
 
     //  Creates 30 bullets, using the 'bullet' graphic
     weapon = game.add.weapon(30, 'bullet');
