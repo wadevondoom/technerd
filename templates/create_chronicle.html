@@ -3,23 +3,23 @@
     <div class="col-md-6">
         <div class="card">
             <div class="card-header">
-                Edit Chronicle
+                Create Chronicle
             </div>
             <div class="card-body">
-                <form method="POST" action="{{ url_for('edit_chronicle', id=chronicle['_id']) }}">
+                <form method="POST" action="{{ url_for('create_chronicle') }}">
                     {{ form.csrf_token }}
                     <div class="form-group">
                         {{ form.title.label(class="form-control-label") }}
-                        {{ form.title(class="form-control", value=chronicle["title"], required=True) }}
+                        {{ form.title(class="form-control", required=True) }}
                     </div>
                     <div class="form-group">
                         {{ form.author.label(class="form-control-label") }}
-                        {{ form.author(class="form-control", value=chronicle["author"], required=True) }}
+                        {{ form.author(class="form-control", required=True) }}
                     </div>
                     <div class="form-group">
                         <label for="content">Content</label>
                         <textarea class="form-control" id="content" name="content"
-                            required>{{ chronicle['content'] or '' }}</textarea> {# Update value attribute #}
+                            required>{{ form.content.data or '' }}</textarea>
                     </div>
                     <div class="form-group">
                         {{ form.category_name.label(class="form-control-label") }}
@@ -31,56 +31,74 @@
                             {% endfor %}
                         </div>
                         {% else %}
-                        {{ form.category_name(class="form-control form-control-lg", selected=chronicle['category_name'])
-                        }} {# Add
-                        selected attribute #}
+                        {{ form.category_name(class="form-control form-control-lg") }}
                         {% endif %}
                     </div>
                     <div class="form-group">
                         <label for="date_posted">Date posted</label>
                         <input type="datetime-local" class="form-control" id="date_posted" name="date_posted"
-                            value="{{ chronicle['date_posted'] }}" required>
+                            value="{{ form.date_posted.data }}" required>
                     </div>
                     {{ form.save_content(class="btn btn-primary") }}
-                    {{ form.generate_image(class="btn btn-secondary") }} {# Add new button #}
-                </form>
-                <form method="POST" action="{{ url_for('delete_chronicle', chronicle_id=chronicle['_id']) }}"
-                    class="mt-3">
-                    {{ form.csrf_token }}
-                    <input type="hidden" name="_method" value="DELETE">
-                    <button type="submit" class="btn btn-danger">Delete</button>
+                    {{ form.upload_image(class="btn btn-secondary") }}
+                    {{ form.generate_image(class="btn btn-secondary") }}
                 </form>
                 <form method="GET" action="{{ url_for('admin') }}" class="mt-3">
                     {{ form.csrf_token }}
                     <input type="hidden" name="_method" value="home">
                     <button type="submit" class="btn btn-link">Return to Admin</button>
+                </form>
             </div>
         </div>
     </div>
     <div class="col-md-6">
-        <img src="{{ chronicle.image }}" alt="{{ chronicle.title }}" class="img-fluid mt-3" id="chronicle-image"> {# Add
-        ID attribute #}
+        <img src="{{ form.image_url.data }}" alt="Chronicle Image" class="img-fluid mt-3" id="chronicle-image">
     </div>
 </div>
-{% endblock %}
-
-{% block scripts %}
 <script>
-    document.addEventListener("DOMContentLoaded", function () {
-        const generateImageButton = document.querySelector("#generate-image-button");
-        const chronicleImage = document.querySelector("#chronicle-image");
+    document.getElementById("save-content").addEventListener("click", function () {
+        document.getElementById("form-action").value = "save";
+        document.getElementById("generate-form").submit();
+    });
 
-        generateImageButton.addEventListener("click", function (event) {
-            event.preventDefault();
-            fetch("/admin/chronicles/generate_image/{{ chronicle['_id'] }}")
-                .then(response => response.json())
-                .then(data => {
-                    const imageUrl = data.url;
-                    if (imageUrl) {
-                        chronicleImage.src = imageUrl;
-                    }
-                });
-        });
+    document.getElementById("generate-content").addEventListener("click", async function () {
+        document.getElementById("form-action").value = "generate";
+
+        const prompt = document.getElementById("prompt").value;
+        if (!prompt) {
+            alert("Please enter a prompt to generate content.");
+            return;
+        }
+
+        async function getGeneratedContent(prompt) {
+            const response = await fetch("{{ url_for('generate_content') }}", {
+                method: "POST",
+                body: new FormData(document.getElementById("generate-form")),
+                headers: {
+                    "X-CSRFToken": "{{ form.csrf_token._value() }}"
+                }
+            });
+
+            if (response.ok) {
+                const data = await response.json();
+                return data.generated_text;
+            } else {
+                const error = await response.json();
+                alert("Error generating content: " + error.error);
+                throw new Error("Error generating content");
+            }
+        }
+
+        const generatedContent = await getGeneratedContent(prompt);
+        tinymce.get("content").setContent(generatedContent);
+    });
+</script>
+<script>
+    tinymce.init({
+        selector: '#content',
+        plugins: 'lists link image',
+        toolbar: 'undo redo | styleselect | bold italic | alignleft aligncenter alignright | bullist numlist | link image',
+        height: 300,
     });
 </script>
 {% endblock %}
