@@ -3,32 +3,31 @@
 {% block title %}Space Nerd{% endblock %}
 
 {% block extra_css %}
-<link rel="stylesheet" href="/static/game_style.css">
+<link rel="stylesheet" href="{{ url_for('static', filename='game_style.css') }}">
 {% endblock %}
 
 {% block content %}
 <div class="container">
     <div class="row">
         <!-- Card 1 -->
-        <div class="col-md-4">
+        <div class="col-md-12">
             <div class="card-game">
-                <img src="/static/img/shooter_thumbnail.jpg" class="card-img-top" alt="Game Thumbnail" onclick="openGameWindow();">
-                <div class="card-body">
+                <img src="{{ url_for('static', filename='img/shooter_thumbnail.jpg') }}" class="card-img" alt="Game Thumbnail" onclick="openGameWindow();">
+                <div class="card-info">
                     <h5 class="card-title">Space Nerd</h5>
+                    <p class="card-description">A fast-paced space shooter game. Battle through waves of enemies and defeat the bosses!</p>
+                    <div class="stats">
+                        <span>High Score: 12500</span>
+                        <span>Games Played: 238</span>
+                    </div>
                 </div>
             </div>
         </div>
-        <!-- Card 2 -->
-        <div class="col-md-4">
-            <!-- Add content for the second card -->
-        </div>
-        <!-- Card 3 -->
-        <div class="col-md-4">
-            <!-- Add content for the third card -->
-        </div>
+        <!-- Add more cards below for other games -->
     </div>
 </div>
 {% endblock %}
+
 
 {% block extra_js %}
 <script>
