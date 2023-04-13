@@ -562,8 +562,8 @@ def create_chronicle():
         category_name = Category.get_by_id(category_id)["name"]
         image = None
 
-        if form.upload_image.data and form.image.data:
-            # If the "Upload Image" button is clicked and a file is uploaded
+        if form.image.data:
+            # If an image file is uploaded
             image = save_image(form.image.data)
         elif form.generate_image.data:
             # If the "Generate Image" button is clicked
@@ -578,6 +578,7 @@ def create_chronicle():
         return redirect(url_for("admin"))
 
     return render_template("create_chronicle.html", form=form, title="Create Chronicle")
+
 
 
 @app.route("/generate_content", methods=["POST"])
