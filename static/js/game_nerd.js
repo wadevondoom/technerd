@@ -41,11 +41,14 @@ let hitPoints = 3;
 let hitPointsText;
 
 let glitchyEnemy;
+let baseSpeedMin = 100;
+let baseSpeedMax = 200;
+let speedRangeIncrease = 50;
 
 let gameState = GameState.Start;
 
 function create() {
-    
+
     // Add the background image to the game
     background = game.add.sprite(0, 0, 'background');
     game.physics.startSystem(Phaser.Physics.ARCADE);
@@ -116,12 +119,20 @@ function createGlitchyEnemy() {
     const offscreenPadding = 50;
     const spawnX = Math.random() < 0.5 ? -offscreenPadding : game.world.width + offscreenPadding;
     const spawnY = Math.floor(Math.random() * (game.world.height - 2 * offscreenPadding)) + offscreenPadding;
+
+    // Calculate speed range based on player score
+    const speedMin = baseSpeedMin + Math.floor(score / 1000) * speedRangeIncrease;
+    const speedMax = baseSpeedMax + Math.floor(score / 1000) * speedRangeIncrease;
+    const speed = game.rnd.integerInRange(speedMin, speedMax);
+
+    // Create new glitchyEnemy with random speed
     glitchyEnemy = game.add.sprite(spawnX, spawnY, 'enemy3');
     glitchyEnemy.anchor.set(0.5);
     game.physics.arcade.enable(glitchyEnemy);
     glitchyEnemy.body.collideWorldBounds = true;
     glitchyEnemy.body.bounce.set(1);
-    
+    game.physics.arcade.velocityFromAngle(Math.random() * 360, speed, glitchyEnemy.body.velocity);
+
     // Add the new glitchyEnemy to the enemy group
     enemyGroup.add(glitchyEnemy);
 }
@@ -157,7 +168,7 @@ function handlePlayerCollision(player, enemy) {
         player.invincible = false;
     });
     // Play sound effects, add visual feedback, etc.
-    
+
     // Add a delay before respawning the enemy
     game.time.events.add(Phaser.Timer.SECOND * 1, () => {
         createGlitchyEnemy();
