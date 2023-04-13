@@ -4,7 +4,7 @@ from urllib.parse import quote_plus, urlencode
 from bson import ObjectId
 from authlib.integrations.flask_client import OAuth
 from dotenv import find_dotenv, load_dotenv
-from flask import Flask, redirect, render_template, session, url_for, flash, request
+from flask import Flask, redirect, render_template, session, url_for, flash, request, jsonify
 from flask_wtf.csrf import CSRFProtect
 from flask_login import (
     LoginManager,
@@ -561,6 +561,18 @@ def create_chronicle():
         return redirect(url_for("admin"))
 
     return render_template("create_chronicle.html", form=form, title="Create Chronicle")
+
+
+@app.route("/generate_content", methods=["POST"])
+@login_required
+def generate_content():
+    prompt = request.form.get("prompt")
+    if not prompt:
+        return jsonify({"error": "No prompt provided"}), 400
+
+    brain = Brain("user", prompt)
+    generated_text = brain.get_response()
+    return jsonify({"generated_text": generated_text})
 
 
 @app.route("/admin/artwork/create/save", methods=["POST"])

@@ -53,14 +53,23 @@
             return;
         }
 
-        // Replace this with the actual call to the OpenAI API
         async function getGeneratedContent(prompt) {
-            // Simulated API call with a 2-second delay
-            return new Promise((resolve) => {
-                setTimeout(() => {
-                    resolve("Generated content for prompt: " + prompt);
-                }, 2000);
+            const response = await fetch("{{ url_for('generate_content') }}", {
+                method: "POST",
+                body: new FormData(document.getElementById("generate-form")),
+                headers: {
+                    "X-CSRFToken": "{{ form.csrf_token._value() }}"
+                }
             });
+
+            if (response.ok) {
+                const data = await response.json();
+                return data.generated_text;
+            } else {
+                const error = await response.json();
+                alert("Error generating content: " + error.error);
+                throw new Error("Error generating content");
+            }
         }
 
         const generatedContent = await getGeneratedContent(prompt);
