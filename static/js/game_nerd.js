@@ -138,10 +138,8 @@ function createGlitchyEnemy() {
 }
 
 
-
-function moveGlitchyEnemy() {
+function moveGlitchyEnemy(glitchyEnemy, speed) {
     if (!glitchyEnemy.moveTimer || glitchyEnemy.moveTimer <= 0) {
-        const speed = 150;
         const angle = Math.random() * 360;
         game.physics.arcade.velocityFromAngle(angle, speed, glitchyEnemy.body.velocity);
         glitchyEnemy.moveTimer = game.time.now + 1500; // Change direction every 2 seconds
