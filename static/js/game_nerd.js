@@ -116,7 +116,7 @@ function createGlitchyEnemy() {
     const offscreenPadding = 50;
     const spawnX = Math.random() < 0.5 ? -offscreenPadding : game.world.width + offscreenPadding;
     const spawnY = Math.floor(Math.random() * (game.world.height - 2 * offscreenPadding)) + offscreenPadding;
-    glitchyEnemy = game.add.sprite(spawnX, spawnY, 'enemy2');
+    glitchyEnemy = game.add.sprite(spawnX, spawnY, 'enemy3');
     glitchyEnemy.anchor.set(0.5);
     game.physics.arcade.enable(glitchyEnemy);
     glitchyEnemy.body.collideWorldBounds = true;
