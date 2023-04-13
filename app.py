@@ -686,28 +686,25 @@ def delete_chronicle(chronicle_id):
 
 """ Image management """
 
-
-import os
-
-
 @app.route("/admin/images", methods=["GET", "POST"])
 @login_required
 def manage_images():
-    image_folder = "/app/static/media/uploads/"
+    form = ManageImagesForm()
+    image_folder = os.path.join("static", "media", "upload")
     image_files = [
         f
         for f in os.listdir(image_folder)
         if os.path.isfile(os.path.join(image_folder, f))
     ]
 
-    if request.method == "POST":
+    if form.validate_on_submit():
         images_to_delete = request.form.getlist("delete_images")
         for img in images_to_delete:
             os.remove(os.path.join(image_folder, img))
         flash("Selected images deleted successfully!", "success")
         return redirect(url_for("manage_images"))
 
-    return render_template("manage_images.html", images=image_files)
+    return render_template("manage_images.html", images=image_files, form=form)
 
 
 @app.route("/edit_quote/<id>", methods=["GET", "POST"])

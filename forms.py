@@ -71,3 +71,7 @@ class ProfileForm(FlaskForm):
     newsletter = BooleanField("Subscribe to Newsletter")
     submit = SubmitField("Update Profile")
 
+
+class ManageImagesForm(FlaskForm):
+    delete_images = StringField("Delete Images")
+    submit = SubmitField("Delete Selected Images")
