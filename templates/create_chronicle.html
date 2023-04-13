@@ -133,11 +133,12 @@
             document.getElementById("chronicle-image").style.display = "block";
             document.getElementById("image-url").value = data.image_url;
             document.getElementById("image-url-value").innerText = data.image_url;
-            document.getElementById("image-url-text").style.display = "block"; // Show the image URL on the page
+            document.getElementById("image-url").style.display = "block"; // Show the image URL input field
         } else {
             alert("Error generating image.");
         }
     });
+
     document.getElementById("chronicle-image").addEventListener("click", function () {
         document.getElementById("modal-chronicle-image").src = document.getElementById("chronicle-image").src;
         $("#imagePreviewModal").modal("show");
