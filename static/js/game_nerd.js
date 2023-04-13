@@ -45,7 +45,9 @@ let glitchyEnemy;
 let gameState = GameState.Start;
 
 function create() {
-
+    
+    // Add the background image to the game
+    background = game.add.sprite(0, 0, 'background');
     game.physics.startSystem(Phaser.Physics.ARCADE);
 
     // Initialize collision groups
@@ -60,8 +62,6 @@ function create() {
     player.body.drag.set(70);
     player.body.maxVelocity.set(200);
 
-    // Add the background image to the game
-    background = game.add.sprite(0, 0, 'background');
     //  Creates 30 bullets, using the 'bullet' graphic
     weapon = game.add.weapon(30, 'bullet');
     //  The bullet will be automatically killed when it leaves the world bounds
@@ -73,9 +73,6 @@ function create() {
 
     // Add player to player group
     playerGroup.add(player);
-
-    // Add enemies to enemy group
-    enemyGroup.add(glitchyEnemy);
 
     // Add bullets to bullet group
     bulletGroup.add(weapon.bullets);
@@ -115,7 +112,6 @@ function create() {
 }
 
 function createGlitchyEnemy() {
-
     const offscreenPadding = 50;
     const spawnX = Math.random() < 0.5 ? -offscreenPadding : game.world.width + offscreenPadding;
     const spawnY = Math.floor(Math.random() * (game.world.height - 2 * offscreenPadding)) + offscreenPadding;
@@ -124,7 +120,11 @@ function createGlitchyEnemy() {
     game.physics.arcade.enable(glitchyEnemy);
     glitchyEnemy.body.collideWorldBounds = true;
     glitchyEnemy.body.bounce.set(1);
+    
+    // Add glitchyEnemy to enemyGroup
+    enemyGroup.add(glitchyEnemy);
 }
+
 
 
 function moveGlitchyEnemy() {
