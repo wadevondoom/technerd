@@ -7,11 +7,6 @@ const GameState = {
     GameOver: 2,
 };
 
-function initializeGame() {
-    game = new Phaser.Game(800, 600, Phaser.AUTO, 'gameCanvas', { preload: preload, create: create, update: update });
-}
-
-
 function preload() {
 
     game.load.image('bullet', '/static/assets/sprites/shmup-bullet.png');
@@ -56,6 +51,32 @@ function create() {
     weapon.bulletSpeed = 600;
     //  Speed-up the rate of fire, allowing them to shoot 1 bullet every 60ms
     weapon.fireRate = 100;
+
+    // Create collision groups
+    var playerGroup = game.physics.arcade.add.group();
+    var enemyGroup = game.physics.arcade.add.group();
+    var bulletGroup = game.physics.arcade.add.group();
+
+    // Add player to player group
+    playerGroup.add(player);
+
+    // Add enemies to enemy group
+    enemyGroup.add(glitchyEnemy);
+
+    // Add bullets to bullet group
+    bulletGroup.add(weapon.bullets);
+
+    // Set collision groups
+    playerGroup.setAll('collisionGroup', playerGroup);
+    enemyGroup.setAll('collisionGroup', enemyGroup);
+    bulletGroup.setAll('collisionGroup', bulletGroup);
+
+    // Check for collisions between player and enemies
+    game.physics.arcade.collide(playerGroup, enemyGroup, handlePlayerCollision, null, this);
+
+    // Check for collisions between bullets and enemies
+    game.physics.arcade.collide(bulletGroup, enemyGroup, killGlitchyEnemy, null, this);
+
     // Create Player Sprite
     player = game.add.sprite(400, 300, 'ship');
     player.anchor.set(0.5);
@@ -91,12 +112,17 @@ function create() {
 }
 
 function createGlitchyEnemy() {
-    glitchyEnemy = game.add.sprite(game.world.randomX, game.world.randomY, 'enemy2');
+
+    const offscreenPadding = 50;
+    const spawnX = Math.random() < 0.5 ? -offscreenPadding : game.world.width + offscreenPadding;
+    const spawnY = Math.floor(Math.random() * (game.world.height - 2 * offscreenPadding)) + offscreenPadding;
+    glitchyEnemy = game.add.sprite(spawnX, spawnY, 'enemy2');
     glitchyEnemy.anchor.set(0.5);
     game.physics.arcade.enable(glitchyEnemy);
     glitchyEnemy.body.collideWorldBounds = true;
     glitchyEnemy.body.bounce.set(1);
 }
+
 
 function moveGlitchyEnemy() {
     const speed = 150;
@@ -110,12 +136,18 @@ function killGlitchyEnemy(bullet, enemy) {
     // Add score, sound effects, etc.
     score += 100;
     scoreText.text = `Score: ${score}`;
+    createGlitchyEnemy();
 }
 
 function handlePlayerCollision(player, enemy) {
+    if (player.invincible) return; // don't handle collision if player is invincible
     enemy.kill();
     hitPoints -= 1;
     hitPointsText.text = `HP: ${hitPoints}`;
+    player.invincible = true;
+    game.time.events.add(Phaser.Timer.SECOND * 2, () => {
+        player.invincible = false;
+    });
     // Play sound effects, add visual feedback, etc.
 }
 
@@ -123,7 +155,7 @@ function update() {
     switch (gameState) {
         case GameState.Start:
             // Hide player sprite and bullets
-            sprite.visible = false;
+            player.visible = false;
             weapon.visible = false;
 
             // Show start button
@@ -137,7 +169,7 @@ function update() {
 
         case GameState.Play:
             // Show player sprite and bullets
-            sprite.visible = true;
+            player.visible = true;
             weapon.visible = true;
 
             // Hide start button
@@ -149,20 +181,20 @@ function update() {
 
             // Update player movement
             if (cursors.up.isDown) {
-                game.physics.arcade.accelerationFromRotation(sprite.rotation, 300, sprite.body.acceleration);
+                game.physics.arcade.accelerationFromRotation(player.rotation, 300, player.body.acceleration);
             }
             else {
-                sprite.body.acceleration.set(0);
+                player.body.acceleration.set(0);
             }
 
             if (cursors.left.isDown) {
-                sprite.body.angularVelocity = -300;
+                player.body.angularVelocity = -300;
             }
             else if (cursors.right.isDown) {
-                sprite.body.angularVelocity = 300;
+                player.body.angularVelocity = 300;
             }
             else {
-                sprite.body.angularVelocity = 0;
+                player.body.angularVelocity = 0;
             }
 
             // Fire bullets
@@ -171,13 +203,33 @@ function update() {
             }
 
             // Update Glitchy movement
-            glitchyEnemy.update();
+            moveGlitchyEnemy();
 
-            // Check collision between bullets and Glitchy
-            game.physics.arcade.overlap(weapon.bullets, glitchyEnemy, killGlitchyEnemy, null, this);
+            // Create collision groups
+            var playerGroup = game.physics.arcade.add.group();
+            var enemyGroup = game.physics.arcade.add.group();
+            var bulletGroup = game.physics.arcade.add.group();
 
-            // Check collision between player and Glitchy
-            game.physics.arcade.collide(player, glitchyEnemy, handlePlayerCollision, null, this);
+            // Add player to player group
+            playerGroup.add(player);
+
+            // Add enemies to enemy group
+            enemyGroup.add(glitchyEnemy);
+
+            // Add bullets to bullet group
+            bulletGroup.add(weapon.bullets);
+
+            // Set collision groups
+            playerGroup.setAll('collisionGroup', playerGroup);
+            enemyGroup.setAll('collisionGroup', enemyGroup);
+            bulletGroup.setAll('collisionGroup', bulletGroup);
+
+            // Check for collisions between player and enemies
+            game.physics.arcade.collide(playerGroup, enemyGroup, handlePlayerCollision, null, this);
+
+            // Check for collisions between bullets and enemies
+            game.physics.arcade.collide(bulletGroup, enemyGroup, killGlitchyEnemy, null, this);
+
 
             // Check game over condition
             if (hitPoints <= 0) {
@@ -188,7 +240,7 @@ function update() {
 
         case GameState.GameOver:
             // Hide player sprite and bullets
-            sprite.visible = false;
+            player.visible = false;
             weapon.visible = false;
 
             // Hide start button
@@ -199,13 +251,20 @@ function update() {
             scoreText.visible = true;
 
             break;
+
+        default:
+            break;
     }
 }
+
 
 
 function startGame() {
     gameState = GameState.Play;
     startButton.visible = false;
+
+    // Create a Glitchy
+    createGlitchyEnemy()
 }
 
 function endGame() {
