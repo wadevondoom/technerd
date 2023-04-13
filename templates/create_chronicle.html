@@ -1,86 +1,78 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<div class="row justify-content-center">
-    <div class="col-md-8">
-        <div class="card">
-            <div class="card-header">{{ title }}</div>
-            <div class="card-body">
-                <form method="POST" enctype="multipart/form-data" id="generate-form"
-                    action="{{ url_for('save_chronicle') }}">
-                    {{ form.hidden_tag() }}
-                    {{ form.csrf_token }}
-                    <div class="form-group">
-                        {{ form.title.label(class="form-control-label") }}
-                        {% if form.title.errors %}
-                        {{ form.title(class="form-control form-control-lg is-invalid") }}
-                        <div class="invalid-feedback">
-                            {% for error in form.title.errors %}
-                            <span>{{ error }}</span>
-                            {% endfor %}
-                        </div>
-                        {% else %}
-                        {{ form.title(class="form-control form-control-lg") }}
-                        {% endif %}
-                    </div>
-                    <div class="form-group">
-                        {{ form.author.label(class="form-control-label") }}
-                        {% if form.author.errors %}
-                        {{ form.author(class="form-control form-control-lg is-invalid") }}
-                        <div class="invalid-feedback">
-                            {% for error in form.author.errors %}
-                            <span>{{ error }}</span>
-                            {% endfor %}
-                        </div>
-                        {% else %}
-                        {{ form.author(class="form-control form-control-lg") }}
-                        {% endif %}
-                    </div>
-                    <div class="form-group">
-                        {{ form.content.label(class="form-control-label") }}
-                        {% if form.content.errors %}
-                        {{ form.content(class="form-control form-control-lg is-invalid") }}
-                        <div class="invalid-feedback">
-                            {% for error in form.content.errors %}
-                            <span>{{ error }}</span>
-                            {% endfor %}
-                        </div>
-                        {% else %}
-                        {{ form.content(class="form-control form-control-lg") }}
-                        {% endif %}
-                    </div>
-                    <div class="form-group">
-                        {{ form.category_name.label(class="form-control-label") }}
-                        {% if form.category_name.errors %}
-                        {{ form.category_name(class="form-control form-control-lg is-invalid") }}
-                        <div class="invalid-feedback">
-                            {% for error in form.category_name.errors %}
-                            <span>{{ error }}</span>
-                            {% endfor %}
-                        </div>
-                        {% else %}
-                        {{ form.category_name(class="form-control form-control-lg") }}
-                        {% endif %}
-                    </div>
-                    <div class="form-group">
-                        {{ form.image.label(class="form-control-label") }}
-                        {% if form.image.errors %}
-                        {{ form.image(class="form-control form-control-lg is-invalid") }}
-                        <div class="invalid-feedback">
-                            {% for error in form.image.errors %}
-                            <span>{{ error }}</span>
-                            {% endfor %}
-                        </div>
-                        {% else %}
-                        {{ form.image(class="form-control form-control-lg") }}
-                        {% endif %}
-                    </div>
-                    <div class="form-group">
-                        <button type="submit" class="btn btn-primary btn-lg">Save</button>
-                    </div>
-                </form>
+<div class="container mt-4">
+    <h1 class="mb-4">{{ title }}</h1>
+    <form method="POST" enctype="multipart/form-data" id="generate-form" action="{{ url_for('save_chronicle') }}">
+        {{ form.hidden_tag() }}
+        {{ form.csrf_token }}
+
+        <div class="form-row">
+            <div class="form-group col-md-6">
+                {{ form.title.label(class="form-control-label") }}
+                {{ form.title(class="form-control form-control-lg") }}
+            </div>
+
+            <div class="form-group col-md-6">
+                {{ form.author.label(class="form-control-label") }}
+                {{ form.author(class="form-control form-control-lg") }}
             </div>
         </div>
-    </div>
+
+        <div class="form-group">
+            {{ form.prompt.label(class="form-control-label") }}
+            {{ form.prompt(class="form-control form-control-lg") }}
+        </div>
+
+        <div class="form-group">
+            {{ form.content.label(class="form-control-label") }}
+            {{ form.content(class="form-control form-control-lg", id="content") }}
+        </div>
+
+        <div class="form-group">
+            {{ form.category_name.label(class="form-control-label") }}
+            {{ form.category_name(class="form-control form-control-lg") }}
+        </div>
+
+        <div class="form-group">
+            {{ form.image.label(class="form-control-label") }}
+            {{ form.image(class="form-control form-control-lg") }}
+        </div>
+
+        <div class="form-group">
+            <button type="submit" class="btn btn-primary btn-lg">Save</button>
+            <button type="button" class="btn btn-secondary btn-lg" id="generate-content">Generate Content</button>
+        </div>
+    </form>
 </div>
+<script>
+    document.getElementById("generate-content").addEventListener("click", async function () {
+        const prompt = document.getElementById("prompt").value;
+        if (!prompt) {
+            alert("Please enter a prompt to generate content.");
+            return;
+        }
+
+        // Replace this with the actual call to the OpenAI API
+        async function getGeneratedContent(prompt) {
+            // Simulated API call with a 2-second delay
+            return new Promise((resolve) => {
+                setTimeout(() => {
+                    resolve("Generated content for prompt: " + prompt);
+                }, 2000);
+            });
+        }
+
+        const generatedContent = await getGeneratedContent(prompt);
+        tinymce.get("content").setContent(generatedContent);
+    });
+</script>
+<script>
+    tinymce.init({
+        selector: '#content',
+        plugins: 'lists link image',
+        toolbar: 'undo redo | styleselect | bold italic | alignleft aligncenter alignright | bullist numlist | link image',
+        height: 300,
+    });
+</script>
 {% endblock %}

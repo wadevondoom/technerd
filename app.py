@@ -547,45 +547,7 @@ def create_chronicle():
         (str(category["_id"]), category["name"]) for category in categories
     ]
 
-    # Handle GET request for page with textfield and button
-    if request.method == "GET":
-        return render_template("generate_text.html", form=form)
-
-    # Handle POST request to generate response and populate content field
-    if request.method == "POST":
-        prompt = request.form.get("prompt")
-        brain = Brain(role="user", prompt=prompt)
-        response = brain.get_response()
-        form.content.data = response
-        return render_template(
-            "create_chronicle.html", form=form, title="Create Chronicle"
-        )
-
     # Handle form validation and saving chronicle to database
-    if form.validate_on_submit():
-        title = form.title.data
-        author = form.author.data
-        content = form.content.data
-        category_id = ObjectId(form.category.data)
-        category_name = Category.get_by_id(category_id)["name"]
-        image = save_image(form.image.data)
-        chronicle = Chronicle(title, author, content, category_name, image)
-        chronicle.save()
-        flash("Chronicle created successfully!", "success")
-        return redirect(url_for("admin"))
-
-    return render_template("create_chronicle.html", form=form, title="Create Chronicle")
-
-
-@app.route("/admin/chronicles/create/save", methods=["POST"])
-@login_required
-def save_chronicle():
-    form = ChronicleForm()
-    categories = Category.get_all()
-    form.category_name.choices = [
-        (str(category["_id"]), category["name"]) for category in categories
-    ]
-
     if form.validate_on_submit():
         title = form.title.data
         author = form.author.data

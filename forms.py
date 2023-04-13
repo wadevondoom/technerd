@@ -22,7 +22,8 @@ class ChronicleForm(FlaskForm):
     image = FileField(
         "Image", validators=[FileAllowed(["jpg", "jpeg"], "Images only!")]
     )
-    submit = SubmitField("Save Content")
+    generate_content = SubmitField("Generate Content")
+    save_content = SubmitField("Save Content")
 
 
 class ArtworkForm(FlaskForm):
