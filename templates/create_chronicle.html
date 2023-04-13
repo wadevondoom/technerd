@@ -46,38 +46,34 @@
     </form>
 </div>
 <script>
-    document.getElementById("generate-form").addEventListener("submit", async function (event) {
-        if (event.submitter.id === "generate-content") {
-            event.preventDefault();
-
-            const prompt = document.getElementById("prompt").value;
-            if (!prompt) {
-                alert("Please enter a prompt to generate content.");
-                return;
-            }
-
-            async function getGeneratedContent(prompt) {
-                const response = await fetch("{{ url_for('generate_content') }}", {
-                    method: "POST",
-                    body: new FormData(document.getElementById("generate-form")),
-                    headers: {
-                        "X-CSRFToken": "{{ form.csrf_token._value() }}"
-                    }
-                });
-
-                if (response.ok) {
-                    const data = await response.json();
-                    return data.generated_text;
-                } else {
-                    const error = await response.json();
-                    alert("Error generating content: " + error.error);
-                    throw new Error("Error generating content");
-                }
-            }
-
-            const generatedContent = await getGeneratedContent(prompt);
-            tinymce.get("content").setContent(generatedContent);
+    document.getElementById("generate-content").addEventListener("click", async function () {
+        const prompt = document.getElementById("prompt").value;
+        if (!prompt) {
+            alert("Please enter a prompt to generate content.");
+            return;
         }
+
+        async function getGeneratedContent(prompt) {
+            const response = await fetch("{{ url_for('generate_content') }}", {
+                method: "POST",
+                body: new FormData(document.getElementById("generate-form")),
+                headers: {
+                    "X-CSRFToken": "{{ form.csrf_token._value() }}"
+                }
+            });
+
+            if (response.ok) {
+                const data = await response.json();
+                return data.generated_text;
+            } else {
+                const error = await response.json();
+                alert("Error generating content: " + error.error);
+                throw new Error("Error generating content");
+            }
+        }
+
+        const generatedContent = await getGeneratedContent(prompt);
+        tinymce.get("content").setContent(generatedContent);
     });
 </script>
 <script>
