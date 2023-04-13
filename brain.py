@@ -13,7 +13,7 @@ class Brain:
         self.role = "user"
         self.prompt = prompt
         self.engine = "davinci-003"
-        prompt_img_helper_text = "A close up, studio photographic portrait of the following subject:"
+        self.prompt_img_helper_text = "A close up, studio photographic portrait of the following subject:"
         self.prompt_helper_text = "Format your response in HTML. \
             Do not use H1 or H2. \
             Take persona of knowledge expert and write detailed article on the following subject:"
