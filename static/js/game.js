@@ -41,6 +41,12 @@ let gameState = GameState.Start;
 
 function create() {
 
+    // Create collision groups
+    var playerGroup = game.physics.arcade.add.group();
+    var enemyGroup = game.physics.arcade.add.group();
+    var bulletGroup = game.physics.arcade.add.group();
+
+
     // Create Player Sprite
     player = game.add.sprite(400, 300, 'ship');
     player.anchor.set(0.5);
@@ -61,11 +67,6 @@ function create() {
     weapon.bulletSpeed = 600;
     //  Speed-up the rate of fire, allowing them to shoot 1 bullet every 60ms
     weapon.fireRate = 100;
-
-    // Create collision groups
-    var playerGroup = game.physics.arcade.add.group();
-    var enemyGroup = game.physics.arcade.add.group();
-    var bulletGroup = game.physics.arcade.add.group();
 
     // Add player to player group
     playerGroup.add(player);
@@ -90,10 +91,8 @@ function create() {
     weapon.trackSprite(player, 0, 0, true);
     cursors = this.input.keyboard.createCursorKeys();
     fireButton = this.input.keyboard.addKey(Phaser.KeyCode.SPACEBAR);
-    // Add Collision Detection
-    game.physics.arcade.overlap(weapon.bullets, glitchyEnemy, killGlitchyEnemy, null, this);
-    // Add Score Text
-    scoreText = game.add.text(16, 16, 'Score: 0', { fontSize: '32px', fill: '#fff' });
+
+
     // Add Start Button
     startButton = game.add.button(game.world.centerX, game.world.centerY, 'startButton', startGame, this);
     startButton.anchor.set(0.5);
@@ -132,7 +131,6 @@ function killGlitchyEnemy(bullet, enemy) {
     enemy.kill();
     // Add score, sound effects, etc.
     score += 100;
-    scoreText.text = `Score: ${score}`;
     createGlitchyEnemy();
 }
 
@@ -208,6 +206,8 @@ function update() {
             // Check for collisions between bullets and enemies
             game.physics.arcade.collide(bulletGroup, enemyGroup, killGlitchyEnemy, null, this);
 
+            // Add score
+            scoreText.text = `Score: ${score}`;
 
             // Check game over condition
             if (hitPoints <= 0) {
