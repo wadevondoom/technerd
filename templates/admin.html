@@ -76,6 +76,7 @@
                             <h2>Chronicles</h2>
                         </div>
                         <div class="card-body">
+                            <a href="{{ url_for('create_chronicle') }}" class="btn btn-primary">New Chronicle</a>
                             <div class="table-responsive">
                                 <table class="table table-striped">
                                     <thead>
@@ -96,7 +97,8 @@
                                             <td>{{ chronicle.author }}</td>
                                             <td>{{ chronicle.date_posted }}</td>
                                             <td>
-                                                <a href="{{ url_for('edit_chronicle', id=chronicle['_id']) }}"><i class="fa fa-pencil"></i></a>
+                                                <a href="{{ url_for('edit_chronicle', id=chronicle['_id']) }}"><i
+                                                        class="fa fa-pencil"></i></a>
                                             </td>
                                         </tr>
                                         {% endfor %}
@@ -104,7 +106,6 @@
                                 </table>
                                 <!-- Add pagination for chronicles here -->
                             </div>
-                            <a href="{{ url_for('create_chronicle') }}" class="btn btn-primary">New Chronicle</a>
                         </div>
                     </div>
                 </div>
@@ -116,6 +117,7 @@
                             <h3>Artwork</h3>
                         </div>
                         <div class="card-body">
+                            <a href="{{ url_for('create_artwork') }}" class="btn btn-primary">New Artwork</a>
                             <div class="table-responsive">
                                 <table class="table table-striped">
                                     <thead>
@@ -147,7 +149,6 @@
                                 </table>
                                 <!-- Add pagination for artwork here -->
                             </div>
-                            <a href="{{ url_for('create_artwork') }}" class="btn btn-primary">New Artwork</a>
                         </div>
                     </div>
                 </div>
@@ -159,6 +160,7 @@
                             <h3>Categories</h3>
                         </div>
                         <div class="card-body">
+                            <a href="{{ url_for('create_category') }}" class="btn btn-primary">New Category</a>
                             <div class="table-responsive">
                                 <table class="table table-striped">
                                     <thead>
@@ -180,7 +182,8 @@
                                                     method="post" id="{{ category.id }}">
                                                     <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
                                                     <input type="hidden" name="_method" value="DELETE">
-                                                    <button type="submit" class="btn btn-link"><i class="fa fa-trash"></i></button>
+                                                    <button type="submit" class="btn btn-link"><i
+                                                            class="fa fa-trash"></i></button>
                                                 </form>
                                             </td>
                                         </tr>
@@ -189,7 +192,6 @@
                                 </table>
                                 <!-- Add pagination for categories here -->
                             </div>
-                            <a href="{{ url_for('create_category') }}" class="btn btn-primary">New Category</a>
                         </div>
                     </div>
                 </div>
@@ -201,6 +203,7 @@
                             <h2>Quotes</h2>
                         </div>
                         <div class="card-body">
+                            <a href="#" class="btn btn-primary">New Quote</a>
                             <div class="table-responsive">
                                 <table class="table table-striped">
                                     <thead>
@@ -219,7 +222,8 @@
                                             <td>{{ quote.quote }}</td>
                                             <td>{{ quote.source }}</td>
                                             <td>
-                                                <a href="{{ url_for('edit_quote', id=quote['_id']) }}"><i class="fa fa-pencil"></i></a>
+                                                <a href="{{ url_for('edit_quote', id=quote['_id']) }}"><i
+                                                        class="fa fa-pencil"></i></a>
                                             </td>
                                         </tr>
                                         {% endfor %}
@@ -227,7 +231,6 @@
                                 </table>
                                 <!-- Add pagination for chronicles here -->
                             </div>
-                            <a href="#" class="btn btn-primary">New Quote</a>
                         </div>
                     </div>
                 </div>
@@ -281,7 +284,8 @@
                                                 <form action="#" method="post" id="#">
                                                     <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
                                                     <input type="hidden" name="_method" value="DELETE">
-                                                    <button type="submit" class="btn btn-link"><i class="fa fa-trash"></i></button>
+                                                    <button type="submit" class="btn btn-link"><i
+                                                            class="fa fa-trash"></i></button>
                                                 </form>
                                             </td>
                                         </tr>
@@ -330,14 +334,16 @@
                                                 <form action="#" method="post" id="#">
                                                     <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
                                                     <input type="hidden" name="_method" value="EDIT">
-                                                    <button type="submit" class="btn btn-link"><i class="fa fa-pencil"></i></button>
+                                                    <button type="submit" class="btn btn-link"><i
+                                                            class="fa fa-pencil"></i></button>
                                                 </form>
                                             </td>
                                             <td>
                                                 <form action="#" method="post" id="#">
                                                     <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
                                                     <input type="hidden" name="_method" value="DELETE">
-                                                    <button type="submit" class="btn btn-link"><i class="fa fa-trash"></i></button>
+                                                    <button type="submit" class="btn btn-link"><i
+                                                            class="fa fa-trash"></i></button>
                                                 </form>
                                             </td>
                                         </tr>
