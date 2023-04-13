@@ -2,7 +2,6 @@ import openai
 from os import environ as env
 from dotenv import find_dotenv, load_dotenv
 
-
 ENV_FILE = find_dotenv()
 if ENV_FILE:
     load_dotenv(ENV_FILE)
@@ -14,6 +13,7 @@ class Brain:
         self.role = "user"
         self.prompt = prompt
         self.engine = "davinci-003"
+        prompt_img_helper_text = "A close up, studio photographic portrait of the following subject:"
         self.prompt_helper_text = "Format your response in HTML. \
             Do not use H1 or H2. \
             Take persona of knowledge expert and write detailed article on the following subject:"
@@ -33,3 +33,13 @@ class Brain:
         generated_text = response.choices[0].text.strip()
         print("Text generated: " + generated_text)
         return generated_text
+    
+    def get_dalle_image(self):
+        prompt = self.prompt_img_helper_text + self.prompt
+        print("Generating image...")
+        response = openai.Image.create(
+        prompt=prompt,
+        n=1,
+        size="1024x1024"
+        )
+        image_url = response['data'][0]['url']

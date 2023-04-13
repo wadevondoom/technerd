@@ -4,7 +4,16 @@ from urllib.parse import quote_plus, urlencode
 from bson import ObjectId
 from authlib.integrations.flask_client import OAuth
 from dotenv import find_dotenv, load_dotenv
-from flask import Flask, redirect, render_template, session, url_for, flash, request, jsonify
+from flask import (
+    Flask,
+    redirect,
+    render_template,
+    session,
+    url_for,
+    flash,
+    request,
+    jsonify,
+)
 from flask_wtf.csrf import CSRFProtect
 from flask_login import (
     LoginManager,
@@ -29,7 +38,7 @@ from forms import (
     ProfileForm,
     QuoteForm,
 )
-from helpers import save_image, db
+from helpers import save_image, save_dalle_image, db
 from news import News
 from comment import Comment
 from like import Like
@@ -551,7 +560,18 @@ def create_chronicle():
         content = form.content.data
         category_id = ObjectId(form.category_name.data)
         category_name = Category.get_by_id(category_id)["name"]
-        image = save_image(form.image.data)
+        image = None
+
+        if form.upload_image.data and form.image.data:
+            # If the "Upload Image" button is clicked and a file is uploaded
+            image = save_image(form.image.data)
+        elif form.generate_image.data:
+            # If the "Generate Image" button is clicked
+            prompt = form.prompt.data or title
+            brain = Brain("user", prompt)
+            image_bytes = brain.get_dalle_image()
+            image = save_dalle_image(image_bytes)
+
         chronicle = Chronicle(title, author, content, category_name, image)
         chronicle.save()
         flash("Chronicle created successfully!", "success")

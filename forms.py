@@ -23,6 +23,7 @@ class ChronicleForm(FlaskForm):
         "Image", validators=[FileAllowed(["jpg", "jpeg"], "Images only!")]
     )
     generate_content = SubmitField("Generate Content")
+    generate_image = SubmitField("Generate Image")
     save_content = SubmitField("Save Content")
 
 
