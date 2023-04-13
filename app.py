@@ -51,11 +51,7 @@ from newsimport import get_top_news
 app = Flask(__name__)
 CORS(app)
 
-
-def cloudfront_url_for(endpoint, **values):
-    if endpoint == "static":
-        return f"https://d2cpmpsgqfmt9q.cloudfront.net{url_for(endpoint, **values)}"
-    return url_for(endpoint, **values)
+STATIC_URL="https://d2cpmpsgqfmt9q.cloudfront.net"
 
 
 app.jinja_env.globals.update(url_for=cloudfront_url_for)
