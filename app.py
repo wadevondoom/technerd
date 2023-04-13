@@ -51,8 +51,14 @@ from newsimport import get_top_news
 app = Flask(__name__)
 CORS(app)
 
-STATIC_URL="https://d2cpmpsgqfmt9q.cloudfront.net"
 
+def cloudfront_url_for(endpoint, **values):
+    if endpoint == "static":
+        return f"https://d2cpmpsgqfmt9q.cloudfront.net{url_for(endpoint, **values)}"
+    return url_for(endpoint, **values)
+
+
+app.jinja_env.globals.update(url_for=cloudfront_url_for)
 app.config.update(
     {
         "SECRET_KEY": "".join(
@@ -681,16 +687,22 @@ def delete_chronicle(chronicle_id):
 
 """ Image management """
 
+
 @app.route("/admin/images", methods=["GET", "POST"])
 @login_required
 def manage_images():
     form = ManageImagesForm()
-    image_folder = "/app/static/media/uploads/"
+    image_folder = os.path.join("static", "media", "uploads")
     image_files = [
         f
         for f in os.listdir(image_folder)
         if os.path.isfile(os.path.join(image_folder, f))
     ]
+
+    def local_url_for(endpoint, **values):
+        if endpoint == "static":
+            return url_for(endpoint, filename=values.get("filename"))
+        return url_for(endpoint, **values)
 
     if form.validate_on_submit():
         images_to_delete = request.form.getlist("delete_images")
@@ -699,7 +711,9 @@ def manage_images():
         flash("Selected images deleted successfully!", "success")
         return redirect(url_for("manage_images"))
 
-    return render_template("manage_images.html", images=image_files, form=form)
+    return render_template(
+        "manage_images.html", images=image_files, form=form, url_for=local_url_for
+    )
 
 
 @app.route("/edit_quote/<id>", methods=["GET", "POST"])
