@@ -580,17 +580,24 @@ def create_chronicle():
     return render_template("create_chronicle.html", form=form, title="Create Chronicle")
 
 
-
 @app.route("/generate_content", methods=["POST"])
 @login_required
 def generate_content():
-    prompt = request.form.get("prompt")
-    if not prompt:
-        return jsonify({"error": "No prompt provided"}), 400
-
+    data = request.get_json()
+    prompt = data.get("prompt")
     brain = Brain("user", prompt)
     generated_text = brain.get_response()
     return jsonify({"generated_text": generated_text})
+
+
+@app.route("/generate_image", methods=["POST"])
+@login_required
+def generate_image():
+    data = request.get_json()
+    prompt = data.get("prompt")
+    brain = Brain("user", prompt)
+    image_url = brain.get_dalle_image()
+    return jsonify({"image_url": image_url})
 
 
 @app.route("/admin/artwork/create/save", methods=["POST"])
