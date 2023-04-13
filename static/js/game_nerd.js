@@ -243,14 +243,22 @@ function update() {
 
 
 
-// Modify the startGame function
 function startGame() {
+    if (gameState === GameState.GameOver) {
+        hitPoints = 3;
+        score = 0;
+        gameOverText.visible = false;
+        scoreText.visible = false;
+        startButton.text = 'Start Game';
+    }
+
     gameState = GameState.Play;
     startButton.visible = false;
 
     // Create a Glitchy
     createGlitchyEnemy();
 }
+
 
 function endGame() {
     gameState = GameState.GameOver;
@@ -264,17 +272,8 @@ function endGame() {
     scoreText.visible = true;
     startButton.visible = true;
     startButton.text = 'Play Again?';
-    startButton.events.onInputDown.add(restartGame, this);
 }
 
-function restartGame() {
-    gameState = GameState.Start;
-    hitPoints = 3;
-    score = 0;
-    gameOverText.visible = false;
-    scoreText.visible = false;
-    startButton.text = 'Start Game';
-}
 
 function render() {
 
