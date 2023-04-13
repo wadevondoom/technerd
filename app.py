@@ -469,9 +469,6 @@ def create_url(content_type, _id):
     return f"/{content_type}/{_id}"
 
 
-from flask import flash, redirect, url_for
-
-
 @app.route("/admin", methods=["GET", "POST"])
 @login_required
 def admin():

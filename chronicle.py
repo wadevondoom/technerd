@@ -22,8 +22,8 @@ class Chronicle:
         self.category_name = category_name
         self.image = image
         self.date_posted = date_posted or datetime.datetime.utcnow()
-        self.likes = likes = (0,)
-        self.page_views = (page_views or 0,)
+        self.likes = likes
+        self.page_views = page_views
 
     def save(self):
         chronicles = db.chronicles
@@ -34,8 +34,8 @@ class Chronicle:
             "category_name": self.category_name,
             "date_posted": self.date_posted,
             "image": self.image,
-            "likes": self.likes,  # Add likes attribute
-            "page_views": self.page_views,  # Add page_views attribute
+            "likes": 0,
+            "page_views": 0,
         }
         chronicle_id = chronicles.insert_one(chronicle_data).inserted_id
         return chronicle_id
