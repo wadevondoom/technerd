@@ -691,7 +691,7 @@ def delete_chronicle(chronicle_id):
 @login_required
 def manage_images():
     form = ManageImagesForm()
-    image_folder = os.path.join("static", "media", "uploads")
+    image_folder = "/app/static/media/uploads/"
     image_files = [
         f
         for f in os.listdir(image_folder)
