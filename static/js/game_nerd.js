@@ -86,7 +86,7 @@ function create() {
     bulletGroup.setAll('collisionGroup', bulletGroup);
 
     // Add Hit Points Text
-    hitPointsText = game.add.text(game.world.width - 16, 16, `HP: ${hitPoints}`, { fontSize: '32px', fill: '#fff' });
+    hitPointsText = game.add.text(game.world.width - 16, 16, `Shields: ${hitPoints}`, { fontSize: '24px', fill: '#fff' });
     hitPointsText.anchor.set(1, 0);
     //  Tell the Weapon to track the 'player' Sprite
     //  With no offsets from the position
@@ -106,8 +106,8 @@ function create() {
     gameOverText.anchor.set(0.5);
 
     // Add Score Text
-    scoreText = game.add.text(game.world.centerX, game.world.centerY + 50, '', { fontSize: '32px', fill: '#fff' });
-    scoreText.anchor.set(0.5);
+    scoreText = game.add.text(16, 16, 'Score:', { fontSize: '24px', fill: '#fff' });
+    scoreText.anchor.set(0, 0);
 
     // Hide player sprite and bullets
     player.visible = false;
@@ -204,7 +204,7 @@ function update() {
 
             // Hide game over text and score
             gameOverText.visible = false;
-            scoreText.visible = false;
+            scoreText.visible = true;
 
             // Update player movement
             if (cursors.up.isDown) {
