@@ -693,9 +693,7 @@ import os
 @app.route("/admin/images", methods=["GET", "POST"])
 @login_required
 def manage_images():
-    image_folder = os.path.abspath(
-        os.path.join(os.getcwd(), "static", "media", "upload")
-    )
+    image_folder = os.path.abspath(os.path.join("static", "media", "upload"))
     image_files = [
         f
         for f in os.listdir(image_folder)
