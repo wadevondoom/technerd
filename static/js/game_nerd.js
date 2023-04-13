@@ -60,9 +60,6 @@ function create() {
     player.body.drag.set(70);
     player.body.maxVelocity.set(200);
 
-    //Create Glitchy
-    createGlitchyEnemy();
-
     // Add the background image to the game
     background = game.add.sprite(0, 0, 'background');
     //  Creates 30 bullets, using the 'bullet' graphic
@@ -102,6 +99,7 @@ function create() {
     // Add Start Button
     startButton = game.add.button(game.world.centerX, game.world.centerY, 'startButton', startGame, this);
     startButton.anchor.set(0.5);
+    game.world.bringToTop(startButton); // Bring start button to the top
 
     // Add Game Over Text
     gameOverText = game.add.text(game.world.centerX, game.world.centerY - 50, '', { fontSize: '32px', fill: '#fff' });
@@ -111,6 +109,9 @@ function create() {
     scoreText = game.add.text(game.world.centerX, game.world.centerY + 50, '', { fontSize: '32px', fill: '#fff' });
     scoreText.anchor.set(0.5);
 
+    // Hide player sprite and bullets
+    player.visible = false;
+    weapon.bullets.visible = false;
 }
 
 function createGlitchyEnemy() {
@@ -127,9 +128,14 @@ function createGlitchyEnemy() {
 
 
 function moveGlitchyEnemy() {
-    const speed = 150;
-    const angle = Math.random() * 360;
-    game.physics.arcade.velocityFromAngle(angle, speed, glitchyEnemy.body.velocity);
+    if (!glitchyEnemy.moveTimer || glitchyEnemy.moveTimer <= 0) {
+        const speed = 150;
+        const angle = Math.random() * 360;
+        game.physics.arcade.velocityFromAngle(angle, speed, glitchyEnemy.body.velocity);
+        glitchyEnemy.moveTimer = game.time.now + 2000; // Change direction every 2 seconds
+    } else {
+        glitchyEnemy.moveTimer -= game.time.elapsed;
+    }
 }
 
 function killGlitchyEnemy(bullet, enemy) {
@@ -155,9 +161,6 @@ function handlePlayerCollision(player, enemy) {
 function update() {
     switch (gameState) {
         case GameState.Start:
-            // Hide player sprite and bullets
-            player.visible = false;
-            weapon.bullets.visible = false;
 
             // Show start button
             startButton.visible = true;
@@ -262,6 +265,10 @@ function startGame() {
 
     // Create a Glitchy
     createGlitchyEnemy();
+
+    // Reset Glitchy's position and movement
+    glitchyEnemy.reset(game.world.randomX, game.world.randomY);
+    glitchyEnemy.moveTimer = 0;
 }
 
 
