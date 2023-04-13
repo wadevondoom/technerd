@@ -1,6 +1,13 @@
 {% extends "base.html" %}
 
 {% block content %}
+<style>
+    #chronicle-image {
+        max-height: 300px;
+        object-fit: contain;
+        cursor: pointer;
+    }
+</style>
 <div class="row">
     <div class="col-md-6">
         <div class="card">
@@ -59,6 +66,21 @@
     <div class="col-md-6">
         <img src="" alt="Chronicle Image" class="img-fluid mt-3" id="chronicle-image" style="display:none;">
     </div>
+    <div class="col-md-6">
+        <img src="" alt="Chronicle Image" class="img-fluid mt-3" id="chronicle-image" style="display:none;">
+        <p id="image-url-text" class="mt-2" style="display:none;">Image URL: <span id="image-url-value"></span></p>
+    </div>
+</div>
+<!-- Image preview modal -->
+<div class="modal fade" id="imagePreviewModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+                <img src="" alt="Chronicle Image" class="img-fluid" id="modal-chronicle-image">
+            </div>
+        </div>
+    </div>
 </div>
 <script>
     document.getElementById("save-content").addEventListener("click", function () {
@@ -109,10 +131,16 @@
             const data = await response.json();
             document.getElementById("chronicle-image").src = data.image_url;
             document.getElementById("chronicle-image").style.display = "block";
-            document.getElementById("image-url").value = data.image_url; // Save the image URL to the form's image field
+            document.getElementById("image-url").value = data.image_url;
+            document.getElementById("image-url-value").innerText = data.image_url;
+            document.getElementById("image-url-text").style.display = "block"; // Show the image URL on the page
         } else {
             alert("Error generating image.");
         }
+    });
+    document.getElementById("chronicle-image").addEventListener("click", function () {
+        document.getElementById("modal-chronicle-image").src = document.getElementById("chronicle-image").src;
+        $("#imagePreviewModal").modal("show");
     });
 </script>
 <script>
