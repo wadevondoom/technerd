@@ -1,6 +1,11 @@
 
 var game = new Phaser.Game(800, 600, Phaser.CANVAS, 'phaser-example', { preload: preload, create: create, update: update, render: render });
 
+// At the top of your script
+var playerGroup;
+var enemyGroup;
+var bulletGroup;
+
 const GameState = {
     Start: 0,
     Play: 1,
@@ -41,11 +46,12 @@ let gameState = GameState.Start;
 
 function create() {
 
-    // Create collision groups
-    var playerGroup = game.physics.arcade.add.group();
-    var enemyGroup = game.physics.arcade.add.group();
-    var bulletGroup = game.physics.arcade.add.group();
+    game.physics.startSystem(Phaser.Physics.ARCADE);
 
+    // Initialize collision groups
+    playerGroup = game.add.group();
+    enemyGroup = game.add.group();
+    bulletGroup = game.add.group();
 
     // Create Player Sprite
     player = game.add.sprite(400, 300, 'ship');
@@ -151,7 +157,7 @@ function update() {
         case GameState.Start:
             // Hide player sprite and bullets
             player.visible = false;
-            weapon.visible = false;
+            weapon.bullets.visible = false;
 
             // Show start button
             startButton.visible = true;
@@ -165,7 +171,7 @@ function update() {
         case GameState.Play:
             // Show player sprite and bullets
             player.visible = true;
-            weapon.visible = true;
+            weapon.bullets.visible = true;
 
             // Hide start button
             startButton.visible = false;
@@ -237,12 +243,13 @@ function update() {
 
 
 
+// Modify the startGame function
 function startGame() {
     gameState = GameState.Play;
     startButton.visible = false;
 
     // Create a Glitchy
-    createGlitchyEnemy()
+    createGlitchyEnemy();
 }
 
 function endGame() {
