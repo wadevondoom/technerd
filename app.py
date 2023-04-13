@@ -577,7 +577,7 @@ def create_chronicle():
         flash("Chronicle created successfully!", "success")
         return redirect(url_for("admin"))
 
-    return render_template("create_chronicle.html", form=form, title="Create Chronicle")
+    return render_template("create_chronicle.html", form=form, title="Create Chronicle", chronicle=chronicle)
 
 
 @app.route("/generate_content", methods=["POST"])
