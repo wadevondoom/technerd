@@ -48,12 +48,12 @@
                 <a class="btn btn-secondary" href="{{ url_for('news') }}">News</a>
             </div>
         </div>
-        {% endif %}
 
         <!-- Chronicles Section -->
         <div>
             <img src="{{ url_for('static', filename='img/chronicles.jpg') }}" alt="Nerd Stories" class="img-fluid">
         </div>
+        {% endif %}
         <div class="container chronicle-section">
             <div class="row gx-4 gx-lg-5">
                 {% if chronicles %}
