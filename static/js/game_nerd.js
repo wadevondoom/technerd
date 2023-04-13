@@ -112,6 +112,7 @@ function create() {
 }
 
 function createGlitchyEnemy() {
+
     const offscreenPadding = 50;
     const spawnX = Math.random() < 0.5 ? -offscreenPadding : game.world.width + offscreenPadding;
     const spawnY = Math.floor(Math.random() * (game.world.height - 2 * offscreenPadding)) + offscreenPadding;
@@ -121,7 +122,7 @@ function createGlitchyEnemy() {
     glitchyEnemy.body.collideWorldBounds = true;
     glitchyEnemy.body.bounce.set(1);
     
-    // Add glitchyEnemy to enemyGroup
+    // Add the new glitchyEnemy to the enemy group
     enemyGroup.add(glitchyEnemy);
 }
 
@@ -132,7 +133,7 @@ function moveGlitchyEnemy() {
         const speed = 150;
         const angle = Math.random() * 360;
         game.physics.arcade.velocityFromAngle(angle, speed, glitchyEnemy.body.velocity);
-        glitchyEnemy.moveTimer = game.time.now + 2000; // Change direction every 2 seconds
+        glitchyEnemy.moveTimer = game.time.now + 1500; // Change direction every 2 seconds
     } else {
         glitchyEnemy.moveTimer -= game.time.elapsed;
     }
@@ -156,7 +157,13 @@ function handlePlayerCollision(player, enemy) {
         player.invincible = false;
     });
     // Play sound effects, add visual feedback, etc.
+    
+    // Add a delay before respawning the enemy
+    game.time.events.add(Phaser.Timer.SECOND * 1, () => {
+        createGlitchyEnemy();
+    });
 }
+
 
 function update() {
     switch (gameState) {
@@ -302,6 +309,6 @@ function endGame() {
 
 function render() {
 
-    weapon.debug();
+    // weapon.debug();
 
 }
