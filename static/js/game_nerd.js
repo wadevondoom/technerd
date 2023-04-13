@@ -206,6 +206,19 @@ function update() {
                 player.body.angularVelocity = 0;
             }
 
+            // Wrap the ship around the screen bounds
+            if (player.x < 0) {
+                player.x = game.world.width;
+            } else if (player.x > game.world.width) {
+                player.x = 0;
+            }
+
+            if (player.y < 0) {
+                player.y = game.world.height;
+            } else if (player.y > game.world.height) {
+                player.y = 0;
+            }
+
             // Fire bullets
             if (fireButton.isDown) {
                 weapon.fire();
