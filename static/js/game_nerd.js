@@ -166,6 +166,11 @@ function update() {
             gameOverText.visible = false;
             scoreText.visible = false;
 
+            // Listen for the Enter key to start the game
+            if (game.input.keyboard.isDown(Phaser.KeyCode.ENTER)) {
+                startGame();
+            }
+
             break;
 
         case GameState.Play:
