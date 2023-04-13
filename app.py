@@ -38,6 +38,7 @@ from forms import (
     CommentForm,
     ProfileForm,
     QuoteForm,
+    ManageImagesForm,
 )
 from helpers import save_image, save_dalle_image, db
 from news import News
