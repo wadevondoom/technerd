@@ -13,8 +13,8 @@ const GameState = {
 };
 
 function preload() {
-    this.load.image('background', '/static/assets/background.jpg');
-    this.load.spritesheet('spacenerd_sprites', '/static/assets/spacenerd_sprites.png', {
+    this.load.image('background', '/static/assets/background.png');
+    this.load.spritesheet('spacenerd_sprites', '/static/assets/sprites/spacenerd_sprites.png', {
       frameWidth: 1400,
       frameHeight: 103,
     });
