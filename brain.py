@@ -35,7 +35,7 @@ class Brain:
             temperature=0.7,
         )
 
-        generated_text = response.choices[0].text.strip()
+        generated_text = response["choices"][0]["message"]["content"].strip()
         print("Text generated: " + generated_text)
         return generated_text
 
