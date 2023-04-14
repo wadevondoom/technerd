@@ -16,7 +16,7 @@
     .selected {
         background-color: rgba(255, 193, 7, 0.1);
         /* Light yellow background */
-        border: 2px solid rgba(216, 10, 10, 0.5);
+        border: 2px solid rgba(255, 167, 3, 0.5);
         /* Yellow border */
     }
 
@@ -41,7 +41,7 @@
     <div class="row row-cols-1 row-cols-md-4 g-4">
         {% for img in images %}
         <div class="col">
-            <div class="card h-100">
+            <div class="card h-100 my-2">
                 <div class="img-container">
                     <img src="{{ url_for('static', filename='media/upload/' + img) }}" alt="{{ img }}" title="{{ img }}"
                         class="card-img-top">
