@@ -14,24 +14,16 @@
     }
 
     .selected {
-        background-color: #f395081a;
+        background-color: rgba(255, 193, 7, 0.1);
         /* Light yellow background */
-        border: 5px solid rgba(255, 255, 1, 0.5);
+        border: 2px solid rgba(216, 10, 10, 0.5);
         /* Yellow border */
     }
 
-    .img-container {
-        position: relative;
+    .card-img-top {
         width: 100%;
-        padding-bottom: 100%;
-        overflow: hidden;
-    }
-
-    .img-container img {
-        position: absolute;
+        height: 250px;
         object-fit: cover;
-        width: 100%;
-        height: 100%;
     }
 </style>
 <h1 class="mb-4">Manage Images</h1>
@@ -40,8 +32,9 @@
     <a href="#" id="scroll-to-top" class="btn btn-secondary" title="Scroll to top" style="display: none;">&uarr; Top</a>
 </div>
 <div>
-<P class="lear-readable-p">Please select all images you would like to delete. <strong>Warning: This operation is irreversible. You delete these
-        at your own risk. </strong>Please ensure you check the name against the chronicles they may be in.</P>
+    <P class="lear-readable-p">Please select all images you would like to delete. <strong>Warning: This operation is
+            irreversible. You delete these
+            at your own risk. </strong>Please ensure you check the name against the chronicles they may be in.</P>
 </div>
 <form id="manage-images-form" action="{{ url_for('manage_images') }}" method="post">
     {{ form.hidden_tag() }}
