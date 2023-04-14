@@ -5,6 +5,20 @@
     .card {
         min-height: 100%;
     }
+
+    .card-title {
+        height: 60px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+    .selected {
+        background-color: rgba(255, 193, 7, 0.1);
+        /* Light yellow background */
+        border: 2px solid rgba(216, 10, 10, 0.5);
+        /* Yellow border */
+    }
 </style>
 <h1 class="mb-4">Manage Images</h1>
 <div class="d-flex justify-content-between mb-4">
@@ -60,6 +74,19 @@
 
     scrollToTopButton.addEventListener("click", function () {
         window.scrollTo({ top: 0, behavior: "smooth" });
+    });
+
+    // Toggle 'selected' class for cards when the checkbox is checked or unchecked
+    const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+    checkboxes.forEach(checkbox => {
+        checkbox.addEventListener("change", function () {
+            const card = checkbox.closest(".card");
+            if (checkbox.checked) {
+                card.classList.add("selected");
+            } else {
+                card.classList.remove("selected");
+            }
+        });
     });
 </script>
 {% endblock %}
