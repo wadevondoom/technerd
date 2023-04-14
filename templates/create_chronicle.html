@@ -20,7 +20,8 @@
                     {{ form.csrf_token }}
                     <div class="form-group">
                         {{ form.prompt.label(class="form-control-label") }}
-                        {{ form.prompt(class="form-control") }}
+                        {{ form.prompt(class="form-control", id="prompt-input") }}
+                        <span id="prompt-character-count" class="text-muted">0 / 150</span>
                     </div>
                     <div class="form-group">
                         {{ form.title.label(class="form-control-label") }}
@@ -142,6 +143,19 @@
     document.getElementById("chronicle-image").addEventListener("click", function () {
         document.getElementById("modal-chronicle-image").src = document.getElementById("chronicle-image").src;
         $("#imagePreviewModal").modal("show");
+    });
+
+    document.addEventListener("DOMContentLoaded", function () {
+        const promptInput = document.getElementById("prompt-input");
+        const characterCount = document.getElementById("prompt-character-count");
+
+        function updateCharacterCount() {
+            const currentCount = promptInput.value.length;
+            characterCount.textContent = `${currentCount} / 150`;
+        }
+
+        promptInput.addEventListener("input", updateCharacterCount);
+        updateCharacterCount(); // Update the character count on page load
     });
 </script>
 <script>
