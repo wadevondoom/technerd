@@ -21,16 +21,10 @@ class Brain:
             Do not use H1 or H2. \
             Take persona of knowledge expert and write detailed article on the following subject:"
 
-
     def get_response(self):
         # Use the OpenAI API to generate text based on the input field
         prompt = self.prompt_helper_text + self.prompt
         print("Generating text...")
-
-        # Calculate tokens in the prompt and adjust max_tokens
-        prompt_tokens = len(openai.api.encoders.get_encoder("bpe").encode(prompt))
-        max_context_length = 4096
-        max_tokens = max_context_length - prompt_tokens
 
         response = openai.Completion.create(model="gpt-3.5-turbo", prompt=prompt)
 
