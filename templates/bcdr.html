@@ -31,39 +31,15 @@
         }
 
         $('#backup-btn').on('click', function () {
+            console.log("Backup button clicked");
             setStatus('Backing up...');
-            updateProgressBar(50);
-            $.ajax({
-                url: "/admin/backup",
-                method: "POST",
-                success: function (response) {
-                    console.log(response.message);
-                    setStatus(response.message);
-                    updateProgressBar(100);
-                },
-                error: function (error) {
-                    console.error(error);
-                    // Handle the error appropriately
-                },
-            });
+            // ...
         });
 
         $('#recovery-btn').on('click', function () {
+            console.log("Recovery button clicked");
             setStatus('Recovering...');
-            updateProgressBar(50);
-            $.ajax({
-                url: "/admin/recovery",
-                method: "POST",
-                success: function (response) {
-                    console.log(response.message);
-                    setStatus(response.message);
-                    updateProgressBar(100);
-                },
-                error: function (error) {
-                    console.error(error);
-                    // Handle the error appropriately
-                },
-            });
+            // ...
         });
     });
 </script>
