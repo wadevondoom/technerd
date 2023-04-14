@@ -36,9 +36,9 @@ class Brain:
         )
 
         generated_text = response["choices"][0]["message"]["content"].strip()
-        print("Prompt tokens used:" + response["usage"][0]["prompt_tokens"].strip())
-        print("Completion tokens used:" + response["usage"][0]["completion_tokens"].strip())
-        print("Total tokens used:" + response["usage"][0]["total_tokens"].strip())
+        print("Prompt tokens used:" + response["usage"][0]["prompt_tokens"])
+        print("Completion tokens used:" + response["usage"][0]["completion_tokens"])
+        print("Total tokens used:" + response["usage"][0]["total_tokens"])
 
         return generated_text
 
