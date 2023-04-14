@@ -32,14 +32,8 @@ class Brain:
         max_context_length = 4096
         max_tokens = max_context_length - prompt_tokens
 
-        response = openai.Completion.create(
-            engine="text-davinci-003",
-            prompt=prompt,
-            max_tokens=max_tokens,
-            n=1,
-            stop=None,
-            temperature=0.7,
-        )
+        response = openai.Completion.create(model="gpt-3.5-turbo", prompt=prompt)
+
         generated_text = response.choices[0].text.strip()
         print("Text generated: " + generated_text)
         return generated_text
