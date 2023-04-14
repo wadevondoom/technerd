@@ -12,10 +12,12 @@
         <!-- Card 1 -->
         <div class="col-md-12">
             <div class="card-game">
-                <img src="{{ url_for('static', filename='img/shooter_thumbnail.jpg') }}" class="card-img" alt="Game Thumbnail" onclick="openGameWindow();">
+                <img src="{{ url_for('static', filename='img/shooter_thumbnail.jpg') }}" class="card-img"
+                    alt="Game Thumbnail" onclick="openGameWindow();">
                 <div class="card-info">
                     <h5 class="card-title">Space Nerd</h5>
-                    <p class="card-description">A fast-paced space shooter game. Battle through waves of enemies and defeat the bosses!</p>
+                    <p class="card-description">A fast-paced space shooter game. Battle through waves of enemies and
+                        defeat the bosses!</p>
                     <div class="stats">
                         <span>High Score: 12500</span>
                         <span>Games Played: 238</span>
@@ -31,8 +33,8 @@
 
 {% block extra_js %}
 <script>
-  function openGameWindow() {
-    window.open("{{ url_for('play') }}", 'gameWindow', 'width=800,height=600,menubar=no,toolbar=no');
-  }
+    function openGameWindow() {
+        window.open("{{ url_for('play') }}", 'gameWindow', 'width=800,height=600,menubar=no,toolbar=no,resizable=no');
+    }
 </script>
 {% endblock %}
