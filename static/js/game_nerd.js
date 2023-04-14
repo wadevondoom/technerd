@@ -1,4 +1,3 @@
-
 var game = new Phaser.Game(800, 600, Phaser.CANVAS, 'phaser-example', { preload: preload, create: create, update: update, render: render });
 
 // At the top of your script
@@ -17,11 +16,11 @@ function preload() {
     game.load.image('bullet', '/static/assets/sprites/bullet.png');
     game.load.image('ship', '/static/assets/sprites/ship.png');
     game.load.image('background', '/static/assets/background.png');
-    // game.load.image('enemy1', '/static/assets/sprites/braino.png');
+    game.load.image('enemy1', '/static/assets/sprites/braino.png');
     game.load.image('enemy2', '/static/assets/sprites/glitchy.png');
-    // game.load.image('enemy3', '/static/assets/sprites/malware.png');
-    // game.load.image('enemy4', '/static/assets/sprites/roguebot.png');
-    // game.load.image('startButton', '/static/assets/startButton.png');
+    game.load.image('enemy3', '/static/assets/sprites/malware.png');
+    game.load.image('enemy4', '/static/assets/sprites/roguebot.png');
+    game.load.image('startButton', '/static/assets/startButton.png');
 
 }
 
@@ -138,8 +137,10 @@ function createGlitchyEnemy() {
 }
 
 
-function moveGlitchyEnemy(glitchyEnemy, speed) {
+
+function moveGlitchyEnemy() {
     if (!glitchyEnemy.moveTimer || glitchyEnemy.moveTimer <= 0) {
+        const speed = 150;
         const angle = Math.random() * 360;
         game.physics.arcade.velocityFromAngle(angle, speed, glitchyEnemy.body.velocity);
         glitchyEnemy.moveTimer = game.time.now + 1500; // Change direction every 2 seconds
