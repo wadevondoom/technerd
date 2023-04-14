@@ -4,6 +4,7 @@
 <style>
     .card {
         min-height: 100%;
+        margin: 10px 0;
     }
 
     .selected {
@@ -28,7 +29,7 @@
 
     .img-container img {
         width: 100%;
-        height: 250px;
+        height: 100%;
         object-fit: cover;
         position: absolute;
         top: 0;
@@ -50,7 +51,7 @@
     <div class="row row-cols-1 row-cols-md-4 g-4">
         {% for img in images %}
         <div class="col">
-            <div class="card h-100 my-2">
+            <div class="card h-100">
                 <div class="img-container">
                     <img src="{{ url_for('static', filename='media/upload/' + img) }}" alt="{{ img }}" title="{{ img }}"
                         class="card-img-top">
