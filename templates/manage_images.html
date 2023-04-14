@@ -3,8 +3,8 @@
 {% block content %}
 <h1>Manage Images</h1>
 <form action="{{ url_for('manage_images') }}" method="post">
-    {{ form.hidden_tag() }}
     {{ form.csrf_token }}
+    {{ form.hidden_tag() }}
     <table class="table">
         <thead>
             <tr>
@@ -16,7 +16,9 @@
             {% for img in images %}
             <tr>
                 <td><img src="{{ url_for('static', filename='media/upload/' + img) }}" alt="{{ img }}" width="100"></td>
-                <td>{{ form.delete_images(img) }}</td>
+                <td>
+                    <input type="checkbox" name="delete_images" value="{{ img }}">
+                </td>
             </tr>
             {% endfor %}
         </tbody>
