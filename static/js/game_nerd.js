@@ -13,12 +13,16 @@ const GameState = {
 };
 
 function preload() {
-    this.load.image('background', '/static/assets/background.png');
-    this.load.spritesheet('spacenerd_sprites', '/static/assets/sprites/spacenerd_sprites.png', {
-        frameWidth: 1400,
-        frameHeight: 103,
-    });
-    this.load.image('bullet', '/static/assets/sprites/bullet.png');
+
+    game.load.image('bullet', '/static/assets/sprites/bullet.png');
+    game.load.image('ship', '/static/assets/sprites/ship.png');
+    game.load.image('background', '/static/assets/background.png');
+    // game.load.image('enemy1', '/static/assets/sprites/braino.png');
+    game.load.image('enemy2', '/static/assets/sprites/glitchy.png');
+    // game.load.image('enemy3', '/static/assets/sprites/malware.png');
+    // game.load.image('enemy4', '/static/assets/sprites/roguebot.png');
+    // game.load.image('startButton', '/static/assets/startButton.png');
+
 }
 
 var sprite;
@@ -37,7 +41,6 @@ let hitPoints = 3;
 let hitPointsText;
 
 let glitchyEnemy;
-let glitchyspeed;
 let baseSpeedMin = 100;
 let baseSpeedMax = 200;
 let speedRangeIncrease = 50;
@@ -45,16 +48,6 @@ let speedRangeIncrease = 50;
 let gameState = GameState.Start;
 
 function create() {
-
-
-    this.add.image(0, 0, 'background').setOrigin(0, 0);
-
-    // Create sprites using the loaded spritesheet
-    // let malware = this.add.sprite(100, 100, 'spacenerd_sprites', 0);
-    // let roguebot = this.add.sprite(250, 100, 'spacenerd_sprites', 1);
-    // let braino = this.add.sprite(400, 100, 'spacenerd_sprites', 2);
-    //glitchy = this.add.sprite(550, 100, 'spacenerd_sprites', 3);
-    // ship = this.add.sprite(700, 100, 'spacenerd_sprites', 4);
 
     // Add the background image to the game
     background = game.add.sprite(0, 0, 'background');
@@ -66,7 +59,7 @@ function create() {
     bulletGroup = game.add.group();
 
     // Create Player Sprite
-    player = this.add.sprite(700, 100, 'spacenerd_sprites', 4);
+    player = game.add.sprite(400, 300, 'ship');
     player.anchor.set(0.5);
     game.physics.arcade.enable(player);
     player.body.drag.set(70);
@@ -130,25 +123,23 @@ function createGlitchyEnemy() {
     // Calculate speed range based on player score
     const speedMin = baseSpeedMin + Math.floor(score / 1000) * speedRangeIncrease;
     const speedMax = baseSpeedMax + Math.floor(score / 1000) * speedRangeIncrease;
-    glitchyspeed = game.rnd.integerInRange(speedMin, speedMax);
+    const speed = game.rnd.integerInRange(speedMin, speedMax);
 
     // Create new glitchyEnemy with random speed
-    glitchyEnemy = this.add.sprite(spawnX, spawnY, 'spacenerd_sprites', 3);
+    glitchyEnemy = game.add.sprite(spawnX, spawnY, 'enemy3');
     glitchyEnemy.anchor.set(0.5);
     game.physics.arcade.enable(glitchyEnemy);
     glitchyEnemy.body.collideWorldBounds = true;
     glitchyEnemy.body.bounce.set(1);
-    game.physics.arcade.velocityFromAngle(Math.random() * 360, glitchyspeed, glitchyEnemy.body.velocity);
+    game.physics.arcade.velocityFromAngle(Math.random() * 360, speed, glitchyEnemy.body.velocity);
 
     // Add the new glitchyEnemy to the enemy group
     enemyGroup.add(glitchyEnemy);
 }
 
 
-
-function moveGlitchyEnemy() {
+function moveGlitchyEnemy(glitchyEnemy, speed) {
     if (!glitchyEnemy.moveTimer || glitchyEnemy.moveTimer <= 0) {
-        const speed = glitchyspeed;
         const angle = Math.random() * 360;
         game.physics.arcade.velocityFromAngle(angle, speed, glitchyEnemy.body.velocity);
         glitchyEnemy.moveTimer = game.time.now + 1500; // Change direction every 2 seconds
