@@ -138,7 +138,7 @@ FOLDER_TO_BACKUP = "app/static"
 
 @app.route("/admin/bcdr")
 def bcdr():
-    return render_template("admin_bcdr.html")
+    return render_template("bcdr.html")
 
 
 @app.route("/admin/backup", methods=["POST"])
