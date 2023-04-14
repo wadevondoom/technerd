@@ -25,8 +25,10 @@
     <a href="{{ url_for('admin') }}" class="btn btn-secondary">&larr; Back to Admin</a>
     <a href="#" id="scroll-to-top" class="btn btn-secondary" title="Scroll to top" style="display: none;">&uarr; Top</a>
 </div>
-<P>Please select all iomages you would like to delete. <strong>Warning: This operation is irreversible. You delete these
+<div>
+<P class="lear-readable-p">Please select all images you would like to delete. <strong>Warning: This operation is irreversible. You delete these
         at your own risk. </strong>Please ensure you check the name against the chronicles they may be in.</P>
+</div>
 <form id="manage-images-form" action="{{ url_for('manage_images') }}" method="post">
     {{ form.hidden_tag() }}
     <div class="row row-cols-1 row-cols-md-3 g-4">
