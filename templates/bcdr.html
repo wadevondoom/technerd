@@ -24,45 +24,43 @@
             $('#status').text(message);
         }
 
-        $(document).ready(function () {
-            $('#backup-btn').on('click', function () {
-                $.ajax({
-                    url: "/admin/back",
-                    method: "POST",
-                    data: {
-                        csrf_token: "{{ csrf_token() }}"
-                    },
-                    success: function (response) {
-                        if (response.status === 'success') {
-                            alert("Backup successful!");
-                        } else {
-                            alert("Backup failed: " + response.message);
-                        }
-                    },
-                    error: function (error) {
-                        alert("Error during the backup process: " + error.statusText);
+        $('#backup-btn').on('click', function () {
+            $.ajax({
+                url: "/admin/back",
+                method: "POST",
+                data: {
+                    csrf_token: "{{ csrf_token() }}"
+                },
+                success: function (response) {
+                    if (response.status === 'success') {
+                        alert("Backup successful!");
+                    } else {
+                        alert("Backup failed: " + response.message);
                     }
-                });
+                },
+                error: function (error) {
+                    alert("Error during the backup process: " + error.statusText);
+                }
             });
+        });
 
-            $('#recovery-btn').on('click', function () {
-                $.ajax({
-                    url: "/admin/recovery",
-                    method: "POST",
-                    data: {
-                        csrf_token: "{{ csrf_token() }}"
-                    },
-                    success: function (response) {
-                        if (response.status === 'success') {
-                            alert("Recovery successful!");
-                        } else {
-                            alert("Recovery failed: " + response.message);
-                        }
-                    },
-                    error: function (error) {
-                        alert("Error during the recovery process: " + error.statusText);
+        $('#recovery-btn').on('click', function () {
+            $.ajax({
+                url: "/admin/recovery",
+                method: "POST",
+                data: {
+                    csrf_token: "{{ csrf_token() }}"
+                },
+                success: function (response) {
+                    if (response.status === 'success') {
+                        alert("Recovery successful!");
+                    } else {
+                        alert("Recovery failed: " + response.message);
                     }
-                });
+                },
+                error: function (error) {
+                    alert("Error during the recovery process: " + error.statusText);
+                }
             });
         });
     });
