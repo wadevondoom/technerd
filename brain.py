@@ -27,7 +27,7 @@ class Brain:
         # Use the OpenAI API to generate text based on the input field
         prompt = self.prompt_helper_text + self.prompt
         print("Generating text...")
-        response = openai.ChatCompletion.create(
+        response = openai.Completion.create(
             engine="gpt-4-32k",
             prompt=prompt,
             max_tokens=2048,
