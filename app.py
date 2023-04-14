@@ -691,13 +691,14 @@ def delete_chronicle(chronicle_id):
 @app.route("/admin/images", methods=["GET", "POST"])
 @login_required
 def manage_images():
-    form = ManageImagesForm()
     image_folder = os.path.join("static", "media", "upload")
     image_files = [
         f
         for f in os.listdir(image_folder)
         if os.path.isfile(os.path.join(image_folder, f))
     ]
+    form = ManageImagesForm()
+    form.delete_images.choices = [(img, img) for img in image_files]
 
     def local_url_for(endpoint, **values):
         if endpoint == "static":

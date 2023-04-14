@@ -7,6 +7,8 @@ from wtforms import (
     SubmitField,
     HiddenField,
     BooleanField,
+    widgets,
+    SelectMultipleField,
 )
 from wtforms.validators import DataRequired, Length
 from flask_wtf.file import FileAllowed
@@ -73,5 +75,5 @@ class ProfileForm(FlaskForm):
 
 
 class ManageImagesForm(FlaskForm):
-    delete_images = StringField("Delete Images")
+    delete_images = SelectMultipleField("Delete Images", choices=[], option_widget=widgets.CheckboxInput())
     submit = SubmitField("Delete Selected Images")
