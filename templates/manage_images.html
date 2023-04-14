@@ -5,12 +5,13 @@
     .card {
         min-height: 100%;
         margin: 10px 0;
+        border: 0px;
     }
 
     .selected {
         background-color: rgba(255, 193, 7, 0.1);
         /* Light yellow background */
-        border: 2px solid rgba(255, 167, 3, 0.5);
+        border: 3px solid rgba(255, 0, 0, 0.5);
         /* Yellow border */
     }
 
@@ -53,8 +54,11 @@
         <div class="col">
             <div class="card h-100">
                 <div class="img-container">
-                    <img src="{{ url_for('static', filename='media/upload/' + img) }}" alt="{{ img }}" title="{{ img }}"
-                        class="card-img-top">
+                    <div style="width: 100%; padding-top: 100%; position: relative;">
+                        <img src="{{ url_for('static', filename='media/upload/' + img) }}" alt="{{ img }}"
+                            title="{{ img }}" class="card-img-top"
+                            style="position: absolute; top: 0; left: 0; right: 0; bottom: 0;">
+                    </div>
                 </div>
                 <div class="card-body">
                     <h5 class="card-title">{{ img }}</h5>
