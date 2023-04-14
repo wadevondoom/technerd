@@ -15,10 +15,12 @@ from flask_wtf.file import FileAllowed
 from flask_login import current_user
 
 
+from wtforms.validators import DataRequired, Length
+
 class ChronicleForm(FlaskForm):
     title = StringField("Title", validators=[DataRequired()])
     author = StringField("Author", validators=[DataRequired()])
-    prompt = StringField("Prompt")
+    prompt = StringField("Prompt", validators=[Length(max=200)])
     content = TextAreaField("Content", validators=[DataRequired()])
     category_name = SelectField("Category", choices=[], coerce=str)
     image = FileField(
@@ -28,6 +30,7 @@ class ChronicleForm(FlaskForm):
     generate_content = SubmitField("Generate Content")
     generate_image = SubmitField("Generate Image")
     save_content = SubmitField("Save Content")
+
 
 
 class ArtworkForm(FlaskForm):
