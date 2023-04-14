@@ -75,15 +75,6 @@ ENV_FILE = find_dotenv()
 if ENV_FILE:
     load_dotenv(ENV_FILE)
 
-""" BCDR Vars """
-s3 = boto3.client(
-    "s3",
-    aws_access_key_id=os.environ.get("AWS_ACCESS_KEY_ID"),
-    aws_secret_access_key=os.environ.get("AWS_SECRET_ACCESS_KEY"),
-)
-
-BUCKET_NAME = os.environ.get("BUCKET_NAME")
-FOLDER_TO_BACKUP = "/app/static"
 
 auth0 = oauth.register(
     "auth0",
@@ -133,7 +124,7 @@ s3 = boto3.client(
 )
 
 BUCKET_NAME = os.environ.get("BUCKET_NAME")
-FOLDER_TO_BACKUP = "app/static"
+FOLDER_TO_BACKUP = "/app/static"
 
 
 @app.route("/admin/bcdr")
