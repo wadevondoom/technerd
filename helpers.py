@@ -9,7 +9,7 @@ db = client.technerdiac
 loop = asyncio.get_event_loop()
 
 ALLOWED_EXTENSIONS = {"jpg", "jpeg"}
-UPLOAD_FOLDER = os.path.join(os.getcwd(), "static", "media", "uploads")
+UPLOAD_FOLDER = os.path.join(os.getcwd(), "static", "media", "upload")
 
 
 def allowed_file(filename):
@@ -30,7 +30,7 @@ def save_image(file):
     file.save(os.path.join(UPLOAD_FOLDER, new_filename))
 
     # Generate a URL for the uploaded file
-    url = url_for("static", filename="media/uploads/" + new_filename)
+    url = url_for("static", filename="media/upload/" + new_filename)
 
     print(url)
     return url
@@ -54,7 +54,7 @@ def save_dalle_image(image_bytes):
             f.write(image_bytes)
 
         # Generate a URL for the saved file
-        url = url_for("static", filename="media/uploads/" + new_filename)
+        url = url_for("static", filename="media/upload/" + new_filename)
         print(url)
         return url
     except Exception as e:

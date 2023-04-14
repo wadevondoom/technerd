@@ -692,7 +692,7 @@ def delete_chronicle(chronicle_id):
 @login_required
 def manage_images():
     form = ManageImagesForm()
-    image_folder = os.path.join("static", "media", "uploads")
+    image_folder = os.path.join("static", "media", "upload")
     image_files = [
         f
         for f in os.listdir(image_folder)
@@ -703,7 +703,7 @@ def manage_images():
         if endpoint == "static":
             filename = values.get("filename")
             if filename:
-                return url_for(endpoint, filename=os.path.join("uploads", filename))
+                return url_for(endpoint, filename=os.path.join("upload", filename))
         return url_for(endpoint, **values)
 
     if form.validate_on_submit():
