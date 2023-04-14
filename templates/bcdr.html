@@ -21,29 +21,49 @@
     integrity="sha384-cn7l7gDp0eyniUwwAZgrzD06kc/tftFf19TOAs2zVinnD/C7E91j9yyk5//jjpt/"
     crossorigin="anonymous"></script>
 <script>
-    function updateProgressBar(value) {
-        $('#progress-bar').val(value);
-    }
+    $(document).ready(function () {
+        function updateProgressBar(value) {
+            $('#progress-bar').val(value);
+        }
 
-    function setStatus(message) {
-        $('#status').text(message);
-    }
+        function setStatus(message) {
+            $('#status').text(message);
+        }
 
-    $('#backup-btn').on('click', function () {
-        setStatus('Backing up...');
-        updateProgressBar(50);
-        $.post('/admin/backup', function (data) {
-            setStatus(data.message);
-            updateProgressBar(100);
+        $('#backup-btn').on('click', function () {
+            setStatus('Backing up...');
+            updateProgressBar(50);
+            $.ajax({
+                url: "/admin/backup",
+                method: "POST",
+                success: function (response) {
+                    console.log(response.message);
+                    setStatus(response.message);
+                    updateProgressBar(100);
+                },
+                error: function (error) {
+                    console.error(error);
+                    // Handle the error appropriately
+                },
+            });
         });
-    });
 
-    $('#recovery-btn').on('click', function () {
-        setStatus('Recovering...');
-        updateProgressBar(50);
-        $.post('/admin/recovery', function (data) {
-            setStatus(data.message);
-            updateProgressBar(100);
+        $('#recovery-btn').on('click', function () {
+            setStatus('Recovering...');
+            updateProgressBar(50);
+            $.ajax({
+                url: "/admin/recovery",
+                method: "POST",
+                success: function (response) {
+                    console.log(response.message);
+                    setStatus(response.message);
+                    updateProgressBar(100);
+                },
+                error: function (error) {
+                    console.error(error);
+                    // Handle the error appropriately
+                },
+            });
         });
     });
 </script>
