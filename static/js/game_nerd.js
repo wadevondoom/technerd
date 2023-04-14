@@ -15,10 +15,11 @@ const GameState = {
 function preload() {
     this.load.image('background', '/static/assets/background.png');
     this.load.spritesheet('spacenerd_sprites', '/static/assets/sprites/spacenerd_sprites.png', {
-      frameWidth: 1400,
-      frameHeight: 103,
+        frameWidth: 1400,
+        frameHeight: 103,
     });
-  }
+    this.load.image('bullet', '/static/assets/sprites/bullet.png');
+}
 
 var sprite;
 var weapon;
@@ -54,7 +55,6 @@ function create() {
     // let braino = this.add.sprite(400, 100, 'spacenerd_sprites', 2);
     //glitchy = this.add.sprite(550, 100, 'spacenerd_sprites', 3);
     // ship = this.add.sprite(700, 100, 'spacenerd_sprites', 4);
-    bullet = this.add.sprite(850, 100, 'spacenerd_sprites', 5);
 
     // Add the background image to the game
     background = game.add.sprite(0, 0, 'background');
@@ -133,7 +133,7 @@ function createGlitchyEnemy() {
     glitchyspeed = game.rnd.integerInRange(speedMin, speedMax);
 
     // Create new glitchyEnemy with random speed
-    glitchyEnemy = this.add.sprite(spawnX, spawnY, 'spacenerd_sprites', 3); 
+    glitchyEnemy = this.add.sprite(spawnX, spawnY, 'spacenerd_sprites', 3);
     glitchyEnemy.anchor.set(0.5);
     game.physics.arcade.enable(glitchyEnemy);
     glitchyEnemy.body.collideWorldBounds = true;
