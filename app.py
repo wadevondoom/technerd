@@ -701,7 +701,11 @@ def manage_images():
 
     def local_url_for(endpoint, **values):
         if endpoint == "static":
-            return url_for(endpoint, filename=values.get("filename"))
+            filename = values.get("filename")
+            if filename:
+                return url_for(
+                    endpoint, filename=os.path.join("media", "uploads", filename)
+                )
         return url_for(endpoint, **values)
 
     if form.validate_on_submit():
