@@ -3,66 +3,19 @@
 {% block content %}
 <div class="container">
     <h1 class="my-4">Backup and Recovery</h1>
-    <button id="backup-btn" class="btn btn-primary">Backup</button>
-    <button id="recovery-btn" class="btn btn-secondary">Recovery</button>
+    <form action="/admin/backup" method="post">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+        <button type="submit" class="btn btn-primary">Backup</button>
+    </form>
+    <br>
+    <form action="/admin/recovery" method="post">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+        <button type="submit" class="btn btn-secondary">Recovery</button>
+    </form>
     <br>
     <br>
-    <progress id="progress-bar" value="0" max="100" style="width: 100%;" class="my-2"></progress>
+    <hr>
     <p id="status"></p>
+    <div id="file-list"></div>
 </div>
-
-{% endblock %}
-
-{% block extra_scripts %}
-<script>
-    $(document).ready(function () {
-        function updateProgressBar(value) {
-            $('#progress-bar').val(value);
-        }
-
-        function setStatus(message) {
-            $('#status').text(message);
-        }
-
-        $('#backup-btn').on('click', function () {
-            $.ajax({
-                url: "/admin/back",
-                method: "POST",
-                data: {
-                    csrf_token: "{{ csrf_token() }}"
-                },
-                success: function (response) {
-                    if (response.status === 'success') {
-                        alert("Backup successful!");
-                    } else {
-                        alert("Backup failed: " + response.message);
-                    }
-                },
-                error: function (error) {
-                    alert("Error during the backup process: " + error.statusText);
-                }
-            });
-        });
-
-        $('#recovery-btn').on('click', function () {
-            $.ajax({
-                url: "/admin/recovery",
-                method: "POST",
-                data: {
-                    csrf_token: "{{ csrf_token() }}"
-                },
-                success: function (response) {
-                    if (response.status === 'success') {
-                        alert("Recovery successful!");
-                    } else {
-                        alert("Recovery failed: " + response.message);
-                    }
-                },
-                error: function (error) {
-                    alert("Error during the recovery process: " + error.statusText);
-                }
-            });
-        });
-    });
-</script>
 {% endblock %}

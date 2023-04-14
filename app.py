@@ -134,23 +134,31 @@ def bcdr():
 
 @app.route("/admin/backup", methods=["POST"])
 def backup():
+    backed_up_files = []
     for root, _, files in os.walk(FOLDER_TO_BACKUP):
         for file in files:
             local_path = os.path.join(root, file)
             s3_path = os.path.relpath(local_path, FOLDER_TO_BACKUP)
             s3.upload_file(local_path, BUCKET_NAME, s3_path)
-    return jsonify({"message": "Backup completed successfully"})
+            backed_up_files.append(s3_path)
+    return jsonify(
+        {"message": "Backup completed successfully", "files": backed_up_files}
+    )
 
 
 @app.route("/admin/recovery", methods=["POST"])
 def recovery():
+    recovered_files = []
     for obj in s3.list_objects_v2(Bucket=BUCKET_NAME)["Contents"]:
         s3_path = obj["Key"]
         local_path = os.path.join(FOLDER_TO_BACKUP, s3_path)
         if not os.path.exists(local_path):
             os.makedirs(os.path.dirname(local_path), exist_ok=True)
             s3.download_file(BUCKET_NAME, s3_path, local_path)
-    return jsonify({"message": "Recovery completed successfully"})
+            recovered_files.append(local_path)
+    return jsonify(
+        {"message": "Recovery completed successfully", "files": recovered_files}
+    )
 
 
 """Home page"""
