@@ -87,7 +87,7 @@
     });
 
     document.getElementById("generate-content").addEventListener("click", async function () {
-        const prompt = document.getElementById("prompt").value;
+        const prompt = document.getElementById("prompt-input").value;
         if (!prompt) {
             alert("Please enter a prompt to generate content.");
             return;
@@ -111,7 +111,7 @@
     });
 
     document.getElementById("generate-image").addEventListener("click", async function () {
-        const prompt = document.getElementById("prompt").value;
+        const prompt = document.getElementById("prompt-input").value;
         if (!prompt) {
             alert("Please enter a prompt to generate an image.");
             return;
