@@ -129,7 +129,8 @@ FOLDER_TO_BACKUP = "/app/static"
 
 @app.route("/admin/bcdr")
 def bcdr():
-    return render_template("bcdr.html")
+    user_image = current_user.picture if current_user.is_authenticated else None
+    return render_template("bcdr.html", user_image=user_image)
 
 
 @app.route("/admin/backup", methods=["POST"])
