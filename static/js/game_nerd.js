@@ -13,17 +13,12 @@ const GameState = {
 };
 
 function preload() {
-
-    game.load.image('bullet', '/static/assets/sprites/shmup-bullet.png');
-    game.load.image('ship', '/static/assets/sprites/ship.png');
-    game.load.image('background', '/static/assets/background.png');
-    game.load.image('enemy1', '/static/assets/sprites/braino.png');
-    game.load.image('enemy2', '/static/assets/sprites/glitchy.png');
-    game.load.image('enemy3', '/static/assets/sprites/malware.png');
-    game.load.image('enemy4', '/static/assets/sprites/roguebot.png');
-    game.load.image('startButton', '/static/assets/startButton.png');
-
-}
+    this.load.image('background', '/static/assets/background.jpg');
+    this.load.spritesheet('spacenerd_sprites', '/static/assets/spacenerd_sprites.png', {
+      frameWidth: 1400,
+      frameHeight: 103,
+    });
+  }
 
 var sprite;
 var weapon;
@@ -50,6 +45,17 @@ let gameState = GameState.Start;
 
 function create() {
 
+
+    this.add.image(0, 0, 'background').setOrigin(0, 0);
+
+    // Create sprites using the loaded spritesheet
+    // let malware = this.add.sprite(100, 100, 'spacenerd_sprites', 0);
+    // let roguebot = this.add.sprite(250, 100, 'spacenerd_sprites', 1);
+    // let braino = this.add.sprite(400, 100, 'spacenerd_sprites', 2);
+    //glitchy = this.add.sprite(550, 100, 'spacenerd_sprites', 3);
+    // ship = this.add.sprite(700, 100, 'spacenerd_sprites', 4);
+    bullet = this.add.sprite(850, 100, 'spacenerd_sprites', 5);
+
     // Add the background image to the game
     background = game.add.sprite(0, 0, 'background');
     game.physics.startSystem(Phaser.Physics.ARCADE);
@@ -60,7 +66,7 @@ function create() {
     bulletGroup = game.add.group();
 
     // Create Player Sprite
-    player = game.add.sprite(400, 300, 'ship');
+    player = this.add.sprite(700, 100, 'spacenerd_sprites', 4);
     player.anchor.set(0.5);
     game.physics.arcade.enable(player);
     player.body.drag.set(70);
@@ -127,7 +133,7 @@ function createGlitchyEnemy() {
     glitchyspeed = game.rnd.integerInRange(speedMin, speedMax);
 
     // Create new glitchyEnemy with random speed
-    glitchyEnemy = game.add.sprite(spawnX, spawnY, 'enemy3');
+    glitchyEnemy = this.add.sprite(spawnX, spawnY, 'spacenerd_sprites', 3); 
     glitchyEnemy.anchor.set(0.5);
     game.physics.arcade.enable(glitchyEnemy);
     glitchyEnemy.body.collideWorldBounds = true;
