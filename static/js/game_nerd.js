@@ -77,7 +77,7 @@ function create() {
     playerGroup.add(player);
 
     // Add bullets to bullet group
-    bulletGroup.add(weapon.bullets);
+    bulletGroup = weapon.bullets;
 
     // Set collision groups
     playerGroup.setAll('collisionGroup', playerGroup);
