@@ -25,8 +25,15 @@ class Brain:
         # Use the OpenAI API to generate text based on the input field
         prompt = self.prompt_helper_text + self.prompt
         print("Generating text...")
-
-        response = openai.ChatCompletion.create(model="gpt-3.5-turbo", n=1, prompt=prompt)
+        MODEL = "gpt-3.5-turbo"
+        response = openai.ChatCompletion.create(
+            model=MODEL,
+            messages=[
+                {"role": "system", "content": self.prompt_helper_text},
+                {"role": "user", "content": prompt},
+            ],
+            temperature=0.7,
+        )
 
         generated_text = response.choices[0].text.strip()
         print("Text generated: " + generated_text)
