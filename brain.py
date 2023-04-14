@@ -28,7 +28,7 @@ class Brain:
         prompt = self.prompt_helper_text + self.prompt
         print("Generating text...")
         response = openai.Completion.create(
-            engine="text-davinci-003",
+            engine="gpt-4-32k",
             prompt=prompt,
             max_tokens=2048,
             n=1,
