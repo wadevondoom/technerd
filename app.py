@@ -14,6 +14,7 @@ from flask import (
     flash,
     request,
     jsonify,
+    render_template_string,
 )
 from flask_wtf.csrf import CSRFProtect
 from flask_login import (
@@ -128,12 +129,14 @@ FOLDER_TO_BACKUP = "/app/static"
 
 
 @app.route("/admin/bcdr")
+@login_required
 def bcdr():
     user_image = current_user.picture if current_user.is_authenticated else None
     return render_template("bcdr.html", user_image=user_image)
 
 
 @app.route("/admin/backup", methods=["POST"])
+@login_required
 def backup():
     backed_up_files = []
     for root, _, files in os.walk(FOLDER_TO_BACKUP):
@@ -148,6 +151,7 @@ def backup():
 
 
 @app.route("/admin/recovery", methods=["POST"])
+@login_required
 def recovery():
     recovered_files = []
     for obj in s3.list_objects_v2(Bucket=BUCKET_NAME)["Contents"]:
@@ -165,8 +169,18 @@ def recovery():
         s3.download_file(BUCKET_NAME, s3_path, local_path)
         recovered_files.append(local_path)
 
-    return jsonify(
-        {"message": "Recovery completed successfully", "files": recovered_files}
+    # Render the list of recovered files in a HTML response
+    return render_template_string(
+        """
+        <h1>Recovery completed successfully</h1>
+        <ul>
+        {% for file in files %}
+            <li>{{ file }}</li>
+        {% endfor %}
+        </ul>
+        <a href="/admin/bcdr">Back to admin</a>
+    """,
+        files=recovered_files,
     )
 
 
