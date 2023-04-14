@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h1>Backup and Recovery</h1>
+<button id="backup-btn">Backup</button>
+<button id="recovery-btn">Recovery</button>
+<br>
+<br>
+<progress id="progress-bar" value="0" max="100" style="width: 100%;"></progress>
+<p id="status"></p>
+
+<script>
+    function updateProgressBar(value) {
+        $('#progress-bar').val(value);
+    }
+
+    function setStatus(message) {
+        $('#status').text(message);
+    }
+
+    $('#backup-btn').on('click', function () {
+        setStatus('Backing up...');
+        updateProgressBar(50);
+        $.post('/admin/backup', function (data) {
+            setStatus(data.message);
+            updateProgressBar(100);
+        });
+    });
+
+    $('#recovery-btn').on('click', function () {
+        setStatus('Recovering...');
+        updateProgressBar(50);
+        $.post('/admin/recovery', function (data) {
+            setStatus(data.message);
+            updateProgressBar(100);
+        });
+    });
+</script>
+{% endblock %}

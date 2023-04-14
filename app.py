@@ -1,6 +1,6 @@
-import random, string
+import random, string, os
 from os import environ as env
-import os
+import boto3
 from urllib.parse import quote_plus, urlencode
 from bson import ObjectId
 from authlib.integrations.flask_client import OAuth
@@ -75,6 +75,15 @@ ENV_FILE = find_dotenv()
 if ENV_FILE:
     load_dotenv(ENV_FILE)
 
+""" BCDR Vars """
+s3 = boto3.client(
+    "s3",
+    aws_access_key_id=os.environ.get("AWS_ACCESS_KEY_ID"),
+    aws_secret_access_key=os.environ.get("AWS_SECRET_ACCESS_KEY"),
+)
+
+BUCKET_NAME = os.environ.get("BUCKET_NAME")
+FOLDER_TO_BACKUP = "/app/static"
 
 auth0 = oauth.register(
     "auth0",
@@ -116,10 +125,41 @@ def load_user(user_id):
     return None
 
 
-""" CDN Function """
+""" BCDR Function """
+s3 = boto3.client(
+    "s3",
+    aws_access_key_id=os.environ.get("AWS_ACCESS_KEY_ID"),
+    aws_secret_access_key=os.environ.get("AWS_SECRET_ACCESS_KEY"),
+)
+
+BUCKET_NAME = os.environ.get("BUCKET_NAME")
+FOLDER_TO_BACKUP = "app/static"
 
 
-"""User accessible endpoints"""
+@app.route("/admin/bcdr")
+def bcdr():
+    return render_template("admin_bcdr.html")
+
+
+@app.route("/admin/backup", methods=["POST"])
+def backup():
+    for root, _, files in os.walk(FOLDER_TO_BACKUP):
+        for file in files:
+            local_path = os.path.join(root, file)
+            s3_path = os.path.relpath(local_path, FOLDER_TO_BACKUP)
+            s3.upload_file(local_path, BUCKET_NAME, s3_path)
+    return jsonify({"message": "Backup completed successfully"})
+
+
+@app.route("/admin/recovery", methods=["POST"])
+def recovery():
+    for obj in s3.list_objects_v2(Bucket=BUCKET_NAME)["Contents"]:
+        s3_path = obj["Key"]
+        local_path = os.path.join(FOLDER_TO_BACKUP, s3_path)
+        if not os.path.exists(local_path):
+            os.makedirs(os.path.dirname(local_path), exist_ok=True)
+            s3.download_file(BUCKET_NAME, s3_path, local_path)
+    return jsonify({"message": "Recovery completed successfully"})
 
 
 """Home page"""
@@ -583,7 +623,12 @@ def create_chronicle():
         flash("Chronicle created successfully!", "success")
         return redirect(url_for("admin"))
 
-    return render_template("create_chronicle.html", form=form, user_image=user_image, title="Create Chronicle")
+    return render_template(
+        "create_chronicle.html",
+        form=form,
+        user_image=user_image,
+        title="Create Chronicle",
+    )
 
 
 @app.route("/generate_content", methods=["POST"])
@@ -663,7 +708,9 @@ def edit_chronicle(id):
         return redirect(url_for("admin"))
 
     # render the edit form with the current chronicle record data
-    return render_template("edit_chronicle.html", form=form, chronicle=chronicle, user_image=user_image)
+    return render_template(
+        "edit_chronicle.html", form=form, chronicle=chronicle, user_image=user_image
+    )
 
 
 @app.route("/delete_chronicle/<string:chronicle_id>", methods=["POST"])
@@ -718,7 +765,11 @@ def manage_images():
         return redirect(url_for("manage_images"))
 
     return render_template(
-        "manage_images.html", images=image_files, form=form, url_for=local_url_for, user_image=user_image,
+        "manage_images.html",
+        images=image_files,
+        form=form,
+        url_for=local_url_for,
+        user_image=user_image,
     )
 
 
@@ -728,7 +779,6 @@ def edit_quote(id):
     quote = Quote.get_by_id(id)
     form = QuoteForm()
     user_image = current_user.picture if current_user.is_authenticated else None
-
 
     if request.method == "POST":
         # update the chronicle record in the database
@@ -741,7 +791,9 @@ def edit_quote(id):
         return redirect(url_for("admin"))
 
     # render the edit form with the current chronicle record data
-    return render_template("edit_quote.html", form=form, quote=quote, user_image=user_image)
+    return render_template(
+        "edit_quote.html", form=form, quote=quote, user_image=user_image
+    )
 
 
 @app.route("/delete_quote/<quote_id>", methods=["POST"])
@@ -769,7 +821,12 @@ def create_category():
         category.save()
         flash("Category created successfully!", "success")
         return redirect(url_for("admin"))
-    return render_template("create_category.html", form=form, title="Create Category", user_image=user_image,)
+    return render_template(
+        "create_category.html",
+        form=form,
+        title="Create Category",
+        user_image=user_image,
+    )
 
 
 @app.route("/delete_category/<string:category_id>", methods=["POST"])
