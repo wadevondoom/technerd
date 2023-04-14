@@ -2,13 +2,18 @@
 
 {% block content %}
 <h1 class="mb-4">Manage Images</h1>
+<div class="d-flex justify-content-between mb-4">
+    <a href="{{ url_for('admin') }}" class="btn btn-secondary">&larr; Back to Admin</a>
+    <a href="#" id="scroll-to-top" class="btn btn-secondary" title="Scroll to top" style="display: none;">&uarr; Top</a>
+</div>
 <form id="manage-images-form" action="{{ url_for('manage_images') }}" method="post">
     {{ form.hidden_tag() }}
     <div class="row row-cols-1 row-cols-md-3 g-4">
         {% for img in images %}
         <div class="col">
             <div class="card h-100">
-                <img src="{{ url_for('static', filename='media/upload/' + img) }}" alt="{{ img }}" class="card-img-top">
+                <img src="{{ url_for('static', filename='media/upload/' + img) }}" alt="{{ img }}" title="{{ img }}"
+                    class="card-img-top">
                 <div class="card-body">
                     <h5 class="card-title">{{ img }}</h5>
                     <div class="form-check">
@@ -30,13 +35,27 @@
     document.getElementById("manage-images-form").addEventListener("submit", function (event) {
         const checkboxes = document.querySelectorAll('input[type="checkbox"]:checked');
         if (checkboxes.length > 0) {
-            if (!confirm("Are you sure you want to delete the selected images?")) {
+            if (!confirm(`Are you sure you want to delete the ${checkboxes.length} selected image(s)?`)) {
                 event.preventDefault();
             }
         } else {
             event.preventDefault();
             alert("Please select at least one image to delete.");
         }
+    });
+
+    // Scroll to top functionality
+    const scrollToTopButton = document.getElementById("scroll-to-top");
+    window.addEventListener("scroll", function () {
+        if (window.scrollY > 200) {
+            scrollToTopButton.style.display = "block";
+        } else {
+            scrollToTopButton.style.display = "none";
+        }
+    });
+
+    scrollToTopButton.addEventListener("click", function () {
+        window.scrollTo({ top: 0, behavior: "smooth" });
     });
 </script>
 {% endblock %}
