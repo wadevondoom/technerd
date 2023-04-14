@@ -153,10 +153,18 @@ def recovery():
     for obj in s3.list_objects_v2(Bucket=BUCKET_NAME)["Contents"]:
         s3_path = obj["Key"]
         local_path = os.path.join(FOLDER_TO_BACKUP, s3_path)
-        if not os.path.exists(local_path):
-            os.makedirs(os.path.dirname(local_path), exist_ok=True)
-            s3.download_file(BUCKET_NAME, s3_path, local_path)
-            recovered_files.append(local_path)
+
+        # Skip if it's a folder
+        if s3_path.endswith("/"):
+            continue
+
+        # Create directories if they don't exist
+        os.makedirs(os.path.dirname(local_path), exist_ok=True)
+
+        # Download the file
+        s3.download_file(BUCKET_NAME, s3_path, local_path)
+        recovered_files.append(local_path)
+
     return jsonify(
         {"message": "Recovery completed successfully", "files": recovered_files}
     )
