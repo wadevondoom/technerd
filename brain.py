@@ -26,7 +26,7 @@ class Brain:
         prompt = self.prompt_helper_text + self.prompt
         print("Generating text...")
 
-        response = openai.Completion.create(model="gpt-3.5-turbo", prompt=prompt)
+        response = openai.ChatCompletion.create(model="gpt-3.5-turbo", n=1, prompt=prompt)
 
         generated_text = response.choices[0].text.strip()
         print("Text generated: " + generated_text)
