@@ -4,6 +4,7 @@
 <h1>Manage Images</h1>
 <form action="{{ url_for('manage_images') }}" method="post">
     {{ form.hidden_tag() }}
+    {{ form.csrf_token }}
     <table class="table">
         <thead>
             <tr>
