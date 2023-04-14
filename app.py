@@ -551,6 +551,7 @@ def create_artwork():
 def create_chronicle():
     form = ChronicleForm()
     categories = Category.get_all()
+    user_image = current_user.picture if current_user.is_authenticated else None
     form.category_name.choices = [
         (str(category["_id"]), category["name"]) for category in categories
     ]
@@ -582,7 +583,7 @@ def create_chronicle():
         flash("Chronicle created successfully!", "success")
         return redirect(url_for("admin"))
 
-    return render_template("create_chronicle.html", form=form, title="Create Chronicle")
+    return render_template("create_chronicle.html", form=form, user_image=user_image, title="Create Chronicle")
 
 
 @app.route("/generate_content", methods=["POST"])
@@ -641,6 +642,7 @@ def edit_chronicle(id):
     chronicle = Chronicle.get_by_id(id)
     form = ChronicleForm()
     categories = Category.get_all()
+    user_image = current_user.picture if current_user.is_authenticated else None
     form.category_name.choices = [
         (str(category["_id"]), category["name"]) for category in categories
     ]
@@ -661,7 +663,7 @@ def edit_chronicle(id):
         return redirect(url_for("admin"))
 
     # render the edit form with the current chronicle record data
-    return render_template("edit_chronicle.html", form=form, chronicle=chronicle)
+    return render_template("edit_chronicle.html", form=form, chronicle=chronicle, user_image=user_image)
 
 
 @app.route("/delete_chronicle/<string:chronicle_id>", methods=["POST"])
@@ -691,6 +693,7 @@ def delete_chronicle(chronicle_id):
 @app.route("/admin/images", methods=["GET", "POST"])
 @login_required
 def manage_images():
+    user_image = current_user.picture if current_user.is_authenticated else None
     image_folder = os.path.join("static", "media", "upload")
     image_files = [
         f
@@ -715,7 +718,7 @@ def manage_images():
         return redirect(url_for("manage_images"))
 
     return render_template(
-        "manage_images.html", images=image_files, form=form, url_for=local_url_for
+        "manage_images.html", images=image_files, form=form, url_for=local_url_for, user_image=user_image,
     )
 
 
@@ -724,6 +727,8 @@ def manage_images():
 def edit_quote(id):
     quote = Quote.get_by_id(id)
     form = QuoteForm()
+    user_image = current_user.picture if current_user.is_authenticated else None
+
 
     if request.method == "POST":
         # update the chronicle record in the database
@@ -736,7 +741,7 @@ def edit_quote(id):
         return redirect(url_for("admin"))
 
     # render the edit form with the current chronicle record data
-    return render_template("edit_quote.html", form=form, quote=quote)
+    return render_template("edit_quote.html", form=form, quote=quote, user_image=user_image)
 
 
 @app.route("/delete_quote/<quote_id>", methods=["POST"])
@@ -755,6 +760,7 @@ def delete_quote(quote_id):
 @login_required
 def create_category():
     form = CreateCategoryForm()
+    user_image = current_user.picture if current_user.is_authenticated else None
     if form.validate_on_submit():
         name = form.name.data
         desc = form.desc.data
@@ -763,7 +769,7 @@ def create_category():
         category.save()
         flash("Category created successfully!", "success")
         return redirect(url_for("admin"))
-    return render_template("create_category.html", form=form, title="Create Category")
+    return render_template("create_category.html", form=form, title="Create Category", user_image=user_image,)
 
 
 @app.route("/delete_category/<string:category_id>", methods=["POST"])
