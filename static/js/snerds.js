@@ -111,6 +111,7 @@ class MainScene extends Phaser.Scene {
         this.baseSpeedMin = 100;
         this.baseSpeedMax = 300;
         this.speedRangeIncrease = 50;
+        this.playerHealth = 3;
     }
 
     preload() {
@@ -207,7 +208,11 @@ class MainScene extends Phaser.Scene {
     }
 
     playerHit(player, enemy) {
-        // Handle the collision here
+        this.playerHealth = this.playerHealth -1
+
+        if (this.playerHealth == 0 ) {
+            this.scene.start('GameOverScene');
+        } 
     }
     
 }
