@@ -107,6 +107,8 @@ class Roguebot extends Enemy {
     }
 }
 
+const DAMPING_FACTOR = 0.95;
+
 class MainScene extends Phaser.Scene {
     constructor() {
         super({ key: 'MainScene' });
@@ -165,12 +167,27 @@ class MainScene extends Phaser.Scene {
         if (this.cursors.up.isDown) {
             this.physics.velocityFromRotation(this.player.rotation, 300, this.player.body.acceleration);
         } else {
-            this.player.setAcceleration(0);
+            this.player.body.acceleration.multiply(DAMPING_FACTOR);
         }
 
         // Player shooting
         if (this.cursors.space.isDown) {
             this.shootBullet();
+        }
+
+        const screenW = this.cameras.main.width;
+        const screenH = this.cameras.main.height;
+
+        if (this.player.x < 0) {
+            this.player.x = screenW;
+        } else if (this.player.x > screenW) {
+            this.player.x = 0;
+        }
+
+        if (this.player.y < 0) {
+            this.player.y = screenH;
+        } else if (this.player.y > screenH) {
+            this.player.y = 0;
         }
 
         // Check for collisions
