@@ -200,6 +200,7 @@ class MainScene extends Phaser.Scene {
         // Check for collisions
         this.physics.add.collider(this.bulletGroup, this.enemyGroup, this.killGlitchyEnemy, null, this);
         this.physics.add.collider(this.player, this.enemyGroup, this.playerHit, null, this);
+        this.physics.add.overlap(this.bullets, this.enemies, this.bulletHitEnemy, null, this);
 
     }
 
@@ -242,7 +243,11 @@ class MainScene extends Phaser.Scene {
         this.physics.velocityFromRotation(this.player.rotation, 800, bullet.body.velocity);
     }
 
-
+    bulletHitEnemy(bullet, enemy) {
+        bullet.destroy();
+        enemy.destroy();
+        // Update the score or other game state variables here.
+    }
 
     playerHit(player, enemy) {
         this.playerHealth = this.playerHealth - 1
@@ -257,6 +262,8 @@ class MainScene extends Phaser.Scene {
 class StartScene extends Phaser.Scene {
     constructor() {
         super({ key: 'StartScene' });
+        // Increment play count
+        fetch('/play_count', { method: 'POST' });
     }
 
     create() {
@@ -274,7 +281,20 @@ class GameOverScene extends Phaser.Scene {
     }
 
     create() {
+        
         this.add.text(400, 300, 'Game Over\nPress SPACE to restart', { fontSize: '32px', color: '#ffffff', align: 'center' }).setOrigin(0.5);
+        
+        // Save score
+        fetch('/save_score', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                name: playerName,
+                score: playerScore
+            })
+        });
 
         this.input.keyboard.on('keydown-SPACE', () => {
             this.scene.start('MainScene');
