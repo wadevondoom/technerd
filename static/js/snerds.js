@@ -105,8 +105,8 @@ class MainScene extends Phaser.Scene {
         const spawnY = Phaser.Math.Between(offscreenPadding, this.cameras.main.height - offscreenPadding);
 
         // Calculate speed range based on player score
-        const speedMin = this.baseSpeedMin + Math.floor(this.score / 1000) * speedRangeIncrease;
-        const speedMax = this.baseSpeedMax + Math.floor(this.score / 1000) * speedRangeIncrease;
+        const speedMin = this.baseSpeedMin + Math.floor(this.score / 1000) * this.speedRangeIncrease;
+        const speedMax = this.baseSpeedMax + Math.floor(this.score / 1000) * this.speedRangeIncrease;
         const speed = Phaser.Math.Between(speedMin, speedMax);
 
         // Create new Glitchy enemy with random speed
