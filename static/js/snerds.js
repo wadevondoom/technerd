@@ -19,7 +19,7 @@ class Glitchy extends Enemy {
 
     preUpdate(time, delta) {
         super.preUpdate(time, delta);
-    
+
         if (this.moveTimer <= 0) {
             const speed = 150;
             let angle = Phaser.Math.Between(0, 360);
@@ -147,8 +147,8 @@ class MainScene extends Phaser.Scene {
         this.createGlitchyEnemy();
         // Add other enemy types as needed
 
-    } 
-    
+    }
+
     update() {
         // Player movement
         if (this.cursors.left.isDown) {
@@ -158,24 +158,24 @@ class MainScene extends Phaser.Scene {
         } else {
             this.player.setAngularVelocity(0);
         }
-    
+
         if (this.cursors.up.isDown) {
             this.physics.velocityFromRotation(this.player.rotation, 300, this.player.body.acceleration);
         } else {
             this.player.setAcceleration(0);
         }
-    
+
         // Player shooting
         if (this.cursors.space.isDown) {
             this.shootBullet();
         }
-    
+
         // Check for collisions
         this.physics.add.collider(this.bulletGroup, this.enemyGroup, this.killGlitchyEnemy, null, this);
         this.physics.add.collider(this.player, this.enemyGroup, this.playerHit, null, this);
 
     }
-    
+
 
     createGlitchyEnemy() {
         const offscreenPadding = 50;
@@ -201,20 +201,34 @@ class MainScene extends Phaser.Scene {
     }
 
     shootBullet() {
-        const bullet = this.physics.add.sprite(this.player.x, this.player.y, 'bullet');
+        // Calculate starting position of bullet from player's position and rotation
+        const startX = this.player.x + Math.cos(this.player.rotation) * 32;
+        const startY = this.player.y + Math.sin(this.player.rotation) * 32;
+    
+        // Create bullet sprite at starting position
+        const bullet = this.physics.add.sprite(startX, startY, 'bullet');
         bullet.setOrigin(0.5, 0.5);
-        this.physics.velocityFromAngle(this.player.rotation, 400, bullet.body.velocity);
+    
+        // Apply velocity in the direction of the player's rotation, with a high speed
+        const bulletSpeed = 800;
+        this.physics.velocityFromRotation(this.player.rotation, bulletSpeed, bullet.body.velocity);
+    
+        // Add bullet to group and set a lifespan so it will be destroyed if it goes offscreen
         this.bulletGroup.add(bullet);
-    }
-
-    playerHit(player, enemy) {
-        this.playerHealth = this.playerHealth -1
-
-        if (this.playerHealth == 0 ) {
-            this.scene.start('GameOverScene');
-        } 
+        bullet.setCollideWorldBounds(true);
+        bullet.setBounce(1);
+        bullet.setLifespan(2000);
     }
     
+
+    playerHit(player, enemy) {
+        this.playerHealth = this.playerHealth - 1
+
+        if (this.playerHealth == 0) {
+            this.scene.start('GameOverScene');
+        }
+    }
+
 }
 
 class StartScene extends Phaser.Scene {
