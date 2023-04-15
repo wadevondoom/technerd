@@ -11,7 +11,10 @@ class Enemy extends Phaser.Physics.Arcade.Sprite {
 class Glitchy extends Enemy {
     constructor(scene, x, y, speed) {
         super(scene, x, y, 'glitchy');
-        scene.physics.velocityFromAngle(Phaser.Math.Between(0, 360), speed, this.body.velocity);
+        const centerX = scene.cameras.main.centerX;
+        const centerY = scene.cameras.main.centerY;
+        const angleToCenter = Phaser.Math.Angle.Between(x, y, centerX, centerY);
+        scene.physics.velocityFromAngle(Phaser.Math.RadToDeg(angleToCenter), speed, this.body.velocity);
         this.moveTimer = 0;
         this.body.collideWorldBounds = true;
         this.body.bounce.set(1);
@@ -201,25 +204,17 @@ class MainScene extends Phaser.Scene {
     }
 
     shootBullet() {
-        // Calculate starting position of bullet from player's position and rotation
-        const startX = this.player.x + Math.cos(this.player.rotation) * 32;
-        const startY = this.player.y + Math.sin(this.player.rotation) * 32;
-    
-        // Create bullet sprite at starting position
-        const bullet = this.physics.add.sprite(startX, startY, 'bullet');
+        const bullet = this.physics.add.sprite(this.player.x, this.player.y, 'bullet');
         bullet.setOrigin(0.5, 0.5);
-    
-        // Apply velocity in the direction of the player's rotation, with a high speed
-        const bulletSpeed = 800;
-        this.physics.velocityFromRotation(this.player.rotation, bulletSpeed, bullet.body.velocity);
-    
-        // Add bullet to group and set a lifespan so it will be destroyed if it goes offscreen
+        this.physics.velocityFromAngle(this.player.rotation, 400, bullet.body.velocity);
+        bullet.setAngle(this.player.angle);
+        bullet.body.setAllowGravity(false);
+        bullet.checkWorldBounds = true;
+        bullet.outOfBoundsKill = true;
         this.bulletGroup.add(bullet);
-        bullet.setCollideWorldBounds(true);
-        bullet.setBounce(1);
-        bullet.setLifespan(2000);
     }
-    
+
+
 
     playerHit(player, enemy) {
         this.playerHealth = this.playerHealth - 1
