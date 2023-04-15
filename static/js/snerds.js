@@ -65,7 +65,7 @@ class MainScene extends Phaser.Scene {
         this.bulletGroup = this.physics.add.group();
 
         // Enemies
-        this.enemyGroup = this.add.group();
+        this.enemyGroup = this.physics.add.group();
 
         // Create initial enemies
         this.createGlitchyEnemy();
