@@ -19,12 +19,19 @@ class Glitchy extends Enemy {
 
     preUpdate(time, delta) {
         super.preUpdate(time, delta);
-
+    
         if (this.moveTimer <= 0) {
             const speed = 150;
-            const angle = Phaser.Math.Between(0, 360);
+            let angle = Phaser.Math.Between(0, 360);
+            if (this.body.blocked.left || this.body.blocked.right) {
+                // If Glitchy is blocked horizontally, change its vertical direction
+                angle = 180 - angle;
+            } else if (this.body.blocked.up || this.body.blocked.down) {
+                // If Glitchy is blocked vertically, change its horizontal direction
+                angle = 360 - angle;
+            }
             this.scene.physics.velocityFromAngle(angle, speed, this.body.velocity);
-            this.moveTimer = time + 300; // Change direction every 0.3 seconds for a stutter effect
+            this.moveTimer = time + 100; // Change direction every 0.1 seconds for a stutter effect
         } else {
             this.moveTimer -= delta;
         }
