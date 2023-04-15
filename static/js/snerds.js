@@ -1,5 +1,3 @@
-const game = new Phaser.Game(config);
-
 class Enemy extends Phaser.Physics.Arcade.Sprite {
     constructor(scene, x, y, spriteKey) {
         super(scene, x, y, spriteKey);
@@ -173,4 +171,4 @@ const config = {
     },
     scene: [StartScene, MainScene, GameOverScene],
 };
-
+const game = new Phaser.Game(config);
