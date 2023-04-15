@@ -148,6 +148,8 @@ class MainScene extends Phaser.Scene {
 
         // Create initial enemies
         this.createGlitchyEnemy();
+        this.createGlitchyEnemy();
+        this.createGlitchyEnemy();
         // Add other enemy types as needed
 
     }
@@ -221,12 +223,12 @@ class MainScene extends Phaser.Scene {
     shootBullet() {
         const bullet = this.physics.add.sprite(this.player.x, this.player.y, 'bullet');
         bullet.setOrigin(0.5, 0.5);
-        this.physics.velocityFromAngle(this.player.rotation, 400, bullet.body.velocity);
         bullet.setAngle(this.player.angle);
         bullet.body.setAllowGravity(false);
         bullet.checkWorldBounds = true;
         bullet.outOfBoundsKill = true;
         this.bulletGroup.add(bullet);
+        this.physics.velocityFromRotation(this.player.rotation, 800, bullet.body.velocity);
     }
 
 
