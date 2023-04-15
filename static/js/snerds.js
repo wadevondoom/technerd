@@ -137,6 +137,10 @@ class MainScene extends Phaser.Scene {
         this.player.setOrigin(0.5, 0.5);
         this.player.setCollideWorldBounds(false);
 
+        // Set firerate
+        this.lastFired = 0;
+        this.fireRate = 300; // in milliseconds
+
         // Player movement
         this.cursors = this.input.keyboard.createCursorKeys();
 
@@ -151,6 +155,8 @@ class MainScene extends Phaser.Scene {
         this.createGlitchyEnemy();
         this.createGlitchyEnemy();
         // Add other enemy types as needed
+
+
 
     }
 
@@ -170,8 +176,9 @@ class MainScene extends Phaser.Scene {
             this.player.body.acceleration.multiply(DAMPING_FACTOR);
         }
 
-        // Player shooting
-        if (this.cursors.space.isDown) {
+        // Check if the spacebar is pressed and if enough time has elapsed since the last shot
+        if (this.cursors.space.isDown && (time - this.lastFired > this.fireRate)) {
+            this.lastFired = time; // Record the time of the last shot
             this.shootBullet();
         }
 
@@ -213,12 +220,16 @@ class MainScene extends Phaser.Scene {
     }
 
     killGlitchyEnemy(bullet, enemy) {
-        bullet.destroy();
-        enemy.destroy();
+        bullet.disableBody(true, true); // Disable bullet body immediately
+        enemy.destroy(); // Destroy enemy immediately
+        this.time.delayedCall(10, () => {
+            bullet.destroy(); // Destroy bullet after 10ms
+        }, [], this);
         // Add score, sound effects, etc.
         score += 100;
         this.createGlitchyEnemy();
     }
+
 
     shootBullet() {
         const bullet = this.physics.add.sprite(this.player.x, this.player.y, 'bullet');
