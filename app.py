@@ -25,7 +25,7 @@ from flask_login import (
     current_user,
 )
 from flask_cors import CORS
-
+from pymongo import DESCENDING
 from user import User
 from artwork import Artwork
 from category import Category
@@ -305,6 +305,28 @@ def games():
 def play():
     user_image = current_user.picture if current_user.is_authenticated else None
     return render_template("play.html", user_image=user_image)
+
+
+@app.route("/play_count", methods=["POST"])
+def update_play_count():
+    db.game_data.update_one({"_id": "play_count"}, {"$inc": {"count": 1}})
+    return jsonify({"status": "success"})
+
+
+@app.route("/save_score", methods=["POST"])
+def save_score():
+    score = request.json["score"]
+    name = request.json["name"]
+    db.scores.insert_one({"name": name, "score": score})
+    return jsonify({"status": "success"})
+
+
+@app.route("/get_top_scores", methods=["GET"])
+def get_top_scores():
+    top_scores = db.scores.find().sort("score", DESCENDING).limit(5)
+    return jsonify(
+        [{"name": score["name"], "score": score["score"]} for score in top_scores]
+    )
 
 
 """ Artwork """
