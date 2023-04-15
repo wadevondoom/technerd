@@ -45,21 +45,21 @@ class Braino extends Enemy {
         super(scene, x, y, 'braino');
         scene.physics.velocityFromAngle(Phaser.Math.Between(0, 360), speed, this.body.velocity);
         this.moveTimer = 0;
+        this.wrapPadding = 50; // The padding to use for wrapping
     }
 
     preUpdate(time, delta) {
         super.preUpdate(time, delta);
 
-        if (this.moveTimer <= 0) {
-            const speed = 150;
-            const angle = Phaser.Math.Between(0, 360);
-            this.scene.physics.velocityFromAngle(angle, speed, this.body.velocity);
-            this.moveTimer = time + 1500; // Change direction every 1.5 seconds
-        } else {
-            this.moveTimer -= delta;
-        }
+        // Move in a sine wave pattern
+        this.y += Math.sin(time / 500) * 2;
+        this.x += this.body.velocity.x * (delta / 1000);
+
+        // Wrap around the screen
+        this.scene.physics.world.wrap(this.body, this.wrapPadding);
     }
 }
+
 
 
 class Malware extends Enemy {
@@ -146,33 +146,35 @@ class MainScene extends Phaser.Scene {
         this.createGlitchyEnemy();
         // Add other enemy types as needed
 
-    } update() {
+    } 
+    
+    update() {
         // Player movement
         if (this.cursors.left.isDown) {
-            this.player.setVelocityX(-200);
+            this.player.setAngularVelocity(-150);
         } else if (this.cursors.right.isDown) {
-            this.player.setVelocityX(200);
+            this.player.setAngularVelocity(150);
         } else {
-            this.player.setVelocityX(0);
+            this.player.setAngularVelocity(0);
         }
-
+    
         if (this.cursors.up.isDown) {
-            this.player.setVelocityY(-200);
-        } else if (this.cursors.down.isDown) {
-            this.player.setVelocityY(200);
+            this.physics.velocityFromRotation(this.player.rotation, 300, this.player.body.acceleration);
         } else {
-            this.player.setVelocityY(0);
+            this.player.setAcceleration(0);
         }
-
+    
         // Player shooting
-        // Player shooting
-        if (Phaser.Input.Keyboard.JustDown(this.cursors.space)) {
+        if (this.cursors.space.isDown) {
             this.shootBullet();
         }
-
+    
         // Check for collisions
         this.physics.add.collider(this.bulletGroup, this.enemyGroup, this.killGlitchyEnemy, null, this);
+        this.physics.add.collider(this.player, this.enemyGroup, this.playerHit, null, this);
+
     }
+    
 
     createGlitchyEnemy() {
         const offscreenPadding = 50;
@@ -203,6 +205,11 @@ class MainScene extends Phaser.Scene {
         this.physics.velocityFromAngle(this.player.rotation, 400, bullet.body.velocity);
         this.bulletGroup.add(bullet);
     }
+
+    playerHit(player, enemy) {
+        // Handle the collision here
+    }
+    
 }
 
 class StartScene extends Phaser.Scene {
