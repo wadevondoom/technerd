@@ -13,6 +13,74 @@ class Glitchy extends Enemy {
         super(scene, x, y, 'glitchy');
         scene.physics.velocityFromAngle(Phaser.Math.Between(0, 360), speed, this.body.velocity);
         this.moveTimer = 0;
+        this.body.collideWorldBounds = true;
+        this.body.bounce.set(1);
+    }
+
+    preUpdate(time, delta) {
+        super.preUpdate(time, delta);
+
+        if (this.moveTimer <= 0) {
+            const speed = 150;
+            const angle = Phaser.Math.Between(0, 360);
+            this.scene.physics.velocityFromAngle(angle, speed, this.body.velocity);
+            this.moveTimer = time + 300; // Change direction every 0.3 seconds for a stutter effect
+        } else {
+            this.moveTimer -= delta;
+        }
+    }
+}
+
+
+
+class Braino extends Enemy {
+    constructor(scene, x, y, speed) {
+        super(scene, x, y, 'braino');
+        scene.physics.velocityFromAngle(Phaser.Math.Between(0, 360), speed, this.body.velocity);
+        this.moveTimer = 0;
+    }
+
+    preUpdate(time, delta) {
+        super.preUpdate(time, delta);
+
+        if (this.moveTimer <= 0) {
+            const speed = 150;
+            const angle = Phaser.Math.Between(0, 360);
+            this.scene.physics.velocityFromAngle(angle, speed, this.body.velocity);
+            this.moveTimer = time + 1500; // Change direction every 1.5 seconds
+        } else {
+            this.moveTimer -= delta;
+        }
+    }
+}
+
+
+class Malware extends Enemy {
+    constructor(scene, x, y, speed) {
+        super(scene, x, y, 'malware');
+        scene.physics.velocityFromAngle(Phaser.Math.Between(0, 360), speed, this.body.velocity);
+        this.moveTimer = 0;
+    }
+
+    preUpdate(time, delta) {
+        super.preUpdate(time, delta);
+
+        if (this.moveTimer <= 0) {
+            const speed = 150;
+            const angle = Phaser.Math.Between(0, 360);
+            this.scene.physics.velocityFromAngle(angle, speed, this.body.velocity);
+            this.moveTimer = time + 1500; // Change direction every 1.5 seconds
+        } else {
+            this.moveTimer -= delta;
+        }
+    }
+}
+
+class Roguebot extends Enemy {
+    constructor(scene, x, y, speed) {
+        super(scene, x, y, 'roguebot');
+        scene.physics.velocityFromAngle(Phaser.Math.Between(0, 360), speed, this.body.velocity);
+        this.moveTimer = 0;
     }
 
     preUpdate(time, delta) {
@@ -42,10 +110,10 @@ class MainScene extends Phaser.Scene {
         this.load.image('background', '/static/assets/background.png');
         this.load.image('player', '/static/assets/sprites/ship.png');
         this.load.image('bullet', '/static/assets/sprites/bullet.png');
-        this.load.image('enemy1', '/static/assets/sprites/enemy1.png');
-        this.load.image('enemy2', '/static/assets/sprites/enemy2.png');
+        this.load.image('malware', '/static/assets/sprites/malware.png');
+        this.load.image('roguebot', '/static/assets/sprites/roguebot.png');
         this.load.image('glitchy', '/static/assets/sprites/glitchy.png');
-        this.load.image('bullet', '/static/assets/sprites/bullet.png');
+        this.load.image('durrdurr', '/static/assets/sprites/durrdurr.png');
 
         // Load other assets as needed
     }
