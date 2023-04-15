@@ -1,7 +1,8 @@
-import asyncio, json, os, uuid, imghdr
+import asyncio, os, uuid, imghdr, io
 from pymongo import MongoClient
 from werkzeug.utils import secure_filename
 from flask import url_for
+from PIL import Image
 
 client = MongoClient(os.environ.get("DBCONN"))
 db = client.technerdiac
@@ -16,6 +17,10 @@ def allowed_file(filename):
     return "." in filename and filename.rsplit(".", 1)[1].lower() in ALLOWED_EXTENSIONS
 
 
+from PIL import Image
+import io
+
+
 def save_image(file):
     if not file:
         return None
@@ -27,7 +32,15 @@ def save_image(file):
         return None
     os.makedirs(UPLOAD_FOLDER, exist_ok=True)
     new_filename = str(uuid.uuid4()) + "." + ext  # Generate a unique filename
-    file.save(os.path.join(UPLOAD_FOLDER, new_filename))
+
+    # Open the image using Pillow and save it with 50% quality
+    image = Image.open(file)
+    image_data = io.BytesIO()
+    image.save(image_data, format="JPEG", quality=50)
+    image_data.seek(0)
+
+    with open(os.path.join(UPLOAD_FOLDER, new_filename), "wb") as f:
+        f.write(image_data.read())
 
     # Generate a URL for the uploaded file
     url = url_for("static", filename="media/upload/" + new_filename)
@@ -46,12 +59,22 @@ def save_dalle_image(image_bytes):
         print("Error: Unable to detect image format.")
         return None
 
+    if ext not in ("jpg", "jpeg"):
+        print("Error: Only JPEG images are supported.")
+        return None
+
     os.makedirs(UPLOAD_FOLDER, exist_ok=True)
     new_filename = str(uuid.uuid4()) + "." + ext  # Generate a unique filename
 
     try:
+        # Open the image using Pillow and save it with 50% quality
+        image = Image.open(io.BytesIO(image_bytes))
+        image_data = io.BytesIO()
+        image.save(image_data, format="JPEG", quality=50)
+        image_data.seek(0)
+
         with open(os.path.join(UPLOAD_FOLDER, new_filename), "wb") as f:
-            f.write(image_bytes)
+            f.write(image_data.read())
 
         # Generate a URL for the saved file
         url = url_for("static", filename="media/upload/" + new_filename)
