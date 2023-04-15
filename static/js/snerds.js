@@ -1,17 +1,3 @@
-const config = {
-    type: Phaser.AUTO,
-    width: 800,
-    height: 600,
-    physics: {
-        default: 'arcade',
-        arcade: {
-            gravity: { y: 0 },
-            debug: false,
-        },
-    },
-    scene: [MainScene],
-};
-
 const game = new Phaser.Game(config);
 
 class Enemy extends Phaser.Physics.Arcade.Sprite {
@@ -87,33 +73,33 @@ class MainScene extends Phaser.Scene {
         this.createGlitchyEnemy();
         // Add other enemy types as needed
 
-}    update() {
-    // Player movement
-    if (this.cursors.left.isDown) {
-        this.player.setVelocityX(-200);
-    } else if (this.cursors.right.isDown) {
-        this.player.setVelocityX(200);
-    } else {
-        this.player.setVelocityX(0);
-    }
+    } update() {
+        // Player movement
+        if (this.cursors.left.isDown) {
+            this.player.setVelocityX(-200);
+        } else if (this.cursors.right.isDown) {
+            this.player.setVelocityX(200);
+        } else {
+            this.player.setVelocityX(0);
+        }
 
-    if (this.cursors.up.isDown) {
-        this.player.setVelocityY(-200);
-    } else if (this.cursors.down.isDown) {
-        this.player.setVelocityY(200);
-    } else {
-        this.player.setVelocityY(0);
-    }
+        if (this.cursors.up.isDown) {
+            this.player.setVelocityY(-200);
+        } else if (this.cursors.down.isDown) {
+            this.player.setVelocityY(200);
+        } else {
+            this.player.setVelocityY(0);
+        }
 
-    // Player shooting
-    // Player shooting
-    if (Phaser.Input.Keyboard.JustDown(this.cursors.space)) {
-        this.shootBullet();
-    }
+        // Player shooting
+        // Player shooting
+        if (Phaser.Input.Keyboard.JustDown(this.cursors.space)) {
+            this.shootBullet();
+        }
 
-    // Check for collisions
-    this.physics.add.collider(this.bulletGroup, this.enemyGroup, this.killGlitchyEnemy, null, this);
-}
+        // Check for collisions
+        this.physics.add.collider(this.bulletGroup, this.enemyGroup, this.killGlitchyEnemy, null, this);
+    }
 
     createGlitchyEnemy() {
         const offscreenPadding = 50;
@@ -173,3 +159,18 @@ class GameOverScene extends Phaser.Scene {
         });
     }
 }
+
+const config = {
+    type: Phaser.AUTO,
+    width: 800,
+    height: 600,
+    physics: {
+        default: 'arcade',
+        arcade: {
+            gravity: { y: 0 },
+            debug: false,
+        },
+    },
+    scene: [StartScene, MainScene, GameOverScene],
+};
+
