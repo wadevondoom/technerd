@@ -107,8 +107,6 @@ class Roguebot extends Enemy {
     }
 }
 
-const DAMPING_FACTOR = 0.95;
-
 class MainScene extends Phaser.Scene {
     constructor() {
         super({ key: 'MainScene' });
@@ -137,7 +135,7 @@ class MainScene extends Phaser.Scene {
         // Player
         this.player = this.physics.add.sprite(400, 300, 'player');
         this.player.setOrigin(0.5, 0.5);
-        this.player.setCollideWorldBounds(true);
+        this.player.setCollideWorldBounds(false);
 
         // Player movement
         this.cursors = this.input.keyboard.createCursorKeys();
@@ -284,4 +282,5 @@ const config = {
     },
     scene: [StartScene, MainScene, GameOverScene],
 };
+const DAMPING_FACTOR = 0.55;
 const game = new Phaser.Game(config);
