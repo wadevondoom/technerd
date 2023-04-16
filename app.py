@@ -308,7 +308,7 @@ def play_nis():
 
 @app.route("/play_carwars")
 @login_required
-def play():
+def play_cw():
     user_image = current_user.picture if current_user.is_authenticated else None
     return render_template("play_carwarring.html", user_image=user_image)
 
