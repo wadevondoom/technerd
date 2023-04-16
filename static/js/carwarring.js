@@ -48,7 +48,7 @@ class Example extends Phaser.Scene {
     }
 
     create() {
-        this.ground = this.add.tileSprite(512, 512, 1024, 1024, 'ground').setScrollFactor(0, 0);
+        this.ground = this.add.tileSprite(0, 0, config.width, config.height, 'ground').setOrigin(0, 0).setScrollFactor(0);
 
         this.car = new Racecar(this, 256, 512, 'car');
         this.add.existing(this.car);
@@ -71,8 +71,8 @@ class Example extends Phaser.Scene {
 
 const config = {
     type: Phaser.AUTO,
-    width: 512,
-    height: 512,
+    width: 800,
+    height: 600,
     parent: 'phaser-example',
     physics: {
         default: 'arcade',
