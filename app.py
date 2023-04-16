@@ -300,11 +300,17 @@ def games():
     )
 
 
-@app.route("/play")
+@app.route("/play_nis")
+@login_required
+def play_nis():
+    user_image = current_user.picture if current_user.is_authenticated else None
+    return render_template("play_nis.html", user_image=user_image)
+
+@app.route("/play_carwars")
 @login_required
 def play():
     user_image = current_user.picture if current_user.is_authenticated else None
-    return render_template("play.html", user_image=user_image)
+    return render_template("play_carwarring.html", user_image=user_image)
 
 
 @app.route("/play_count", methods=["POST"])
@@ -317,7 +323,7 @@ def update_play_count():
 def save_score():
     score = request.json["score"]
     name = request.json["name"]
-    db.scores.insert_one({"name": name, "score": score})
+    db.nis_scores.insert_one({"name": name, "score": score})
     return jsonify({"status": "success"})
 
 

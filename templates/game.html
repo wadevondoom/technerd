@@ -13,7 +13,7 @@
         <div class="col-md-12">
             <div class="card-game">
                 <img src="{{ url_for('static', filename='img/shooter_thumbnail.jpg') }}" class="card-img"
-                    alt="Game Thumbnail" onclick="openGameWindow();">
+                    alt="Game Thumbnail" onclick="openGameWindowNIS();">
                 <div class="card-info">
                     <h5 class="card-title">Nerds in Space</h5>
                     <p class="card-description">A fast-paced space shooter game. Battle through waves of enemies and
@@ -21,6 +21,20 @@
                     <div class="stats">
                         <span>High Score: 12500</span>
                         <span>Games Played: 238</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-12">
+            <div class="card-game">
+                <img src="{{ url_for('static', filename='img/cw.jpg') }}" class="card-img"
+                    alt="Game Thumbnail" onclick="openGameWindowCW();">
+                <div class="card-info">
+                    <h5 class="card-title">Nerds in Space</h5>
+                    <p class="card-description">Destory or be destoryed. Car Warring combat!</p>
+                    <div class="stats">
+                        <span>High Score: 425150</span>
+                        <span>Games Played: 119</span>
                     </div>
                 </div>
             </div>
@@ -33,8 +47,11 @@
 
 {% block extra_js %}
 <script>
-    function openGameWindow() {
-        window.open("{{ url_for('play') }}", 'gameWindow', 'width=800,height=600,menubar=no,toolbar=no,resizable=no');
+    function openGameWindowNIS() {
+        window.open("{{ url_for('play_nis') }}", 'gameWindow', 'width=800,height=600,menubar=no,toolbar=no,resizable=no');
+    }
+    function openGameWindowCW() {
+        window.open("{{ url_for('play_cw') }}", 'gameWindow', 'width=800,height=600,menubar=no,toolbar=no,resizable=no');
     }
 </script>
 {% endblock %}

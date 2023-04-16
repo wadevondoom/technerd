@@ -14,26 +14,18 @@ except KeyError:
     exit(1)
 
 # Connect to the MongoDB database
-client = MongoClient(os.environ.get("DBCONN"))
+client = MongoClient(db_conn_str)
 db = client.technerdiac
 
-# Create the text indexes for each collection if they do not exist
+# Create the text indexes for the 'articles' collection if they do not exist
 try:
-
-
-    if not index_exists(db.artwork, "title_text_text"):
-        print("Creating index for 'artwork' collection...")
-        db.artwork.create_index(
-            [("title", "text"), ("text", "text")], name="title_text_text"
+    if not index_exists(db.articles, "title_text_source_text_description_text"):
+        print("Creating index for 'articles' collection...")
+        db.articles.create_index(
+            [("title", "text"), ("source", "text"), ("description", "text")], 
+            name="title_text_source_text_description_text"
         )
-        print("Index for 'artwork' collection created.")
-
-    if not index_exists(db.chronicles, "title_content_text"):
-        print("Creating index for 'chronicles' collection...")
-        db.chronicles.create_index(
-            [("title", "text"), ("content", "text")], name="title_content_text"
-        )
-        print("Index for 'chronicles' collection created.")
+        print("Index for 'articles' collection created.")
 except Exception as e:
     print(f"Error creating index: {e}")
     exit(1)

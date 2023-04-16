@@ -17,7 +17,7 @@ class Brain:
         self.prompt = prompt
         self.engine = "davinci-003"
         self.prompt_img_helper_text = ""
-        self.prompt_helper_text = "Format your response in HTML. \
+        self.prompt_helper_text = "Format your responses in HTML. \
             Do not use DIV, H1 or H2 tags. \
             Take persona of knowledge expert."
 
