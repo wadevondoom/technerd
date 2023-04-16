@@ -43,12 +43,12 @@ class Racecar extends Phaser.Physics.Arcade.Image {
 
 class Example extends Phaser.Scene {
     preload() {
-        this.load.image('ground', '/static/assets/carwars/sprites/ground.png');
+        this.load.image('ground', '/static/assets/carwars/sprites/ground.jpg');
         this.load.image('car', '/static/assets/carwars/sprites/hunter.png');
     }
 
     create() {
-        this.ground = this.add.tileSprite(256, 256, 1024, 1024, 'ground').setScrollFactor(0, 0);
+        this.ground = this.add.tileSprite(512, 512, 1024, 1024, 'ground').setScrollFactor(0, 0);
 
         this.car = new Racecar(this, 256, 512, 'car');
         this.add.existing(this.car);
