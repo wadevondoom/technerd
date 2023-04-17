@@ -96,7 +96,7 @@ class MainScene extends Phaser.Scene {
         this.car.update(delta, this.cursorKeys);
 
         // Shoot bullet
-        if (Phaser.Input.Keyboard.JustDown(this.spacebar)) {
+        if (this.spacebar.isDown) {
             this.car.shoot(this.bullets);
         }
 
