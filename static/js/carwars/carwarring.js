@@ -52,7 +52,7 @@ class Racecar extends Phaser.Physics.Arcade.Image {
             this.scene.physics.velocityFromAngle(this.angle, speed, bullet.body.velocity);
 
             // Kill the bullet after 1 second
-            this.scene.time.delayedCall(1000 , () => {
+            this.scene.time.delayedCall(1000, () => {
                 bullet.setActive(false);
                 bullet.setVisible(false);
                 bullet.body.stop();
@@ -164,8 +164,8 @@ class MainScene extends Phaser.Scene {
     spawnEnemy() {
         const enemyCar = new EnemyCar(this, 600, 500, 'bombo');
         this.enemyCars.add(enemyCar);
-        this.physics.add.collider(this.car, this.enemyCars, this.carHitEnemy, null, this);
-        this.physics.add.overlap(this.car.bullets, this.enemyCars, this.bulletHitEnemy, null, this);
+        this.physics.add.collider(this.car, enemyCar, this.carHitEnemy, null, this);
+        this.physics.add.overlap(this.bullets, enemyCar, this.bulletHitEnemy, null, this);
 
         this.time.delayedCall(1000, () => {
             const shootTimer = this.time.addEvent({
@@ -183,6 +183,9 @@ class MainScene extends Phaser.Scene {
         enemyCar.destroy();
         car.health -= 1;
         console.log('Player health:', car.health);
+        if (car.health == 0) {
+            this.scene.start('StartScene');
+        }
     }
 
     bulletHitEnemy(bullet, enemyCar) {
