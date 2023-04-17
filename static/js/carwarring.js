@@ -42,77 +42,55 @@ class Racecar extends Phaser.Physics.Arcade.Image {
     }
 }
 
-// Add this after the Racecar class
 class Bombo extends Phaser.Physics.Arcade.Image {
-    hitpoints = 2; // Add hitpoints property
+    hitpoints = 2;
+    chasing = false;
+    minDistanceFromPlayer = 150;
+    maxDistanceFromPlayer = 300;
 
     constructor(scene, x, y, texture) {
         super(scene, x, y, texture);
         scene.add.existing(this);
         scene.physics.add.existing(this);
-
         this.configure();
     }
 
     configure() {
         this.angle = -90;
-
         this.body.angularDrag = 120;
         this.body.maxSpeed = 600;
-
         this.body.setSize(64, 64, true);
-
-        // Set a random off-screen spawn position
-        const spawnSide = Phaser.Math.Between(0, 3);
-        let x, y;
-
-        switch (spawnSide) {
-            case 0: // Top
-                x = Phaser.Math.Between(0, this.scene.cameras.main.width);
-                y = -64;
-                break;
-            case 1: // Right
-                x = this.scene.cameras.main.width + 64;
-                y = Phaser.Math.Between(0, this.scene.cameras.main.height);
-                break;
-            case 2: // Bottom
-                x = Phaser.Math.Between(0, this.scene.cameras.main.width);
-                y = this.scene.cameras.main.height + 64;
-                break;
-            case 3: // Left
-            default:
-                x = -64;
-                y = Phaser.Math.Between(0, this.scene.cameras.main.height);
-                break;
-        }
-
-        this.setPosition(x, y);
-        this.spawnX = x;
-        this.spawnY = y;
     }
-
 
     update(delta, target) {
         if (!this.chasing) {
             this.chasing = true;
+
+            // Calculate a random spawn position around the player
+            const spawnAngle = Phaser.Math.DegToRad(Phaser.Math.Between(0, 360));
+            const spawnDistance = Phaser.Math.Between(this.minDistanceFromPlayer, this.maxDistanceFromPlayer);
+            const spawnX = target.x + spawnDistance * Math.cos(spawnAngle);
+            const spawnY = target.y + spawnDistance * Math.sin(spawnAngle);
+
+            this.setPosition(spawnX, spawnY);
+
             this.scene.time.delayedCall(1000, () => {
                 this.chasing = false;
-                this.x = -100;
-                this.y = Phaser.Math.Between(100, 500);
             });
         } else {
             const direction = Phaser.Math.Angle.Between(this.x, this.y, target.x, target.y);
-            this.rotation = direction; // Rotate Bombo towards the direction it's traveling
+            this.rotation = direction;
 
             // Accelerate Bombo towards the target
             this.scene.physics.velocityFromRotation(
                 direction,
-                Math.min(this.body.speed + this.acceleration * delta, this.body.maxSpeed),
+                Math.min(this.body.speed + 20 * delta, this.body.maxSpeed),
                 this.body.velocity
             );
         }
     }
 }
+
 
 class MainScene extends Phaser.Scene {
     constructor() {
