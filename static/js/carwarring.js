@@ -49,7 +49,7 @@ class Racecar extends Phaser.Physics.Arcade.Image
     }
 }
 
-class Example extends Phaser.Scene
+class MainScene extends Phaser.Scene
 {
     preload ()
     {
@@ -99,7 +99,7 @@ const config = {
         parent: 'gameCanvas',
         fullscreenTarget: 'gameCanvas',
     },
-    scene: [StartScene, MainScene, GameOverScene],
+    scene: [MainScene],
 };
 
 const game = new Phaser.Game(config);
