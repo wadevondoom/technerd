@@ -62,11 +62,13 @@ class Racecar extends Phaser.Physics.Arcade.Image {
 }
 
 class EnemyCar extends Phaser.Physics.Arcade.Image {
-    constructor(scene, x, y, texture) {
+    // Add spawnEnemyNearPlayer parameter to the constructor
+    constructor(scene, x, y, texture, spawnEnemyNearPlayer) {
         super(scene, x, y, texture);
         scene.add.existing(this);
         scene.physics.add.existing(this);
         this.configure();
+        this.spawnEnemyNearPlayer = spawnEnemyNearPlayer; // Store the reference
     }
 
     configure() {
@@ -74,12 +76,12 @@ class EnemyCar extends Phaser.Physics.Arcade.Image {
         this.body.setSize(64, 64, true);
     }
 
-    chasePlayer(player, maxChaseDistance = 900) {
+    chasePlayer(player, maxChaseDistance = 800) {
         const distance = Phaser.Math.Distance.Between(this.x, this.y, player.x, player.y);
         if (distance <= maxChaseDistance) {
-            this.scene.physics.moveToObject(this, player, 150);
+            this.scene.physics.moveToObject(this, player, 100);
         } else {
-            this.scene.spawnEnemyNearPlayer(player);
+            this.spawnEnemyNearPlayer(player); // Use the stored reference
             this.destroy();
         }
     }
@@ -172,7 +174,8 @@ class MainScene extends Phaser.Scene {
     }
 
     spawnEnemy() {
-        const enemyCar = new EnemyCar(this, 600, 500, 'robutt');
+        // Pass this.spawnEnemyNearPlayer.bind(this) to the EnemyCar constructor
+        const enemyCar = new EnemyCar(this, 600, 500, 'robutt', this.spawnEnemyNearPlayer.bind(this));
         this.enemyCars.add(enemyCar);
         this.physics.add.collider(this.car, enemyCar, this.carHitEnemy, null, this);
         this.physics.add.overlap(this.bullets, enemyCar, this.bulletHitEnemy, null, this);
