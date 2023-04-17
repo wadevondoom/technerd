@@ -170,17 +170,17 @@ class MainScene extends Phaser.Scene {
         });
 
         // Create text objects for player's HP and enemy count
-        this.hpText = this.add.text(10, 10, `HP: ${this.car.hitpoints}`, {
+        this.hitPointsText = this.add.text(10, 10, `HP: ${this.car.hitPoints}`, {
             fontSize: '16px',
             color: '#ffffff',
-        }).setScrollFactor(0);
-
-        this.enemyCountText = this.add.text(
+          }).setScrollFactor(0);
+          
+          this.enemyCountText = this.add.text(
             this.cameras.main.width - 100, 10, `Enemies: ${this.bombos.getLength()}`, {
             fontSize: '16px',
             color: '#ffffff',
-        }).setScrollFactor(0);
-
+          }).setScrollFactor(0);
+          
         this.physics.add.collider(
             this.car,
             this.bombo,
