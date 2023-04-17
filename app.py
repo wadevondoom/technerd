@@ -290,12 +290,12 @@ def like_chronicle(chronicle_id):
 """ Game route / in dev """
 
 
-@app.route("/game")
+@app.route("/games")
 @login_required
 def games():
     user_image = current_user.picture if current_user.is_authenticated else None
     return render_template(
-        "game.html",
+        "games.html",
         user_image=user_image,
     )
 
