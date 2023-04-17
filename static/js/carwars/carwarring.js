@@ -51,7 +51,7 @@ class Racecar extends Phaser.Physics.Arcade.Image {
             this.scene.physics.velocityFromAngle(this.angle, speed, bullet.body.velocity);
 
             // Kill the bullet after 1 second
-            this.scene.time.delayedCall(1000, () => {
+            this.scene.time.delayedCall(1000 + this.throttle  , () => {
                 bullet.setActive(false);
                 bullet.setVisible(false);
                 bullet.body.stop();
@@ -165,7 +165,7 @@ const config = {
         default: 'arcade',
         arcade: {
             gravity: { y: 0 },
-            debug: true,
+            debug: false,
         },
     },
     scale: {
