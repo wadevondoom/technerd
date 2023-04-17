@@ -9,7 +9,7 @@ class Racecar extends Phaser.Physics.Arcade.Image {
         this.angle = -90;
 
         this.body.angularDrag = 120;
-        this.body.maxSpeed = 1024;
+        this.body.maxSpeed = 512;
 
         this.body.setSize(64, 64, true);
     }
@@ -79,14 +79,14 @@ class EnemyCar extends Phaser.Physics.Arcade.Image {
         this.body.setSize(64, 64, true);
     }
 
-    chasePlayer(player, maxChaseDistance = 800) {
+    chasePlayer(player, maxChaseDistance = 1000) {
         if (!this.scene) { // Add this check
             return;
         }
     
         const distance = Phaser.Math.Distance.Between(this.x, this.y, player.x, player.y);
         if (distance <= maxChaseDistance) {
-            this.scene.physics.moveToObject(this, player, 400);
+            this.scene.physics.moveToObject(this, player, 350);
         } else {
             this.spawnEnemyNearPlayer(player); // Use the stored reference
             this.destroy();
@@ -216,7 +216,7 @@ class MainScene extends Phaser.Scene {
         car.health -= 1;
         console.log('Player health:', car.health);
         if (car.health == 0) {
-            this.scene.start('StartScene');
+            this.scene.start('GameOverScene');
         }
         this.spawnEnemy();
     }
