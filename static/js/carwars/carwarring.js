@@ -49,6 +49,13 @@ class Racecar extends Phaser.Physics.Arcade.Image {
             bullet.setRotation(this.rotation);
             const speed = 1000;
             this.scene.physics.velocityFromAngle(this.angle, speed, bullet.body.velocity);
+
+            // Kill the bullet after 1 second
+            this.scene.time.delayedCall(1000, () => {
+                bullet.setActive(false);
+                bullet.setVisible(false);
+                bullet.body.stop();
+            });
         }
     }
 }
@@ -61,7 +68,7 @@ class MainScene extends Phaser.Scene {
     preload() {
         this.load.image('ground', '/static/assets/carwars/sprites/ground.jpg');
         this.load.image('car', '/static/assets/carwars/sprites/hunter.png');
-        this.load.image('bullet', '/static/assets/carwars/sprites/hunter.png');
+        this.load.image('bullet', '/static/assets/carwars/sprites/bullet.png');
     }
 
     create() {
@@ -76,9 +83,14 @@ class MainScene extends Phaser.Scene {
 
         // Add bullet group
         this.bullets = this.physics.add.group({
+            classType: Phaser.Physics.Arcade.Image, // Add this line
             defaultKey: 'bullet',
             maxSize: 10,
-            runChildUpdate: true
+            runChildUpdate: true,
+            createCallback: (bullet) => { // Add this callback
+                bullet.setActive(false);
+                bullet.setVisible(false);
+            }
         });
 
         // Add cursors
