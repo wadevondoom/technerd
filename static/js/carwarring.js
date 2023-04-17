@@ -151,7 +151,8 @@ class MainScene extends Phaser.Scene {
             const bombo = new Bombo(this, 768, 512, 'bombo');
             this.add.existing(bombo);
             this.physics.add.existing(bombo);
-            bombo.configure();
+            // Remove the following line
+            // bombo.configure(); 
             this.bombos.add(bombo);
         }
 
@@ -174,14 +175,14 @@ class MainScene extends Phaser.Scene {
         this.hitPointsText = this.add.text(10, 10, `HP: ${this.car.hitpoints}`, {
             fontSize: '16px',
             color: '#ffffff',
-          }).setScrollFactor(0);
-          
-          this.enemyCountText = this.add.text(
+        }).setScrollFactor(0);
+
+        this.enemyCountText = this.add.text(
             this.cameras.main.width - 100, 10, `Enemies: ${this.bombos.getLength()}`, {
             fontSize: '16px',
             color: '#ffffff',
-          }).setScrollFactor(0);
-          
+        }).setScrollFactor(0);
+
         this.physics.add.collider(
             this.car,
             this.bombos,
@@ -244,7 +245,7 @@ class MainScene extends Phaser.Scene {
             bombo.update(delta, this.car.x, this.car.y);
         });
 
-        this.hitPointsText.setText(`HP: ${this.car.hitPoints}`);
+        this.hitPointsText.setText(`HP: ${this.car.hitpoints}`); // Change this.car.hitPoints to this.car.hitpoints
         this.enemyCountText.setText(`Enemies: ${this.bombos.getLength()}`);
     }
 
