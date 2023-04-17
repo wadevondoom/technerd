@@ -74,27 +74,37 @@ class EnemyCar extends Phaser.Physics.Arcade.Image {
         this.body.setSize(64, 64, true);
     }
 
-    chasePlayer(player) {
-        this.scene.physics.moveToObject(this, player, 100);
+    chasePlayer(player, maxChaseDistance = 900) {
+        const distance = Phaser.Math.Distance.Between(this.x, this.y, player.x, player.y);
+        if (distance <= maxChaseDistance) {
+            this.scene.physics.moveToObject(this, player, 150);
+        } else {
+            this.scene.spawnEnemyNearPlayer(player);
+            this.destroy();
+        }
     }
 
-    shoot(bulletGroup, target) {
+    shoot(bulletGroup) {
         const bullet = bulletGroup.get(this.x, this.y, 'bullet');
         if (bullet) {
             bullet.setActive(true);
             bullet.setVisible(true);
             bullet.setAngle(this.angle);
             bullet.setRotation(this.rotation);
-            const speed = 500;
+            const speed = 1000 + this.throttle;
             this.scene.physics.velocityFromAngle(this.angle, speed, bullet.body.velocity);
 
+            // Kill the bullet after 1 second
             this.scene.time.delayedCall(1000, () => {
-                bullet.setActive(false);
-                bullet.setVisible(false);
-                bullet.body.stop();
+                if (bullet.body) {
+                    bullet.setActive(false);
+                    bullet.setVisible(false);
+                    bullet.body.stop();
+                }
             });
         }
     }
+
 }
 
 class MainScene extends Phaser.Scene {
@@ -162,29 +172,32 @@ class MainScene extends Phaser.Scene {
     }
 
     spawnEnemy() {
-        const enemyCar = new EnemyCar(this, 600, 500, 'robutt');
+        const enemyCar = new EnemyCar(this, 600, 500, 'bombo');
         this.enemyCars.add(enemyCar);
         this.physics.add.collider(this.car, enemyCar, this.carHitEnemy, null, this);
         this.physics.add.overlap(this.bullets, enemyCar, this.bulletHitEnemy, null, this);
-    
+
         // Start chasing after a 1-second delay
         this.time.delayedCall(1000, () => {
             enemyCar.chasePlayer(this.car);
-            
-            // Shoot every 1 second if the player car is in front
-            const shootTimer = this.time.addEvent({
-                delay: 1000,
-                callback: () => {
-                    if (this.car.x > enemyCar.x) {
-                        enemyCar.shoot(this.bullets, this.car);
-                    }
-                },
-                callbackScope: this,
-                loop: true
-            });
         }, null, this);
     }
-    
+
+    spawnEnemyNearPlayer(player) {
+        const side = Math.random() < 0.5 ? -1 : 1;
+        const offsetX = 200 * side;
+        const offsetY = 200 * side;
+
+        const enemyCar = new EnemyCar(this, player.x + offsetX, player.y + offsetY, 'bombo');
+        this.enemyCars.add(enemyCar);
+        this.physics.add.collider(this.car, enemyCar, this.carHitEnemy, null, this);
+        this.physics.add.overlap(this.bullets, enemyCar, this.bulletHitEnemy, null, this);
+
+        // Start chasing after a 1-second delay
+        this.time.delayedCall(1000, () => {
+            enemyCar.chasePlayer(this.car);
+        }, null, this);
+    }
 
 
     carHitEnemy(car, enemyCar) {
