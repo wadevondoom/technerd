@@ -141,6 +141,11 @@ class MainScene extends Phaser.Scene {
         // Create a group for Bombo instances
         this.bombos = this.add.group();
 
+
+        this.cursorKeys = this.input.keyboard.createCursorKeys();
+
+        this.cameras.main.startFollow(this.car);
+
         // Instantiate and configure two Bombo instances
         for (let i = 0; i < 2; i++) {
             const bombo = new Bombo(this, 768, 512, 'bombo');
@@ -149,10 +154,6 @@ class MainScene extends Phaser.Scene {
             bombo.configure();
             this.bombos.add(bombo);
         }
-
-        this.cursorKeys = this.input.keyboard.createCursorKeys();
-
-        this.cameras.main.startFollow(this.car);
 
         // Create a particle emitter manager
         this.particles = this.add.particles();
@@ -170,7 +171,7 @@ class MainScene extends Phaser.Scene {
         });
 
         // Create text objects for player's HP and enemy count
-        this.hitPointsText = this.add.text(10, 10, `HP: ${this.car.hitPoints}`, {
+        this.hitPointsText = this.add.text(10, 10, `HP: ${this.car.hitpoints}`, {
             fontSize: '16px',
             color: '#ffffff',
           }).setScrollFactor(0);
