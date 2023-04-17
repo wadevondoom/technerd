@@ -8,7 +8,7 @@ class Racecar extends Phaser.Physics.Arcade.Image {
         this.angle = -90;
 
         this.body.angularDrag = 120;
-        this.body.maxSpeed = 1024;
+        this.body.maxSpeed = 768;
 
         this.body.setSize(64, 64, true);
     }
@@ -48,6 +48,8 @@ class MainScene extends Phaser.Scene {
     }
 
     create() {
+        console.log("MainScene create");
+
         this.ground = this.add.tileSprite(0, 0, config.width, config.height, 'ground').setOrigin(0, 0).setScrollFactor(0);
 
         this.car = new Racecar(this, 256, 512, 'car');
@@ -57,10 +59,24 @@ class MainScene extends Phaser.Scene {
 
         this.cursorKeys = this.input.keyboard.createCursorKeys();
 
-        this.cameras.main.startFollow(this.car);
+        this.cameras.main.startFollow(this.car, true, 0.05, 0.05);
+
+        this.input.keyboard.on('keydown-F', () => {
+            this.toggleFullscreen();
+        });
+    }
+
+    toggleFullscreen() {
+        if (this.scale.isFullscreen) {
+            this.scale.stopFullscreen();
+        } else {
+            this.scale.startFullscreen();
+        }
     }
 
     update(time, delta) {
+        console.log("MainScene update");
+
         const { scrollX, scrollY } = this.cameras.main;
 
         this.ground.setTilePosition(scrollX, scrollY);
@@ -69,27 +85,15 @@ class MainScene extends Phaser.Scene {
     }
 }
 
-
 class GameOverScene extends Phaser.Scene {
     constructor() {
         super({ key: 'GameOverScene' });
     }
 
     create() {
+        console.log("GameOverScene create");
 
         this.add.text(400, 300, 'Game Over\nPress SPACE to restart', { fontSize: '32px', color: '#ffffff', align: 'center' }).setOrigin(0.5);
-
-        // Save score
-        fetch('/save_score', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                name: playerName,
-                score: playerScore
-            })
-        });
 
         this.input.keyboard.on('keydown-SPACE', () => {
             this.scene.start('MainScene');
@@ -100,16 +104,28 @@ class GameOverScene extends Phaser.Scene {
 class StartScene extends Phaser.Scene {
     constructor() {
         super({ key: 'StartScene' });
-        // Increment play count
-
     }
 
     create() {
+        console.log("StartScene create");
+
         this.add.text(400, 300, 'Press SPACE to start', { fontSize: '32px', color: '#ffffff' }).setOrigin(0.5);
 
         this.input.keyboard.on('keydown-SPACE', () => {
             this.scene.start('MainScene');
         });
+
+        this.input.keyboard.on('keydown-F', () => {
+            this.toggleFullscreen();
+        });
+    }
+
+    toggleFullscreen() {
+        if (this.scale.isFullscreen) {
+            this.scale.stopFullscreen();
+        } else {
+            this.scale.startFullscreen();
+        }
     }
 }
 
@@ -121,8 +137,14 @@ const config = {
         default: 'arcade',
         arcade: {
             gravity: { y: 0 },
-            debug: false,
+            debug: true,
         },
+    },
+    scale: {
+        mode: Phaser.Scale.FIT,
+        autoCenter: Phaser.Scale.CENTER_BOTH,
+        parent: 'your-game-container',
+        fullscreenTarget: 'your-game-container',
     },
     scene: [StartScene, MainScene, GameOverScene],
 };
