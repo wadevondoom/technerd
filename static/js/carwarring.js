@@ -20,7 +20,7 @@ class Racecar extends Phaser.Physics.Arcade.Image {
             this.throttle += 0.5 * delta;
         }
         else if (down.isDown) {
-            this.throttle -= 0.5 * delta;
+            this.throttle -= 1.5 * delta;
         }
 
         this.throttle = Phaser.Math.Clamp(this.throttle, -64, 1024);
@@ -41,7 +41,7 @@ class Racecar extends Phaser.Physics.Arcade.Image {
     }
 }
 
-class Example extends Phaser.Scene {
+class MainScene extends Phaser.Scene {
     preload() {
         this.load.image('ground', '/static/assets/carwars/sprites/ground.jpg');
         this.load.image('car', '/static/assets/carwars/sprites/two-way.png');
@@ -69,16 +69,62 @@ class Example extends Phaser.Scene {
     }
 }
 
+
+class GameOverScene extends Phaser.Scene {
+    constructor() {
+        super({ key: 'GameOverScene' });
+    }
+
+    create() {
+
+        this.add.text(400, 300, 'Game Over\nPress SPACE to restart', { fontSize: '32px', color: '#ffffff', align: 'center' }).setOrigin(0.5);
+
+        // Save score
+        fetch('/save_score', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                name: playerName,
+                score: playerScore
+            })
+        });
+
+        this.input.keyboard.on('keydown-SPACE', () => {
+            this.scene.start('MainScene');
+        });
+    }
+}
+
+class StartScene extends Phaser.Scene {
+    constructor() {
+        super({ key: 'StartScene' });
+        // Increment play count
+
+    }
+
+    create() {
+        this.add.text(400, 300, 'Press SPACE to start', { fontSize: '32px', color: '#ffffff' }).setOrigin(0.5);
+
+        this.input.keyboard.on('keydown-SPACE', () => {
+            this.scene.start('MainScene');
+        });
+    }
+}
+
 const config = {
     type: Phaser.AUTO,
     width: 800,
     height: 600,
-    parent: 'phaser-example',
     physics: {
         default: 'arcade',
-        arcade: { debug: false }
+        arcade: {
+            gravity: { y: 0 },
+            debug: false,
+        },
     },
-    scene: Example
+    scene: [StartScene, MainScene, GameOverScene],
 };
 
 const game = new Phaser.Game(config);

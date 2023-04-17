@@ -263,7 +263,7 @@ class StartScene extends Phaser.Scene {
     constructor() {
         super({ key: 'StartScene' });
         // Increment play count
-        fetch('/play_count', { method: 'POST' });
+
     }
 
     create() {
