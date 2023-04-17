@@ -179,7 +179,7 @@ class MainScene extends Phaser.Scene {
             this.cameras.main.width - 100, 10, `Enemies: ${this.bombos.getLength()}`, {
             fontSize: '16px',
             color: '#ffffff',
-          }).setScrollFactor(0);
+        }).setScrollFactor(0);
 
         this.physics.add.collider(
             this.car,
@@ -235,9 +235,18 @@ class MainScene extends Phaser.Scene {
         const { scrollX, scrollY } = this.cameras.main;
 
         this.ground.setTilePosition(scrollX, scrollY);
+
         this.car.update(delta, this.cursorKeys);
-        this.bombo.update(delta, this.car);
+
+        // Call the update method on each Bombo instance in the group
+        this.bombos.getChildren().forEach((bombo) => {
+            bombo.update(delta, this.car.x, this.car.y);
+        });
+
+        this.hitPointsText.setText(`HP: ${this.car.hitPoints}`);
+        this.enemyCountText.setText(`Enemies: ${this.bombos.getLength()}`);
     }
+
 }
 
 class StartScene extends Phaser.Scene {
