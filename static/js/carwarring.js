@@ -43,7 +43,7 @@ class Racecar extends Phaser.Physics.Arcade.Image {
 }
 
 class Bombo extends Phaser.Physics.Arcade.Image {
-    hitpoints = 2;
+    hitpoints = 3;
 
     constructor(scene, x, y, texture) {
         super(scene, x, y, texture);
@@ -55,14 +55,43 @@ class Bombo extends Phaser.Physics.Arcade.Image {
 
     configure() {
         this.angle = -90;
-
+    
         this.body.angularDrag = 120;
         this.body.maxSpeed = 600;
-
+    
         this.body.setSize(64, 64, true);
-
+    
         // Set a random off-screen spawn position
-        this.setRandomOffscreenPosition();
+        const spawnSide = Phaser.Math.Between(0, 3);
+        let x, y;
+    
+        switch (spawnSide) {
+            case 0: // Top
+                x = Phaser.Math.Between(0, this.scene.cameras.main.width);
+                y = -64;
+                break;
+            case 1: // Right
+                x = this.scene.cameras.main.width + 64;
+                y = Phaser.Math.Between(0, this.scene.cameras.main.height);
+                break;
+            case 2: // Bottom
+                x = Phaser.Math.Between(0, this.scene.cameras.main.width);
+                y = this.scene.cameras.main.height + 64;
+                break;
+            case 3: // Left
+            default:
+                x = -64;
+                y = Phaser.Math.Between(0, this.scene.cameras.main.height);
+                break;
+        }
+    
+        // Add camera scroll position to the calculated spawn position
+        x += this.scene.cameras.main.scrollX;
+        y += this.scene.cameras.main.scrollY;
+    
+        this.setPosition(x, y);
+        this.spawnX = x;
+        this.spawnY = y;
     }
 
     setRandomOffscreenPosition() {
