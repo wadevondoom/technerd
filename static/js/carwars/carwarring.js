@@ -3,6 +3,7 @@ const VelocityFromRotation = Phaser.Physics.Arcade.ArcadePhysics.prototype.veloc
 
 class Racecar extends Phaser.Physics.Arcade.Image {
     throttle = 0;
+    health = 10; // Add health property
 
     configure() {
         this.angle = -90;
@@ -60,6 +61,42 @@ class Racecar extends Phaser.Physics.Arcade.Image {
     }
 }
 
+class EnemyCar extends Phaser.Physics.Arcade.Image {
+    constructor(scene, x, y, texture) {
+        super(scene, x, y, texture);
+        scene.add.existing(this);
+        scene.physics.add.existing(this);
+        this.configure();
+    }
+
+    configure() {
+        this.angle = -90;
+        this.body.setSize(64, 64, true);
+    }
+
+    chasePlayer(player) {
+        this.scene.physics.moveToObject(this, player, 100);
+    }
+
+    shoot(bulletGroup, target) {
+        const bullet = bulletGroup.get(this.x, this.y, 'bullet');
+        if (bullet) {
+            bullet.setActive(true);
+            bullet.setVisible(true);
+            bullet.setAngle(this.angle);
+            bullet.setRotation(this.rotation);
+            const speed = 500;
+            this.scene.physics.velocityFromAngle(this.angle, speed, bullet.body.velocity);
+
+            this.scene.time.delayedCall(1000, () => {
+                bullet.setActive(false);
+                bullet.setVisible(false);
+                bullet.body.stop();
+            });
+        }
+    }
+}
+
 class MainScene extends Phaser.Scene {
     constructor() {
         super({ key: 'MainScene' });
@@ -69,6 +106,7 @@ class MainScene extends Phaser.Scene {
         this.load.image('ground', '/static/assets/carwars/sprites/ground.jpg');
         this.load.image('car', '/static/assets/carwars/sprites/hunter.png');
         this.load.image('bullet', '/static/assets/carwars/sprites/bullet.png');
+        this.load.image('bombo', '/static/assets/carwars/sprites/bomb-o.png');
     }
 
     create() {
@@ -99,6 +137,10 @@ class MainScene extends Phaser.Scene {
 
         // Camera follows player
         this.cameras.main.startFollow(this.car);
+
+        // Spawn enemy
+        this.enemyCars = this.physics.add.group();
+        this.spawnEnemy();
     }
 
     update(time, delta) {
@@ -113,7 +155,47 @@ class MainScene extends Phaser.Scene {
             this.car.shoot(this.bullets);
         }
 
+        this.enemyCars.children.iterate((enemyCar) => {
+            enemyCar.chasePlayer(this.car);
+        });
+
     }
+
+    spawnEnemy() {
+        const enemyCar = new EnemyCar(this, 600, 500, 'bombo');
+        this.enemyCars.add(enemyCar);
+        this.physics.add.collider(this.car, this.enemyCars, this.carHitEnemy, null, this);
+        this.physics.add.overlap(this.car.bullets, this.enemyCars, this.bulletHitEnemy, null, this);
+
+        this.time.delayedCall(1000, () => {
+            const shootTimer = this.time.addEvent({
+                delay: 1000,
+                callback: () => {
+                    enemyCar.shoot(this.bullets, this.car);
+                },
+                callbackScope: this,
+                loop: true
+            });
+        });
+    }
+
+    carHitEnemy(car, enemyCar) {
+        enemyCar.destroy();
+        car.health -= 1;
+        console.log('Player health:', car.health);
+    }
+
+    bulletHitEnemy(bullet, enemyCar) {
+        bullet.setActive(false);
+        bullet.setVisible(false);
+        bullet.body.stop();
+
+        enemyCar.destroy();
+        this.car.health -= 1;
+        console.log('Player health:', this.car.health);
+    }
+
+
 }
 
 class StartScene extends Phaser.Scene {
