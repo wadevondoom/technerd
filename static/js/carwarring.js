@@ -10,7 +10,7 @@ class Racecar extends Phaser.Physics.Arcade.Image
         this.angle = -90;
 
         this.body.angularDrag = 120;
-        this.body.maxSpeed = 1024;
+        this.body.maxSpeed = 800;
 
         this.body.setSize(64, 64, true);
     }
@@ -21,11 +21,11 @@ class Racecar extends Phaser.Physics.Arcade.Image
 
         if (up.isDown)
         {
-            this.throttle += 0.5 * delta;
+            this.throttle += 0.6 * delta;
         }
         else if (down.isDown)
         {
-            this.throttle -= 0.5 * delta;
+            this.throttle -= 1.5 * delta;
         }
 
         this.throttle = Phaser.Math.Clamp(this.throttle, -64, 1024);
@@ -49,7 +49,7 @@ class Racecar extends Phaser.Physics.Arcade.Image
     }
 }
 
-class Example extends Phaser.Scene
+class MainScene extends Phaser.Scene
 {
     preload ()
     {
