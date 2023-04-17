@@ -42,6 +42,9 @@ class Racecar extends Phaser.Physics.Arcade.Image {
 }
 
 class MainScene extends Phaser.Scene {
+    constructor() {
+        super({ key: 'MainScene' });
+    }
     preload() {
         this.load.image('ground', '/static/assets/carwars/sprites/ground.jpg');
         this.load.image('car', '/static/assets/carwars/sprites/two-way.png');
@@ -70,6 +73,9 @@ class MainScene extends Phaser.Scene {
 }
 
 class StartScene extends Phaser.Scene {
+    constructor() {
+        super({ key: 'StartScene' });
+    }
     preload() {
         this.load.image('startScreen', '/static/assets/carwars/sprites/startScreen.jpg');
     }
@@ -103,7 +109,7 @@ const config = {
         parent: 'gameCanvas',
         fullscreenTarget: 'gameCanvas',
     },
-    scene: [StartScene],
+    scene: [StartScene, MainScene],
 };
 
 const game = new Phaser.Game(config);
