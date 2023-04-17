@@ -138,10 +138,17 @@ class MainScene extends Phaser.Scene {
         this.physics.add.existing(this.car);
         this.car.configure();
 
-        this.bombo = new Bombo(this, 768, 512, 'bombo');
-        this.add.existing(this.bombo);
-        this.physics.add.existing(this.bombo);
-        this.bombo.configure();
+        // Create a group for Bombo instances
+        this.bombos = this.add.group();
+
+        // Instantiate and configure two Bombo instances
+        for (let i = 0; i < 2; i++) {
+            const bombo = new Bombo(this, 768, 512, 'bombo');
+            this.add.existing(bombo);
+            this.physics.add.existing(bombo);
+            bombo.configure();
+            this.bombos.add(bombo);
+        }
 
         this.cursorKeys = this.input.keyboard.createCursorKeys();
 
@@ -169,10 +176,10 @@ class MainScene extends Phaser.Scene {
         }).setScrollFactor(0);
 
         this.enemyCountText = this.add.text(
-            this.cameras.main.width - 100, 10, `Enemies: 1`, {
+            this.cameras.main.width - 100, 10, `Enemies: ${this.bombos.getLength()}`, {
             fontSize: '16px',
             color: '#ffffff',
-        }).setScrollFactor(0);
+          }).setScrollFactor(0);
 
         this.physics.add.collider(
             this.car,
