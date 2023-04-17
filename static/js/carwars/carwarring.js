@@ -120,7 +120,7 @@ class MainScene extends Phaser.Scene {
         this.load.image('car', '/static/assets/carwars/sprites/hunter.png');
         this.load.image('bullet', '/static/assets/carwars/sprites/bullet.png');
         this.load.image('robutt', '/static/assets/carwars/sprites/robutt.png');
-        this.load.json('enemyWaves', '/static/js/enemyWaves.json');
+        this.load.json('enemyWaves', '/static/js/carwars/enemyWaves.json');
     }
 
     create() {
@@ -277,6 +277,7 @@ const config = {
     type: Phaser.AUTO,
     width: 800,
     height: 600,
+    backgroundColor: 0x000000,
     physics: {
         default: 'arcade',
         arcade: {
