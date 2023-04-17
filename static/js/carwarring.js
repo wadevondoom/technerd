@@ -3,8 +3,8 @@ const VelocityFromRotation = Phaser.Physics.Arcade.ArcadePhysics.prototype.veloc
 
 class Racecar extends Phaser.Physics.Arcade.Image {
     throttle = 0;
-    hitpoints = 5;
-
+    hitpoints = 8;
+    invulnerable = false; // Add invulnerability flag
     configure() {
         this.angle = -90;
 
@@ -55,9 +55,12 @@ class Bombo extends Phaser.Physics.Arcade.Image {
     configure() {
         this.angle = -90;
         this.body.angularDrag = 120;
-        this.body.maxSpeed = 750; // A bit slower than the player
+        this.body.maxSpeed = 300; // A bit slower than the player
         this.body.setSize(64, 64, true);
         this.chasing = false;
+        this.body.maxSpeed = 750;
+        this.body.velocity.setTo(0, 0); // Set initial velocity to zero
+        this.acceleration = 50; // Set acceleration for Bombo
     }
 
     update(delta, target) {
@@ -70,7 +73,14 @@ class Bombo extends Phaser.Physics.Arcade.Image {
             });
         } else {
             const direction = Phaser.Math.Angle.Between(this.x, this.y, target.x, target.y);
-            this.scene.physics.velocityFromRotation(direction, this.body.maxSpeed, this.body.velocity);
+            this.rotation = direction; // Rotate Bombo towards the direction it's traveling
+      
+            // Accelerate Bombo towards the target
+            this.scene.physics.velocityFromRotation(
+              direction,
+              Math.min(this.body.speed + this.acceleration * delta, this.body.maxSpeed),
+              this.body.velocity
+            );
         }
     }
 }
@@ -108,6 +118,9 @@ class MainScene extends Phaser.Scene {
             this.bombo,
             (player, bombo) => {
                 player.hitpoints -= 1;
+                this.time.delayedCall(1000, () => {
+                    player.invulnerable = false;
+                  });
                 if (player.hitpoints <= 0) {
                     this.scene.start('GameOverScene');
                 }
@@ -119,6 +132,9 @@ class MainScene extends Phaser.Scene {
                     player.body.velocity.x - Math.cos(angle) * force / distance,
                     player.body.velocity.y - Math.sin(angle) * force / distance
                 );
+                // Set Bombo's velocity to zero and make it speed up again
+                bombo.body.velocity.setTo(0, 0);
+                bombo.chasing = false;
             },
             null,
             this
