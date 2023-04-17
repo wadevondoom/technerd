@@ -111,7 +111,7 @@ class MainScene extends Phaser.Scene {
         this.physics.add.existing(this.car);
         this.car.configure();
 
-        this.bombo = new Bombo(this, 768, 512, 'car');
+        this.bombo = new Bombo(this, 768, 512, 'bombo');
         this.add.existing(this.bombo);
         this.physics.add.existing(this.bombo);
         this.bombo.configure();
