@@ -162,7 +162,7 @@ class MainScene extends Phaser.Scene {
     }
 
     spawnEnemy() {
-        const enemyCar = new EnemyCar(this, 600, 500, 'bombo');
+        const enemyCar = new EnemyCar(this, 600, 500, 'robutt');
         this.enemyCars.add(enemyCar);
         this.physics.add.collider(this.car, enemyCar, this.carHitEnemy, null, this);
         this.physics.add.overlap(this.bullets, enemyCar, this.bulletHitEnemy, null, this);
