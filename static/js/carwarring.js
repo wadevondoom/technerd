@@ -56,14 +56,41 @@ class Bombo extends Phaser.Physics.Arcade.Image {
 
     configure() {
         this.angle = -90;
+
         this.body.angularDrag = 120;
-        this.body.maxSpeed = 200; // A bit slower than the player
+        this.body.maxSpeed = 600;
+
         this.body.setSize(64, 64, true);
-        this.chasing = false;
-        this.body.maxSpeed = 300;
-        this.body.velocity.setTo(0, 0); // Set initial velocity to zero
-        this.acceleration = 25; // Set acceleration for Bombo
+
+        // Set a random off-screen spawn position
+        const spawnSide = Phaser.Math.Between(0, 3);
+        let x, y;
+
+        switch (spawnSide) {
+            case 0: // Top
+                x = Phaser.Math.Between(0, this.scene.cameras.main.width);
+                y = -64;
+                break;
+            case 1: // Right
+                x = this.scene.cameras.main.width + 64;
+                y = Phaser.Math.Between(0, this.scene.cameras.main.height);
+                break;
+            case 2: // Bottom
+                x = Phaser.Math.Between(0, this.scene.cameras.main.width);
+                y = this.scene.cameras.main.height + 64;
+                break;
+            case 3: // Left
+            default:
+                x = -64;
+                y = Phaser.Math.Between(0, this.scene.cameras.main.height);
+                break;
+        }
+
+        this.setPosition(x, y);
+        this.spawnX = x;
+        this.spawnY = y;
     }
+
 
     update(delta, target) {
         if (!this.chasing) {
@@ -111,7 +138,7 @@ class MainScene extends Phaser.Scene {
         this.physics.add.existing(this.car);
         this.car.configure();
 
-        this.bombo = new Bombo(this, 768, 512, 'car');
+        this.bombo = new Bombo(this, 768, 512, 'bombo');
         this.add.existing(this.bombo);
         this.physics.add.existing(this.bombo);
         this.bombo.configure();
