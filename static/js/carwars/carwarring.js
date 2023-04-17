@@ -167,7 +167,11 @@ class MainScene extends Phaser.Scene {
         this.physics.add.collider(this.car, enemyCar, this.carHitEnemy, null, this);
         this.physics.add.overlap(this.bullets, enemyCar, this.bulletHitEnemy, null, this);
 
+        // Start chasing after a 1-second delay
         this.time.delayedCall(1000, () => {
+            enemyCar.startChasing();
+
+            // Shoot every 1 second if the player car is in front
             const shootTimer = this.time.addEvent({
                 delay: 1000,
                 callback: () => {
@@ -176,8 +180,9 @@ class MainScene extends Phaser.Scene {
                 callbackScope: this,
                 loop: true
             });
-        });
+        }, null, this);
     }
+
 
     carHitEnemy(car, enemyCar) {
         enemyCar.destroy();
