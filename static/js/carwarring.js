@@ -115,8 +115,13 @@ class StartScene extends Phaser.Scene {
 
         this.add.text(400, 300, 'Press SPACE to start', { fontSize: '32px', color: '#ffffff' }).setOrigin(0.5);
 
-        this.input.keyboard.once('keydown-SPACE', () => {
-            this.scene.start('MainScene');
+        this.startingMainScene = false;
+
+        this.input.keyboard.on('keydown-SPACE', () => {
+            if (!this.startingMainScene) {
+                this.startingMainScene = true;
+                this.scene.start('MainScene');
+            }
         });
 
         this.input.keyboard.on('keydown-F', () => {
@@ -132,6 +137,7 @@ class StartScene extends Phaser.Scene {
         }
     }
 }
+
 
 const config = {
     type: Phaser.AUTO,
