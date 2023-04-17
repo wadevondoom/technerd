@@ -184,7 +184,7 @@ class MainScene extends Phaser.Scene {
           
         this.physics.add.collider(
             this.car,
-            this.bombo,
+            this.bombos,
             (player, bombo) => {
                 if (player.invulnerable) return;
 
