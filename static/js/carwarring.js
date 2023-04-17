@@ -44,6 +44,8 @@ class Racecar extends Phaser.Physics.Arcade.Image {
 
 // Add this after the Racecar class
 class Bombo extends Phaser.Physics.Arcade.Image {
+    hitpoints = 2; // Add hitpoints property
+
     constructor(scene, x, y, texture) {
         super(scene, x, y, texture);
         scene.add.existing(this);
@@ -94,6 +96,11 @@ class MainScene extends Phaser.Scene {
         this.load.image('car', '/static/assets/carwars/sprites/two-way.png');
         this.load.image('bombo', '/static/assets/carwars/sprites/bomb-o.png');
 
+        // Load fire sprites
+        this.load.image('fire1', '/static/assets/fire1.png');
+        this.load.image('fire2', '/static/assets/fire2.png');
+        this.load.image('fire3', '/static/assets/fire3.png');
+
     }
 
     create() {
@@ -104,46 +111,72 @@ class MainScene extends Phaser.Scene {
         this.physics.add.existing(this.car);
         this.car.configure();
 
+        this.bombo = new Bombo(this, 768, 512, 'car');
+        this.add.existing(this.bombo);
+        this.physics.add.existing(this.bombo);
+        this.bombo.configure();
+
         this.cursorKeys = this.input.keyboard.createCursorKeys();
 
         this.cameras.main.startFollow(this.car);
 
-        // Add Bombo to the scene
-        this.bombo = new Bombo(this, -100, 300, 'bombo');
-        this.load.image('bombo', '/static/assets/carwars/sprites/bombo.png');
+        // Create a particle emitter manager
+        this.particles = this.add.particles();
 
-        // Update the collider between the player and Bombo
+        // Create a particle emitter
+        this.explosionEmitter = this.particles.createEmitter({
+            x: 0,
+            y: 0,
+            speed: { min: 100, max: 300 },
+            angle: { min: 0, max: 360 },
+            scale: { start: 0.5, end: 0 },
+            alpha: { start: 1, end: 0 },
+            lifespan: 1000,
+            on: false,
+        });
+
         this.physics.add.collider(
             this.car,
             this.bombo,
             (player, bombo) => {
-                if (player.invulnerable) return; // Skip if the player is invulnerable
+                if (player.invulnerable) return;
 
                 player.hitpoints -= 1;
 
-                // Make player invulnerable for a short interval
                 player.invulnerable = true;
                 this.time.delayedCall(1000, () => {
                     player.invulnerable = false;
                 });
 
-                const angle = Phaser.Math.Angle.Between(player.x, player.y, bombo.x, bombo.y);
-                const distance = Phaser.Math.Distance.Between(player.x, player.y, bombo.x, bombo.y);
-                const force = 1000;
+                bombo.hitpoints--;
 
-                player.body.setVelocity(
-                    player.body.velocity.x - Math.cos(angle) * force / distance,
-                    player.body.velocity.y - Math.sin(angle) * force / distance
-                );
+                if (bombo.hitpoints === 0) {
+                    const fireIndex = Phaser.Math.Between(1, 3);
+                    const explosion = this.add.image(bombo.x, bombo.y, `fire${fireIndex}`);
+                    this.tweens.add({
+                        targets: explosion,
+                        alpha: 0,
+                        duration: 1000,
+                        onComplete: () => {
+                            explosion.destroy();
+                        },
+                    });
 
-                // Set Bombo's velocity to zero and make it speed up again
-                bombo.body.velocity.setTo(0, 0);
-                bombo.chasing = false;
+                    // Trigger the particle effect
+                    this.explosionEmitter.setPosition(bombo.x, bombo.y);
+                    this.explosionEmitter.explode(30);
+
+                    bombo.destroy();
+                } else {
+                    bombo.body.velocity.setTo(0, 0);
+                    bombo.chasing = false;
+                }
             },
-            () => !this.car.invulnerable, // Add this line to filter out collisions when the player is invulnerable
+            () => !this.car.invulnerable,
             this
         );
     }
+
 
     update(time, delta) {
         const { scrollX, scrollY } = this.cameras.main;
