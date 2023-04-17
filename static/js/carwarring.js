@@ -55,12 +55,12 @@ class Bombo extends Phaser.Physics.Arcade.Image {
     configure() {
         this.angle = -90;
         this.body.angularDrag = 120;
-        this.body.maxSpeed = 300; // A bit slower than the player
+        this.body.maxSpeed = 200; // A bit slower than the player
         this.body.setSize(64, 64, true);
         this.chasing = false;
-        this.body.maxSpeed = 750;
+        this.body.maxSpeed = 300;
         this.body.velocity.setTo(0, 0); // Set initial velocity to zero
-        this.acceleration = 50; // Set acceleration for Bombo
+        this.acceleration = 25; // Set acceleration for Bombo
     }
 
     update(delta, target) {
@@ -74,12 +74,12 @@ class Bombo extends Phaser.Physics.Arcade.Image {
         } else {
             const direction = Phaser.Math.Angle.Between(this.x, this.y, target.x, target.y);
             this.rotation = direction; // Rotate Bombo towards the direction it's traveling
-      
+
             // Accelerate Bombo towards the target
             this.scene.physics.velocityFromRotation(
-              direction,
-              Math.min(this.body.speed + this.acceleration * delta, this.body.maxSpeed),
-              this.body.velocity
+                direction,
+                Math.min(this.body.speed + this.acceleration * delta, this.body.maxSpeed),
+                this.body.velocity
             );
         }
     }
@@ -112,18 +112,21 @@ class MainScene extends Phaser.Scene {
         this.bombo = new Bombo(this, -100, 300, 'bombo');
         this.load.image('bombo', '/static/assets/carwars/sprites/bombo.png');
 
-        // Add a collider between the player and Bombo
+        // Update the collider between the player and Bombo
         this.physics.add.collider(
             this.car,
             this.bombo,
             (player, bombo) => {
+                if (player.invulnerable) return; // Skip if the player is invulnerable
+
                 player.hitpoints -= 1;
+
+                // Make player invulnerable for a short interval
+                player.invulnerable = true;
                 this.time.delayedCall(1000, () => {
                     player.invulnerable = false;
-                  });
-                if (player.hitpoints <= 0) {
-                    this.scene.start('GameOverScene');
-                }
+                });
+
                 const angle = Phaser.Math.Angle.Between(player.x, player.y, bombo.x, bombo.y);
                 const distance = Phaser.Math.Distance.Between(player.x, player.y, bombo.x, bombo.y);
                 const force = 1000;
@@ -132,14 +135,14 @@ class MainScene extends Phaser.Scene {
                     player.body.velocity.x - Math.cos(angle) * force / distance,
                     player.body.velocity.y - Math.sin(angle) * force / distance
                 );
+
                 // Set Bombo's velocity to zero and make it speed up again
                 bombo.body.velocity.setTo(0, 0);
                 bombo.chasing = false;
             },
-            null,
+            () => !this.car.invulnerable, // Add this line to filter out collisions when the player is invulnerable
             this
         );
-
     }
 
     update(time, delta) {
