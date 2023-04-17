@@ -97,9 +97,9 @@ class MainScene extends Phaser.Scene {
         this.load.image('bombo', '/static/assets/carwars/sprites/bomb-o.png');
 
         // Load fire sprites
-        this.load.image('fire1', '/static/assets/fire1.png');
-        this.load.image('fire2', '/static/assets/fire2.png');
-        this.load.image('fire3', '/static/assets/fire3.png');
+        this.load.image('fire1', '/static/assets/carwars/sprites/fire1.png');
+        this.load.image('fire2', '/static/assets/carwars/sprites/fire2.png');
+        this.load.image('fire3', '/static/assets/carwars/sprites/fire3.png');
 
     }
 
@@ -167,6 +167,11 @@ class MainScene extends Phaser.Scene {
                     this.explosionEmitter.explode(30);
 
                     bombo.destroy();
+
+                    this.bombo = new Bombo(this, 768, 512, 'car');
+                    this.add.existing(this.bombo);
+                    this.physics.add.existing(this.bombo);
+                    this.bombo.configure();
                 } else {
                     bombo.body.velocity.setTo(0, 0);
                     bombo.chasing = false;
