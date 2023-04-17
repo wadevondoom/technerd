@@ -80,14 +80,19 @@ class EnemyCar extends Phaser.Physics.Arcade.Image {
     }
 
     chasePlayer(player, maxChaseDistance = 800) {
+        if (!this.scene) { // Add this check
+            return;
+        }
+    
         const distance = Phaser.Math.Distance.Between(this.x, this.y, player.x, player.y);
         if (distance <= maxChaseDistance) {
-            this.scene.physics.moveToObject(this, player, 100);
+            this.scene.physics.moveToObject(this, player, 400);
         } else {
             this.spawnEnemyNearPlayer(player); // Use the stored reference
             this.destroy();
         }
     }
+    
 
     shoot(bulletGroup) {
         const bullet = bulletGroup.get(this.x, this.y, 'bullet');
@@ -219,11 +224,11 @@ class MainScene extends Phaser.Scene {
     bulletHitEnemy(bullet, enemyCar) {
         bullet.setActive(false);
         bullet.setVisible(false);
-        bullet.body.stop();
-
+        if (bullet.body) { // Add this check
+            bullet.body.stop();
+        }
+    
         enemyCar.destroy();
-        this.car.health -= 1;
-        console.log('Player health:', this.car.health);
     }
 
 
