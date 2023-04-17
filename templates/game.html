@@ -7,41 +7,59 @@
 {% endblock %}
 
 {% block content %}
+{% block extra_css %}{% endblock %}
 <div class="container">
+    <h1>Games for Technerdiacs</h1>
     <div class="row">
         <!-- Card 1 -->
-        <div class="col-md-12">
+        <div class="col-md-6 col-lg-4">
             <div class="card-game">
-                <img src="{{ url_for('static', filename='img/shooter_thumbnail.jpg') }}" class="card-img"
-                    alt="Game Thumbnail" onclick="openGameWindowNIS();">
+                <img src="{{ url_for('static', filename='img/shooter_thumbnail.jpg') }}" class="card-img" alt="Game Thumbnail">
                 <div class="card-info">
-                    <h5 class="card-title">Nerds in Space</h5>
-                    <p class="card-description">A fast-paced space shooter game. Battle through waves of enemies and
-                        defeat the boss!</p>
+                    <h2 class="card-title">Nerds in Space</h2>
+                    <p class="card-description">A fast-paced space shooter game. Battle through waves of enemies and defeat the boss!</p>
                     <div class="stats">
-                        <span>High Score: 12500</span>
+                        <span>High Score: 12,500</span>
                         <span>Games Played: 238</span>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="col-md-12">
+
+        <!-- Card 2 -->
+        <div class="col-md-6 col-lg-4">
             <div class="card-game">
-                <img src="{{ url_for('static', filename='img/cw.jpg') }}" class="card-img"
-                    alt="Game Thumbnail" onclick="openGameWindowCW();">
+                <img src="{{ url_for('static', filename='img/cw.jpg') }}" class="card-img" alt="Game Thumbnail">
                 <div class="card-info">
-                    <h5 class="card-title">Nerds in Space</h5>
-                    <p class="card-description">Destory or be destoryed. Car Warring combat!</p>
+                    <h2 class="card-title">War of Cars</h2>
+                    <p class="card-description">Destroy or be destroyed. Car warring combat!</p>
                     <div class="stats">
-                        <span>High Score: 425150</span>
+                        <span>High Score: 425,150</span>
                         <span>Games Played: 119</span>
                     </div>
                 </div>
             </div>
         </div>
+
+        <!-- Card 3 -->
+        <div class="col-md-6 col-lg-4">
+            <div class="card-game">
+                <img src="{{ url_for('static', filename='img/placeholder.jpg') }}" class="card-img" alt="Game Thumbnail">
+                <div class="card-info">
+                    <h2 class="card-title">Jungle Adventure</h2>
+                    <p class="card-description">Explore the jungle and find the hidden treasures. Avoid traps and dangerous creatures!</p>
+                    <div class="stats">
+                        <span>High Score: 2,450</span>
+                        <span>Games Played: 86</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <!-- Add more cards below for other games -->
     </div>
 </div>
+
 {% endblock %}
 
 

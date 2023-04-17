@@ -44,7 +44,7 @@ class Racecar extends Phaser.Physics.Arcade.Image {
 class Example extends Phaser.Scene {
     preload() {
         this.load.image('ground', '/static/assets/carwars/sprites/ground.jpg');
-        this.load.image('car', '/static/assets/carwars/sprites/hunter.png');
+        this.load.image('car', '/static/assets/carwars/sprites/two-way.png');
     }
 
     create() {
