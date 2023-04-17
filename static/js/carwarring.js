@@ -51,10 +51,14 @@ class Racecar extends Phaser.Physics.Arcade.Image
 
 class MainScene extends Phaser.Scene
 {
+    constructor() {
+        super({ key: 'MainScene' });
+    }
+
     preload ()
     {
-        this.load.image('ground', '/static/assets/carwars/sprites/textures/ground.jpg');
-        this.load.image('car', '/static/assets/carwars/sprites/textures/hunter.png');
+        this.load.image('ground', '/static/assets/carwars/sprites/ground.jpg');
+        this.load.image('car', '/static/assets/carwars/sprites/hunter.png');
     }
 
     create ()
