@@ -111,7 +111,7 @@ class MainScene extends Phaser.Scene {
         this.physics.add.existing(this.car);
         this.car.configure();
 
-        this.bombo = new Bombo(this, 768, 512, 'bombo');
+        this.bombo = new Bombo(this, 768, 512, 'car');
         this.add.existing(this.bombo);
         this.physics.add.existing(this.bombo);
         this.bombo.configure();
@@ -135,6 +135,18 @@ class MainScene extends Phaser.Scene {
             on: false,
         });
 
+        // Create text objects for player's HP and enemy count
+        this.hpText = this.add.text(10, 10, `HP: ${this.car.hitpoints}`, {
+            fontSize: '16px',
+            color: '#ffffff',
+        }).setScrollFactor(0);
+
+        this.enemyCountText = this.add.text(
+            this.cameras.main.width - 100, 10, `Enemies: 1`, {
+            fontSize: '16px',
+            color: '#ffffff',
+        }).setScrollFactor(0);
+
         this.physics.add.collider(
             this.car,
             this.bombo,
@@ -142,6 +154,7 @@ class MainScene extends Phaser.Scene {
                 if (player.invulnerable) return;
 
                 player.hitpoints -= 1;
+                this.hpText.setText(`HP: ${player.hitpoints}`);
 
                 player.invulnerable = true;
                 this.time.delayedCall(1000, () => {
@@ -168,19 +181,20 @@ class MainScene extends Phaser.Scene {
 
                     bombo.destroy();
 
-                    this.bombo = new Bombo(this, 768, 512, 'car');
-                    this.add.existing(this.bombo);
-                    this.physics.add.existing(this.bombo);
-                    this.bombo.configure();
+                    // Update enemy count text
+                    this.enemyCountText.setText('Enemies: 0');
                 } else {
                     bombo.body.velocity.setTo(0, 0);
                     bombo.chasing = false;
+                    bombo.x = bombo.spawnX;
+                    bombo.y = bombo.spawnY;
                 }
             },
             () => !this.car.invulnerable,
             this
         );
     }
+
 
 
     update(time, delta) {
