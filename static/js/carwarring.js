@@ -66,6 +66,10 @@ class MainScene extends Phaser.Scene {
         });
     }
 
+    shutdown() {
+        this.input.keyboard.off('keydown-F', this.toggleFullscreen, this);
+    }
+
     toggleFullscreen() {
         if (this.scale.isFullscreen) {
             this.scale.stopFullscreen();
@@ -111,7 +115,7 @@ class StartScene extends Phaser.Scene {
 
         this.add.text(400, 300, 'Press SPACE to start', { fontSize: '32px', color: '#ffffff' }).setOrigin(0.5);
 
-        this.input.keyboard.on('keydown-SPACE', () => {
+        this.input.keyboard.once('keydown-SPACE', () => {
             this.scene.start('MainScene');
         });
 
@@ -143,8 +147,8 @@ const config = {
     scale: {
         mode: Phaser.Scale.FIT,
         autoCenter: Phaser.Scale.CENTER_BOTH,
-        parent: 'your-game-container',
-        fullscreenTarget: 'your-game-container',
+        parent: 'gameCanvas',
+        fullscreenTarget: 'gameCanvas',
     },
     scene: [StartScene, MainScene, GameOverScene],
 };
