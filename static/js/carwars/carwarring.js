@@ -47,7 +47,10 @@ class Racecar extends Phaser.Physics.Arcade.Image {
             bullet.setVisible(true);
             bullet.setAngle(this.angle);
             bullet.setRotation(this.rotation);
-            bullet.body.setVelocityFromRotation(this.rotation, 1000);
+            const speed = 1000;
+            const velocity = new Phaser.Math.Vector2();
+            Phaser.Physics.Arcade.velocityFromAngle(this.angle, speed, velocity);
+            bullet.setVelocity(velocity.x, velocity.y);
         }
     }
 
