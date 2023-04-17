@@ -106,7 +106,7 @@ class MainScene extends Phaser.Scene {
         this.load.image('ground', '/static/assets/carwars/sprites/ground.jpg');
         this.load.image('car', '/static/assets/carwars/sprites/hunter.png');
         this.load.image('bullet', '/static/assets/carwars/sprites/bullet.png');
-        this.load.image('bombo', '/static/assets/carwars/sprites/bomb-o.png');
+        this.load.image('robutt', '/static/assets/carwars/sprites/robutt.png');
     }
 
     create() {
@@ -166,22 +166,25 @@ class MainScene extends Phaser.Scene {
         this.enemyCars.add(enemyCar);
         this.physics.add.collider(this.car, enemyCar, this.carHitEnemy, null, this);
         this.physics.add.overlap(this.bullets, enemyCar, this.bulletHitEnemy, null, this);
-
+    
         // Start chasing after a 1-second delay
         this.time.delayedCall(1000, () => {
-            enemyCar.startChasing();
-
+            enemyCar.chasePlayer(this.car);
+            
             // Shoot every 1 second if the player car is in front
             const shootTimer = this.time.addEvent({
                 delay: 1000,
                 callback: () => {
-                    enemyCar.shoot(this.bullets, this.car);
+                    if (this.car.x > enemyCar.x) {
+                        enemyCar.shoot(this.bullets, this.car);
+                    }
                 },
                 callbackScope: this,
                 loop: true
             });
         }, null, this);
     }
+    
 
 
     carHitEnemy(car, enemyCar) {
@@ -191,6 +194,7 @@ class MainScene extends Phaser.Scene {
         if (car.health == 0) {
             this.scene.start('StartScene');
         }
+        this.spawnEnemy();
     }
 
     bulletHitEnemy(bullet, enemyCar) {
