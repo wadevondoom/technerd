@@ -1,38 +1,45 @@
 // velocityFromRotation() can be called like a plain function.
 const VelocityFromRotation = Phaser.Physics.Arcade.ArcadePhysics.prototype.velocityFromRotation;
 
-class Racecar extends Phaser.Physics.Arcade.Image {
+class Racecar extends Phaser.Physics.Arcade.Image
+{
     throttle = 0;
-    hitpoints = 8;
-    invulnerable = false; // Add invulnerability flag
-    configure() {
+
+    configure ()
+    {
         this.angle = -90;
 
         this.body.angularDrag = 120;
-        this.body.maxSpeed = 800;
+        this.body.maxSpeed = 1024;
 
         this.body.setSize(64, 64, true);
     }
 
-    update(delta, cursorKeys) {
+    update (delta, cursorKeys)
+    {
         const { left, right, up, down } = cursorKeys;
 
-        if (up.isDown) {
-            this.throttle += 0.6 * delta;
+        if (up.isDown)
+        {
+            this.throttle += 0.5 * delta;
         }
-        else if (down.isDown) {
-            this.throttle -= 1.5 * delta;
+        else if (down.isDown)
+        {
+            this.throttle -= 0.5 * delta;
         }
 
         this.throttle = Phaser.Math.Clamp(this.throttle, -64, 1024);
 
-        if (left.isDown) {
+        if (left.isDown)
+        {
             this.body.setAngularAcceleration(-360);
         }
-        else if (right.isDown) {
+        else if (right.isDown)
+        {
             this.body.setAngularAcceleration(360);
         }
-        else {
+        else
+        {
             this.body.setAngularAcceleration(0);
         }
 
@@ -42,125 +49,16 @@ class Racecar extends Phaser.Physics.Arcade.Image {
     }
 }
 
-class Bombo extends Phaser.Physics.Arcade.Image {
-    hitpoints = 3;
-
-    constructor(scene, x, y, texture) {
-        super(scene, x, y, texture);
-        scene.add.existing(this);
-        scene.physics.add.existing(this);
-
-        this.configure();
+class Example extends Phaser.Scene
+{
+    preload ()
+    {
+        this.load.image('ground', '/static/assets/carwars/sprites/textures/ground.jpg');
+        this.load.image('car', '/static/assets/carwars/sprites/textures/hunter.png');
     }
 
-    configure() {
-        this.angle = -90;
-    
-        this.body.angularDrag = 120;
-        this.body.maxSpeed = 600;
-    
-        this.body.setSize(64, 64, true);
-    
-        // Set a random off-screen spawn position
-        const spawnSide = Phaser.Math.Between(0, 3);
-        let x, y;
-    
-        switch (spawnSide) {
-            case 0: // Top
-                x = Phaser.Math.Between(0, this.scene.cameras.main.width);
-                y = -64;
-                break;
-            case 1: // Right
-                x = this.scene.cameras.main.width + 64;
-                y = Phaser.Math.Between(0, this.scene.cameras.main.height);
-                break;
-            case 2: // Bottom
-                x = Phaser.Math.Between(0, this.scene.cameras.main.width);
-                y = this.scene.cameras.main.height + 64;
-                break;
-            case 3: // Left
-            default:
-                x = -64;
-                y = Phaser.Math.Between(0, this.scene.cameras.main.height);
-                break;
-        }
-    
-        // Add camera scroll position to the calculated spawn position
-        x += this.scene.cameras.main.scrollX;
-        y += this.scene.cameras.main.scrollY;
-    
-        this.setPosition(x, y);
-        this.spawnX = x;
-        this.spawnY = y;
-    }
-
-    setRandomOffscreenPosition() {
-        const spawnSide = Phaser.Math.Between(0, 3);
-        let x, y;
-
-        switch (spawnSide) {
-            case 0: // Top
-                x = Phaser.Math.Between(0, this.scene.cameras.main.width);
-                y = -64;
-                break;
-            case 1: // Right
-                x = this.scene.cameras.main.width + 64;
-                y = Phaser.Math.Between(0, this.scene.cameras.main.height);
-                break;
-            case 2: // Bottom
-                x = Phaser.Math.Between(0, this.scene.cameras.main.width);
-                y = this.scene.cameras.main.height + 64;
-                break;
-            case 3: // Left
-            default:
-                x = -64;
-                y = Phaser.Math.Between(0, this.scene.cameras.main.height);
-                break;
-        }
-
-        this.setPosition(x, y);
-    }
-
-    update(delta, target) {
-        const direction = Phaser.Math.Angle.Between(this.x, this.y, target.x, target.y);
-        this.rotation = direction;
-
-        // Accelerate Bombo towards the target
-        this.scene.physics.velocityFromRotation(
-            direction,
-            Math.min(this.body.speed + this.acceleration * delta, this.body.maxSpeed),
-            this.body.velocity
-        );
-    }
-}
-
-
-
-class MainScene extends Phaser.Scene {
-    constructor() {
-        super({ key: 'MainScene' });
-    }
-    preload() {
-        this.load.image('ground', '/static/assets/carwars/sprites/ground.jpg');
-        this.load.image('car', '/static/assets/carwars/sprites/two-way.png');
-        this.load.image('bombo', '/static/assets/carwars/sprites/bomb-o.png');
-
-        // Load fire sprites
-        this.load.image('fire1', '/static/assets/carwars/sprites/fire1.png');
-        this.load.image('fire2', '/static/assets/carwars/sprites/fire2.png');
-        this.load.image('fire3', '/static/assets/carwars/sprites/fire3.png');
-
-    }
-
-    spawnBombo() {
-        const bombo = new Bombo(this, 0, 0, 'bombo');
-        this.add.existing(bombo);
-        this.physics.add.existing(bombo);
-        bombo.configure();
-        this.bombos.add(bombo);
-    }
-
-    create() {
+    create ()
+    {
         this.ground = this.add.tileSprite(512, 512, 1024, 1024, 'ground').setScrollFactor(0, 0);
 
         this.car = new Racecar(this, 256, 512, 'car');
@@ -168,153 +66,18 @@ class MainScene extends Phaser.Scene {
         this.physics.add.existing(this.car);
         this.car.configure();
 
-        // Create a group for Bombo instances
-        this.bombos = this.add.group();
-
         this.cursorKeys = this.input.keyboard.createCursorKeys();
 
-        // Add the timer event after defining cursorKeys
-        this.spawnTimer = this.time.addEvent({
-            delay: 5000,
-            callback: this.spawnBombo,
-            callbackScope: this,
-            loop: true,
-        });
-
         this.cameras.main.startFollow(this.car);
-
-        // Create a particle emitter manager
-        this.particles = this.add.particles();
-
-        // Create a particle emitter
-        this.explosionEmitter = this.particles.createEmitter({
-            x: 0,
-            y: 0,
-            speed: { min: 100, max: 300 },
-            angle: { min: 0, max: 360 },
-            scale: { start: 0.5, end: 0 },
-            alpha: { start: 1, end: 0 },
-            lifespan: 1000,
-            on: false,
-        });
-
-        // Create text objects for player's HP and enemy count
-        this.hitPointsText = this.add.text(10, 10, `HP: ${this.car.hitpoints}`, {
-            fontSize: '16px',
-            color: '#ffffff',
-        }).setScrollFactor(0);
-
-        this.enemyCountText = this.add.text(
-            this.cameras.main.width - 100, 10, `Enemies: ${this.bombos.getLength()}`, {
-            fontSize: '16px',
-            color: '#ffffff',
-        }).setScrollFactor(0);
-
-        this.physics.add.collider(
-            this.car,
-            this.bombos,
-            (player, bombo) => {
-                if (player.invulnerable) return;
-
-                player.hitpoints -= 1;
-                this.hpText.setText(`HP: ${player.hitpoints}`);
-
-                player.invulnerable = true;
-                this.time.delayedCall(1000, () => {
-                    player.invulnerable = false;
-                });
-
-                bombo.hitpoints--;
-
-                if (bombo.hitpoints === 0) {
-                    const fireIndex = Phaser.Math.Between(1, 3);
-                    const explosion = this.add.image(bombo.x, bombo.y, `fire${fireIndex}`);
-                    this.tweens.add({
-                        targets: explosion,
-                        alpha: 0,
-                        duration: 1000,
-                        onComplete: () => {
-                            explosion.destroy();
-                        },
-                    });
-
-                    // Trigger the particle effect
-                    this.explosionEmitter.setPosition(bombo.x, bombo.y);
-                    this.explosionEmitter.explode(30);
-
-                    bombo.destroy();
-
-                    // Update enemy count text
-                    this.enemyCountText.setText('Enemies: 0');
-                } else {
-                    bombo.body.velocity.setTo(0, 0);
-                    bombo.chasing = false;
-                    bombo.x = bombo.spawnX;
-                    bombo.y = bombo.spawnY;
-                }
-            },
-            () => !this.car.invulnerable,
-            this
-        );
     }
 
-
-
-    update(time, delta) {
+    update (time, delta)
+    {
         const { scrollX, scrollY } = this.cameras.main;
 
         this.ground.setTilePosition(scrollX, scrollY);
 
         this.car.update(delta, this.cursorKeys);
-
-        // Call the update method on each Bombo instance in the group
-        this.bombos.getChildren().forEach((bombo) => {
-            bombo.update(delta, this.car.x, this.car.y);
-        });
-
-        this.hitPointsText.setText(`HP: ${this.car.hitpoints}`); // Change this.car.hitPoints to this.car.hitpoints
-        this.enemyCountText.setText(`Enemies: ${this.bombos.getLength()}`);
-    }
-
-}
-
-class StartScene extends Phaser.Scene {
-    constructor() {
-        super({ key: 'StartScene' });
-    }
-    preload() {
-        this.load.image('startScreen', '/static/assets/carwars/sprites/startScreen.jpg');
-    }
-
-    create() {
-        this.add.image(400, 300, 'startScreen');
-        this.spacebar = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
-    }
-
-    update() {
-        if (this.spacebar.isDown) {
-            this.scene.start('MainScene');
-        }
-    }
-}
-
-class GameOverScene extends Phaser.Scene {
-    constructor() {
-        super({ key: 'GameOverScene' });
-    }
-    preload() {
-        this.load.image('overScreen', '/static/assets/carwars/sprites/overScreen.jpg');
-    }
-
-    create() {
-        this.add.image(400, 300, 'overScreen');
-        this.spacebar = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
-    }
-
-    update() {
-        if (this.spacebar.isDown) {
-            this.scene.start('MainScene');
-        }
     }
 }
 
