@@ -13,7 +13,7 @@
         <!-- Card 1 -->
         <div class="col-md-6 col-lg-4">
             <div class="card-game">
-                <img src="{{ url_for('static', filename='img/shooter_thumbnail.jpg') }}" class="card-img" alt="Game Thumbnail">
+                <img src="{{ url_for('static', filename='img/shooter_thumbnail.jpg') }}" class="card-img" alt="Game Thumbnail" onclick="openGameWindowNIS();">
                 <div class="card-info">
                     <h2 class="card-title">Nerds in Space</h2>
                     <p class="card-description">A fast-paced space shooter game. Battle through waves of enemies and defeat the boss!</p>
@@ -28,7 +28,7 @@
         <!-- Card 2 -->
         <div class="col-md-6 col-lg-4">
             <div class="card-game">
-                <img src="{{ url_for('static', filename='img/cw.jpg') }}" class="card-img" alt="Game Thumbnail">
+                <img src="{{ url_for('static', filename='img/cw.jpg') }}" class="card-img" alt="Game Thumbnail" onclick="openGameWindowCW();">
                 <div class="card-info">
                     <h2 class="card-title">War of Cars</h2>
                     <p class="card-description">Destroy or be destroyed. Car warring combat!</p>
@@ -43,7 +43,7 @@
         <!-- Card 3 -->
         <div class="col-md-6 col-lg-4">
             <div class="card-game">
-                <img src="{{ url_for('static', filename='img/placeholder.jpg') }}" class="card-img" alt="Game Thumbnail">
+                <img src="{{ url_for('static', filename='img/adventure_thumbnail.jpg') }}" class="card-img" alt="Game Thumbnail" onclick="openGameWindowJA();">
                 <div class="card-info">
                     <h2 class="card-title">Jungle Adventure</h2>
                     <p class="card-description">Explore the jungle and find the hidden treasures. Avoid traps and dangerous creatures!</p>
@@ -69,6 +69,9 @@
     }
     function openGameWindowCW() {
         window.open("{{ url_for('play_cw') }}", 'gameWindow', 'width=800,height=600,menubar=no,toolbar=no,resizable=no');
+    }
+    function openGameWindowJA() {
+        // window.open("{{ url_for('play_ja') }}", 'gameWindow', 'width=800,height=600,menubar=no,toolbar=no,resizable=no');
     }
 </script>
 {% endblock %}
