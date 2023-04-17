@@ -108,6 +108,14 @@ class MainScene extends Phaser.Scene {
 
     }
 
+    spawnBombo() {
+        const bombo = new Bombo(this, 0, 0, 'bombo');
+        this.add.existing(bombo);
+        this.physics.add.existing(bombo);
+        bombo.configure();
+        this.bombos.add(bombo);
+    }
+
     create() {
         this.ground = this.add.tileSprite(512, 512, 1024, 1024, 'ground').setScrollFactor(0, 0);
 
@@ -119,20 +127,17 @@ class MainScene extends Phaser.Scene {
         // Create a group for Bombo instances
         this.bombos = this.add.group();
 
-
         this.cursorKeys = this.input.keyboard.createCursorKeys();
 
-        this.cameras.main.startFollow(this.car);
+        // Add the timer event after defining cursorKeys
+        this.spawnTimer = this.time.addEvent({
+            delay: 1000,
+            callback: this.spawnBombo,
+            callbackScope: this,
+            loop: true,
+        });
 
-        // Instantiate and configure two Bombo instances
-        for (let i = 0; i < 2; i++) {
-            const bombo = new Bombo(this, 768, 512, 'bombo');
-            this.add.existing(bombo);
-            this.physics.add.existing(bombo);
-            // Remove the following line
-            // bombo.configure(); 
-            this.bombos.add(bombo);
-        }
+        this.cameras.main.startFollow(this.car);
 
         // Create a particle emitter manager
         this.particles = this.add.particles();
