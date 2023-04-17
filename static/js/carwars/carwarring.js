@@ -20,7 +20,7 @@ class Racecar extends Phaser.Physics.Arcade.Image {
             this.throttle += 0.5 * delta;
         }
         else if (down.isDown) {
-            this.throttle -= 0.5 * delta;
+            this.throttle -= 1.5 * delta;
         }
 
         this.throttle = Phaser.Math.Clamp(this.throttle, -64, 1024);
@@ -39,6 +39,18 @@ class Racecar extends Phaser.Physics.Arcade.Image {
 
         this.body.maxAngular = Phaser.Math.Clamp(90 * this.body.speed / 1024, 0, 90);
     }
+
+    shoot(bulletGroup) {
+        const bullet = bulletGroup.get(this.x, this.y, 'bullet');
+        if (bullet) {
+            bullet.setActive(true);
+            bullet.setVisible(true);
+            bullet.setAngle(this.angle);
+            bullet.setRotation(this.rotation);
+            bullet.body.setVelocityFromRotation(this.rotation, 1000);
+        }
+    }
+
 }
 
 class MainScene extends Phaser.Scene {
@@ -49,18 +61,30 @@ class MainScene extends Phaser.Scene {
     preload() {
         this.load.image('ground', '/static/assets/carwars/sprites/ground.jpg');
         this.load.image('car', '/static/assets/carwars/sprites/hunter.png');
+        this.load.image('bullet', '/static/assets/carwars/sprites/hunter.png');
     }
 
     create() {
+        //Add ground
         this.ground = this.add.tileSprite(512, 512, 1024, 1024, 'ground').setScrollFactor(0, 0);
 
+        // Add player's car
         this.car = new Racecar(this, 256, 512, 'car');
         this.add.existing(this.car);
         this.physics.add.existing(this.car);
         this.car.configure();
 
+        // Add bullet group
+        this.bullets = this.physics.add.group({
+            defaultKey: 'bullet',
+            maxSize: 10,
+            runChildUpdate: true
+        });
+
+        // Add cursors
         this.cursorKeys = this.input.keyboard.createCursorKeys();
 
+        // Camera follows player
         this.cameras.main.startFollow(this.car);
     }
 
@@ -70,6 +94,12 @@ class MainScene extends Phaser.Scene {
         this.ground.setTilePosition(scrollX, scrollY);
 
         this.car.update(delta, this.cursorKeys);
+
+        // Shoot bullet
+        if (Phaser.Input.Keyboard.JustDown(this.spacebar)) {
+            this.car.shoot(this.bullets);
+        }
+
     }
 }
 
