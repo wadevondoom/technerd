@@ -47,11 +47,11 @@ class Racecar extends Phaser.Physics.Arcade.Image {
             bullet.setVisible(true);
             bullet.setAngle(this.angle);
             bullet.setRotation(this.rotation);
-            const speed = 1000;
+            const speed = 1000 + this.throttle;
             this.scene.physics.velocityFromAngle(this.angle, speed, bullet.body.velocity);
 
             // Kill the bullet after 1 second
-            this.scene.time.delayedCall(1000 + this.throttle  , () => {
+            this.scene.time.delayedCall(1000 , () => {
                 bullet.setActive(false);
                 bullet.setVisible(false);
                 bullet.body.stop();
