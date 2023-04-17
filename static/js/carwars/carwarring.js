@@ -83,6 +83,7 @@ class MainScene extends Phaser.Scene {
 
         // Add cursors
         this.cursorKeys = this.input.keyboard.createCursorKeys();
+        this.spacebar = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE); // Define spacebar key
 
         // Camera follows player
         this.cameras.main.startFollow(this.car);
@@ -95,7 +96,7 @@ class MainScene extends Phaser.Scene {
 
         this.car.update(delta, this.cursorKeys);
 
-        // Shoot bullet
+        // Shoot bullet is SPACEBAR pressed
         if (this.spacebar.isDown) {
             this.car.shoot(this.bullets);
         }
