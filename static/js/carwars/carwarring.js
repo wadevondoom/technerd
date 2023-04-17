@@ -124,39 +124,39 @@ class MainScene extends Phaser.Scene {
     }
 
     create() {
-        //Add ground
-        this.ground = this.add.tileSprite(512, 512, 1024, 1024, 'ground').setScrollFactor(0, 0);
-
+        // Set the background color to black
+        this.cameras.main.setBackgroundColor(0x000000);
+    
         // Add player's car
         this.car = new Racecar(this, 256, 512, 'car');
         this.add.existing(this.car);
         this.physics.add.existing(this.car);
         this.car.configure();
-
+    
         // Add bullet group
         this.bullets = this.physics.add.group({
-            classType: Phaser.Physics.Arcade.Image, // Add this line
+            classType: Phaser.Physics.Arcade.Image,
             defaultKey: 'bullet',
             maxSize: 10,
             runChildUpdate: true,
-            createCallback: (bullet) => { // Add this callback
+            createCallback: (bullet) => {
                 bullet.setActive(false);
                 bullet.setVisible(false);
             }
         });
-
+    
         // Add cursors
         this.cursorKeys = this.input.keyboard.createCursorKeys();
-        this.spacebar = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE); // Define spacebar key
-
+        this.spacebar = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
+    
         // Camera follows player
         this.cameras.main.startFollow(this.car);
-
+    
         this.enemyWaves = this.cache.json.get('enemyWaves');
         this.currentWave = 0;
-
-        // Spawn enemy
-        this.enemyCars = this.physics.add.group();
+    
+        // Initialize the enemies array and spawn the first enemy
+        this.enemies = [];
         this.spawnEnemy();
     }
 
@@ -172,24 +172,25 @@ class MainScene extends Phaser.Scene {
             this.car.shoot(this.bullets);
         }
 
-        this.enemyCars.children.iterate((enemyCar) => {
+        this.enemies.children.iterate((enemyCar) => {
             enemyCar.chasePlayer(this.car);
         });
 
     }
 
     spawnEnemy() {
-        const wave = this.enemyWaves.waves[this.currentWave];
-
-        wave.enemies.forEach(enemyData => {
-            const enemyCar = new EnemyCar(this, enemyData.x, enemyData.y, enemyData.type, this.spawnEnemyNearPlayer.bind(this));
-            enemyCar.chaseRange = enemyData.chaseRange;
-            this.enemyCars.add(enemyCar);
+        const enemyData = this.getEnemyData();
+        if (enemyData) {
+            const enemyCar = new EnemyCar(this, enemyData.x, enemyData.y, 'robutt', this.spawnEnemyNearPlayer.bind(this));
+            this.enemies.push(enemyCar);
             this.physics.add.collider(this.car, enemyCar, this.carHitEnemy, null, this);
             this.physics.add.overlap(this.bullets, enemyCar, this.bulletHitEnemy, null, this);
-        });
-
-        this.currentWave++;
+    
+            // Start chasing after a 1-second delay
+            this.time.delayedCall(1000, () => {
+                enemyCar.chasePlayer(this.car);
+            }, null, this);
+        }
     }
 
     spawnEnemyNearPlayer(player) {
@@ -198,7 +199,7 @@ class MainScene extends Phaser.Scene {
         const offsetY = 200 * side;
 
         const enemyCar = new EnemyCar(this, player.x + offsetX, player.y + offsetY, 'robutt', this.spawnEnemyNearPlayer.bind(this));
-        this.enemyCars.add(enemyCar);
+        this.enemies.add(enemyCar);
         this.physics.add.collider(this.car, enemyCar, this.carHitEnemy, null, this);
         this.physics.add.overlap(this.bullets, enemyCar, this.bulletHitEnemy, null, this);
 

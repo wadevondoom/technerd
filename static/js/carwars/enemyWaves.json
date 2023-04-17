@@ -3,15 +3,37 @@
       {
         "enemies": [
           {
-            "x": 600,
+            "x": 100,
             "y": 500,
             "chaseRange": 1000,
             "type": "robutt"
           },
           {
             "x": 800,
-            "y": 800,
+            "y": 100,
             "chaseRange": 1000,
+            "type": "robutt"
+          },
+          {
+            "x": 1500,
+            "y": 500,
+            "chaseRange": 1000,
+            "type": "robutt"
+          }
+        ]
+      },
+      {
+        "enemies": [
+          {
+            "x": 1200,
+            "y": 800,
+            "chaseRange": 800,
+            "type": "robutt"
+          },
+          {
+            "x": 1500,
+            "y": 500,
+            "chaseRange": 800,
             "type": "robutt"
           }
         ]
