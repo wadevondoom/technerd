@@ -1,7 +1,6 @@
 {% extends "base.html" %}
 
 {% block content %}
-{% import 'datetime' as dt %}
 <style>
     .story-image {
         max-height: 60vh;
@@ -71,9 +70,8 @@
                         style="padding: 10px 20px; background-color: orange; color: white; text-align: center; border-radius: 5px; transform: rotate(-5deg);">
                         {{ chronicle.category_name }}
                     </h3>
-                    {% set posted_date = dt.datetime.strptime(chronicle.date_posted, '%Y-%m-%d %H:%M:%S.%f') %}
                     <p class="lead d-block mt-3" style="font-weight: bold; font-size: smaller;">
-                        By {{ chronicle.author }} | {{ posted_date.strftime('%b %d, %Y') }}
+                        By {{ chronicle.author }} | {{ chronicle.date_posted[:-7] }}
                     </p>
                     <div class="row">
                         <div class="col-md-6 text-md-right">
