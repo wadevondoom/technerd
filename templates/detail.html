@@ -85,15 +85,15 @@
                         <div class="col-sm-6 text-right d-flex align-items-center">
                             <div class="d-flex flex-wrap align-items-center">
                                 <a href="https://twitter.com/intent/tweet?url={{ url_for('like_chronicle', chronicle_id=chronicle['_id'], _external=True) }}&text={{ chronicle.title }}"
-                                    class="btn btn-info btn-sm mr-2" style="background-color: #1da1f2;"
+                                    class="btn btn-info btn-sm mr-1 mb-1 mt-1" style="background-color: #1da1f2;"
                                     target="_blank"><i class="fa fa-twitter"></i> Post to Twitter</a>
                                 <a href="https://www.facebook.com/sharer/sharer.php?u={{ url_for('like_chronicle', chronicle_id=chronicle['_id'], _external=True) }}"
-                                    class="btn btn-primary btn-sm mr-2" style="background-color: #4267b2;"
+                                    class="btn btn-primary btn-sm mr-1 mb-1" style="background-color: #4267b2;"
                                     target="_blank"><i class="fa fa-facebook"></i> Post to Facebook</a>
                                 {% if current_user.is_authenticated %}
                                 <div id="like-button-container" class="d-flex align-items-center mr-2">
                                     {% if liked %}
-                                    <p id="thank-you-message" class="text-muted mb-0" style="font-size: small;">Thank
+                                    <p id="thank-you-message" class="text-muted mb-0 mt-1" style="font-size: small;">Thank
                                         you for liking this content.</p>
                                     {% else %}
                                     <form action="{{ url_for('like_chronicle', chronicle_id=chronicle['_id']) }}"
