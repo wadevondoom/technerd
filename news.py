@@ -38,6 +38,8 @@ class News:
         article = db.news.aggregate([{"$sample": {"size": sample_size}}])
         return next(iter(article), None)
     
-    def delete_by_id(self):
-        result = db.articles.delete_one({"_id": ObjectId(self._id)})
-        return result.deleted_count > 0
+    @staticmethod
+    def delete(id):
+        articles = db.articles
+        articles.delete_one({"_id": id})
+        return True
