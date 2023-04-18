@@ -517,7 +517,7 @@ def search():
                 "title": doc["title"],
                 "source": doc["source"],
                 "image_url": doc["image_url"],
-                "description": doc["description"][:120],
+                "description": doc["description"][:120] if doc["description"] else "",
             }
             for doc in db.articles.find({"$text": {"$search": search_keyword}})
         ]
