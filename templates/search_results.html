@@ -69,7 +69,7 @@
                         <p class="card-text">{{ result.description }}</p>
                         <a href="#" class="btn btn-primary">Read More</a>
                         {% if current_user.is_authenticated and current_user.isAdmin %}
-                        <form action="{{ url_for('delete_article', article_id=article['_id']) }}" method="post">
+                        <form action="{{ url_for('delete_article', article_id=result['_id']) }}" method="post">
                             <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
                             <button type="submit" class="btn btn-link text-dark" title="Delete">
                                 <i class="fa fa-trash"></i>
