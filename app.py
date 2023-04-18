@@ -427,15 +427,16 @@ def art_detail(artwork_id):
     comments = Comment.get_comments_by_content_id(ObjectId(artwork_id), "art")
 
     like_count = Like.get_likes("artwork", artwork_id)
-
+    
     user_id = current_user.get_id()
-    liked = False
     if user_id:
         existing_like = db.likes.find_one(
-            {"user_id": user_id, "content_id": ObjectId(artwork_id)}
+            {"user_id": user_id, "content_id": str(artwork_id)}
         )
         if existing_like:
             liked = True
+
+    
 
     return render_template(
         "art_detail.html",

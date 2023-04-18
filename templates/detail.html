@@ -93,7 +93,8 @@
                                 {% if current_user.is_authenticated %}
                                 <div id="like-button-container" class="d-flex align-items-center mr-2">
                                     {% if liked %}
-                                    <p id="thank-you-message" class="text-muted mb-0 mt-1" style="font-size: small;">Thank
+                                    <p id="thank-you-message" class="text-muted mb-0 mt-1" style="font-size: small;">
+                                        Thank
                                         you for liking this content.</p>
                                     {% else %}
                                     <form action="{{ url_for('like_chronicle', chronicle_id=chronicle['_id']) }}"
@@ -103,8 +104,8 @@
                                             type="submit" data-chronicle-id="{{ chronicle['_id'] }}"><i
                                                 class="fa fa-thumbs-up"></i> Like</button>
                                     </form>
-                                    <span class="badge badge-primary badge-pill" style="background-color: #007bff;">{{
-                                        like_count }}</span>
+                                    <span class="badge badge-primary badge-pill" style="background-color: #007bff;"
+                                        id="like_count">{{ like_count }}</span>
                                     {% endif %}
                                 </div>
                                 {% else %}
@@ -202,7 +203,7 @@
                     .then(function (response) {
                         if (response.ok) {
                             // Update the like count and hide the like button
-                            const likesCountElement = document.getElementById("likes-count");
+                            const likesCountElement = document.getElementById("like_count");
                             const likesCount = parseInt(likesCountElement.innerText) + 1;
                             likesCountElement.innerText = likesCount;
                             const likeButtonContainer = document.getElementById("like-button-container");
