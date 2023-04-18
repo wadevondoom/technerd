@@ -9,7 +9,7 @@ db = client.technerdiac
 
 loop = asyncio.get_event_loop()
 
-ALLOWED_EXTENSIONS = {"jpg", "jpeg"}
+ALLOWED_EXTENSIONS = {"jpg", "jpeg", "png"}
 UPLOAD_FOLDER = os.path.join(os.getcwd(), "static", "media", "upload")
 
 
@@ -17,21 +17,17 @@ def allowed_file(filename):
     return "." in filename and filename.rsplit(".", 1)[1].lower() in ALLOWED_EXTENSIONS
 
 
-from PIL import Image
-import io
-
-
 def save_image(file):
     if not file:
         return None
     filename = secure_filename(file.filename)
     ext = filename.rsplit(".", 1)[1].lower()  # Get the file extension
-    if ext not in ("jpg", "jpeg"):
+    if ext not in ALLOWED_EXTENSIONS:
         return None
     if file.content_length > 2 * 1024 * 1024:
         return None
     os.makedirs(UPLOAD_FOLDER, exist_ok=True)
-    new_filename = str(uuid.uuid4()) + "." + ext  # Generate a unique filename
+    new_filename = str(uuid.uuid4()) + ".jpg"  # Generate a unique filename
 
     # Open the image using Pillow and save it with 50% quality
     image = Image.open(file)
@@ -59,12 +55,12 @@ def save_dalle_image(image_bytes):
         print("Error: Unable to detect image format.")
         return None
 
-    if ext not in ("jpg", "jpeg"):
-        print("Error: Only JPEG images are supported.")
+    if ext not in ALLOWED_EXTENSIONS:
+        print("Error: Only JPEG and PNG images are supported.")
         return None
 
     os.makedirs(UPLOAD_FOLDER, exist_ok=True)
-    new_filename = str(uuid.uuid4()) + "." + ext  # Generate a unique filename
+    new_filename = str(uuid.uuid4()) + ".jpg"  # Generate a unique filename
 
     try:
         # Open the image using Pillow and save it with 50% quality
