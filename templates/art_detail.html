@@ -88,30 +88,33 @@
                 data-toggle="modal" data-target="#imageModal">
             <hr>
 
-            <div class="card mb-4 text-center align-items-center">
-                <div class="card-body text-dark">
-                    <p class="mt-4">{{ artwork.text | safe }}</p>
-                </div>
-                <div class="col-sm-12 text-center">
-                    {% if current_user.is_authenticated %}
+            <div class="d-flex flex-wrap align-items-center">
+                <a href="https://twitter.com/intent/tweet?url={{ url_for('art_detail', artwork_id=artwork['_id'], _external=True) }}&text={{ artwork.title }}"
+                    class="btn btn-info btn-sm mr-1 mb-1 mt-1" style="background-color: #1da1f2;" target="_blank"><i
+                        class="fa fa-twitter"></i> Post to Twitter</a>
+                <a href="https://www.facebook.com/sharer/sharer.php?u={{ url_for('art_detail', artwork_id=artwork['_id'], _external=True) }}"
+                    class="btn btn-primary btn-sm mr-1 mb-1" style="background-color: #4267b2;" target="_blank"><i
+                        class="fa fa-facebook"></i> Post to Facebook</a>
+                {% if current_user.is_authenticated %}
+                <div id="like-button-container" class="d-flex align-items-center mr-2">
                     {% if liked %}
-                    <button class="btn btn-primary btn-sm disabled">You liked this already</button>
+                    <p id="thank-you-message" class="text-muted mb-0 mt-1" style="font-size: small;">
+                        Thank you for liking this content.</p>
                     {% else %}
                     <form id="like-form" action="{{ url_for('like_artwork', artwork_id=artwork['_id']) }}" method="post"
                         class="d-inline-block">
                         {{ form.csrf_token }}
-                        <button id="like-button" class="btn btn-primary btn-sm mb-2" type="submit"
-                            data-artwork-id="{{ artwork['_id'] }}">Like</button>
+                        <button id="like-button" class="btn btn-outline-secondary btn-sm mr-2" type="submit"
+                            data-artwork-id="{{ artwork['_id'] }}"><i class="fa fa-thumbs-up"></i> Like</button>
                     </form>
+                    <span class="badge badge-primary badge-pill" style="background-color: #007bff;" id="likes-count">{{
+                        like_count }}</span>
                     {% endif %}
-                    {% else %}
-                    <a href="{{ url_for('login') }}" class="btn btn-primary btn-sm mb-2">Log in to like</a>
-                    {% endif %}
-                    <a href="https://www.facebook.com/sharer/sharer.php?u={{ url_for('art_detail', artwork_id=artwork['_id'], _external=True) }}"
-                        target="_blank" class="btn btn-primary btn-sm mb-2 ml-2">Share on Facebook</a>
-                    <a href="https://twitter.com/intent/tweet?url={{ url_for('art_detail', artwork_id=artwork['_id'], _external=True) }}&text={{ artwork.title }}"
-                        target="_blank" class="btn btn-primary btn-sm mb-2 ml-2">Share on Twitter</a>
                 </div>
+                {% else %}
+                <a href="{{ url_for('login') }}" class="btn btn-primary btn-sm mr-2"><i class="fas fa-sign-in-alt"></i>
+                    Log in to like</a>
+                {% endif %}
             </div>
             <!-- Comment Section -->
             <div class="comment-section">
@@ -190,7 +193,12 @@
             likeButton.addEventListener("click", function (event) {
                 event.preventDefault();
                 const artworkId = this.dataset.artworkId;
-                const csrfToken = document.querySelector("#like-form input[name=_csrf_token]").value;
+                const csrfTokenInput = document.querySelector("#like-form input[name=_csrf_token]");
+                if (!csrfTokenInput) {
+                    console.error("CSRF token not found");
+                    return;
+                }
+                const csrfToken = csrfTokenInput.value;
 
                 fetch(`/art_detail/${artworkId}/like`, {
                     method: "POST",
