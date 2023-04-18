@@ -71,6 +71,7 @@
                         style="padding: 10px 20px; background-color: orange; color: white; text-align: center; border-radius: 5px; transform: rotate(-5deg);">
                         {{ chronicle.category_name }}
                     </h3>
+                    {% set posted_date = datetime.strptime(chronicle.date_posted, '%Y-%m-%d %H:%M:%S.%f') %}
                     <p class="lead d-block mt-3" style="font-weight: bold; font-size: smaller;">
                         By {{ chronicle.author }} | {{ chronicle.date_posted.strftime('%b %d, %Y') }}
                     </p>
