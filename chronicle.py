@@ -57,7 +57,6 @@ class Chronicle:
         )  # Add ObjectId() conversion
         if chronicle:
             Chronicle.increment_page_views(id)
-            print(chronicle)
         return chronicle
 
     def update(self, data, file):
@@ -137,3 +136,10 @@ class Chronicle:
         db.chronicles.update_one(
             {"_id": ObjectId(chronicle_id)}, {"$inc": {"likes": 1}}
         )
+
+    @staticmethod
+    def get_likes(content_type, content_id):
+        likes_count = db.likes.count_documents(
+            {"content_type": content_type, "content_id": content_id}
+        )
+        return likes_count

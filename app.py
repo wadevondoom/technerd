@@ -269,7 +269,7 @@ def detail(chronicle_id):
     liked = False
     if user_id:
         existing_like = db.likes.find_one(
-            {"user_id": user_id, "content_id": ObjectId(chronicle_id)}
+            {"user_id": user_id, "content_id": str(chronicle_id)}
         )
         if existing_like:
             liked = True
