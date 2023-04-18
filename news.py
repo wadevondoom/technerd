@@ -41,5 +41,5 @@ class News:
     @staticmethod
     def delete(article):
         articles = db.articles
-        articles.delete_one({"_id": articles["_id"]})
+        articles.delete_one({"_id": article["_id"]})  # Changed from articles["_id"] to article["_id"]
         return True
