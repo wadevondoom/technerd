@@ -56,6 +56,9 @@
                         <i>Posted by {{ article.source }}</i>
                         <a href="{{ url_for('n_detail', news_id=article['_id']) }}" class="stretched-link"></a>
                     </div>
+                    <div class="d-inline-block">
+                        <a href="{{ article.url }}"><span><i class="fa-solid fa-link"></i></span></a>
+                    </div>
                 </div>
             </div>
             {% endfor %}
