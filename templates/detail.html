@@ -67,36 +67,36 @@
             <div class="card">
                 <div class="card-body">
                     <h1 class="mb-2">{{ chronicle.title }}</h1>
-                    <h3 class="mb-2 text-muted d-inline-block"
-                        style="padding: 5px 15px; background-color: orange; color: white; text-align: center; border-radius: 5px;">
-                        {{ chronicle.category_name }}</h3>
-                    <p class="lead d-block mt-2">By {{ chronicle.author }} | {{ chronicle.date_posted }}</p>
-                        <div class="row">
-                            <div class="col-6 text-right">
-                                <p class="mb-2"><span class="badge badge-secondary">{{ chronicle.page_views }} views</span>
-                                </p>
-                            </div>
-                            <div class="col-sm-6">
-                                <p class="mb-2 text-muted">Likes: <span id="likes-count">{{ like_count }}</span></p>
-                            </div>
-                            <div class="col-sm-6 text-right">
-                                {% if current_user.is_authenticated %}
-                                {% if liked %}
-                                <button class="btn btn-primary btn-sm disabled">Liked</button>
-                                {% else %}
-                                <form action="{{ url_for('like_chronicle', chronicle_id=chronicle['_id']) }}" method="post"
-                                    class="d-inline-block">
-                                    {{ form.csrf_token }}
-                                    <button id="like-button" class="btn btn-primary btn-sm mb-2" type="submit" data-chronicle-id="{{ chronicle['_id'] }}">Like</button>
-                                </form>
-                                {% endif %}
-                                {% else %}
-                                <a href="{{ url_for('login') }}" class="btn btn-primary btn-sm">Log in to like</a>
-                                {% endif %}
-                            </div>
+                    <h3 class="mb-3 d-inline-block font-weight-bold" style="padding: 10px 20px; background-color: orange; color: white; text-align: center; border-radius: 5px; transform: rotate(-5deg);">
+                        {{ chronicle.category_name }}
+                    </h3>
+                    <p class="lead d-block mt-3">By {{ chronicle.author }} | {{ chronicle.date_posted }}</p>                    
+                    <div class="row">
+                        <div class="col-md-6 text-md-right">
+                            <p class="mb-2"><span class="badge badge-secondary">{{ chronicle.page_views }} views</span></p>
                         </div>
-                    <img src="{{ url_for('static', filename=chronicle.image[8:]) }}" alt="Story Image" class="img-fluid mb-4"
-                        style="max-height: 400px; object-fit: cover; width: 100%;">
+                        <div class="col-md-6">
+                            <p class="mb-2 text-muted">Likes: <span id="likes-count">{{ like_count }}</span></p>
+                        </div>
+                        <div class="col-sm-6 text-right">
+                            {% if current_user.is_authenticated %}
+                            {% if liked %}
+                            <button class="btn btn-primary btn-sm disabled">Liked</button>
+                            {% else %}
+                            <form action="{{ url_for('like_chronicle', chronicle_id=chronicle['_id']) }}" method="post"
+                                class="d-inline-block">
+                                {{ form.csrf_token }}
+                                <button id="like-button" class="btn btn-primary btn-sm mb-2" type="submit"
+                                    data-chronicle-id="{{ chronicle['_id'] }}">Like</button>
+                            </form>
+                            {% endif %}
+                            {% else %}
+                            <a href="{{ url_for('login') }}" class="btn btn-primary btn-sm">Log in to like</a>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <img src="{{ url_for('static', filename=chronicle.image[8:]) }}" alt="Story Image"
+                        class="img-fluid mb-4" style="max-height: 400px; object-fit: cover; width: 100%;">
                     <div>{{ chronicle.content | safe }}</div>
                 </div>
             </div>
@@ -160,20 +160,33 @@
     </div>
 </div>
 <script>
-    document.getElementById("like-button").addEventListener("click", function () {
-        const chronicleId = this.dataset.chronicleId;
-        fetch(`/detail/${chronicleId}/like`, { method: "POST" })
-            .then(function (response) {
-                if (response.ok) {
-                    // Update the like count and disable the like button
-                    const likesCountElement = document.getElementById("likes-count");
-                    const likesCount = parseInt(likesCountElement.innerText) + 1;
-                    likesCountElement.innerText = likesCount;
-                    document.getElementById("like-button").disabled = true;
-                } else {
-                    console.error("Failed to like the chronicle");
-                }
-            });
-    });
+    const likeButton = document.getElementById("like-button");
+    if (likeButton) {
+        likeButton.addEventListener("click", function (event) {
+            event.preventDefault();
+            const chronicleId = this.dataset.chronicleId;
+            const csrfToken = document.querySelector("[name=_csrf_token]").value;
+
+            fetch(`/detail/${chronicleId}/like`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/x-www-form-urlencoded",
+                    "X-CSRFToken": csrfToken
+                },
+                body: `_csrf_token=${encodeURIComponent(csrfToken)}`
+            })
+                .then(function (response) {
+                    if (response.ok) {
+                        // Update the like count and disable the like button
+                        const likesCountElement = document.getElementById("likes-count");
+                        const likesCount = parseInt(likesCountElement.innerText) + 1;
+                        likesCountElement.innerText = likesCount;
+                        document.getElementById("like-button").disabled = true;
+                    } else {
+                        console.error("Failed to like the chronicle");
+                    }
+                });
+        });
+    }
 </script>
 {% endblock %}
