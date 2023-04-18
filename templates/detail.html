@@ -78,7 +78,7 @@
                             </p>
                         </div>
                         <div class="col-md-6">
-                            <p class="mb-2 text-muted badge badge-primary"><span id="likes-count">{{ like_count }}
+                            <p class="mb-2 badge badge-primary"><span id="likes-count">{{ like_count }}
                                     likes</span></p>
                         </div>
                         <div class="col-sm-6 text-right">
@@ -86,9 +86,9 @@
                             {% if liked %}
                             <p>Thank you for liking this content.</p>
                             {% else %}
-                            {{ form.csrf_token }}
                             <form action="{{ url_for('like_chronicle', chronicle_id=chronicle['_id']) }}" method="post"
                                 class="d-inline-block">
+                                {{ form.csrf_token }}
                                 <button id="like-button" class="btn btn-primary btn-sm mb-2" type="submit"
                                     data-chronicle-id="{{ chronicle['_id'] }}">Like</button>
                             </form>
@@ -97,6 +97,9 @@
                             <a href="{{ url_for('login') }}" class="btn btn-primary btn-sm">Log in to like</a>
                             {% endif %}
 
+                            <script>
+                                const csrfToken = '{{ form.csrf_token._value() }}';
+                            </script>
                         </div>
                     </div>
                     <img src="{{ url_for('static', filename=chronicle.image[8:]) }}" alt="Story Image"
@@ -170,7 +173,6 @@
             likeButton.addEventListener("click", function (event) {
                 event.preventDefault();
                 const chronicleId = this.dataset.chronicleId;
-                const csrfToken = document.querySelector("[name=_csrf_token]").value;
 
                 fetch(`/detail/${chronicleId}/like`, {
                     method: "POST",
