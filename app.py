@@ -427,6 +427,7 @@ def art_detail(artwork_id):
     comments = Comment.get_comments_by_content_id(ObjectId(artwork_id), "art")
 
     like_count = Like.get_likes("artwork", artwork_id)
+    liked = False
     
     user_id = current_user.get_id()
     if user_id:
