@@ -247,6 +247,7 @@ def detail(chronicle_id):
     chronicle = Chronicle.get_by_id(ObjectId(chronicle_id))
     related_chrons = Chronicle.get_related_chronicles(3)
     user_image = current_user.picture if current_user.is_authenticated else None
+    date_posted = chronicle.date_posted[:-8]
 
     if chronicle is None:
         flash("Could not find chronicle.")
@@ -291,6 +292,7 @@ def detail(chronicle_id):
         comments=comments,
         like_count=like_count,
         liked=liked,
+        date_posted=date_posted,
     )
 
 
