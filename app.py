@@ -284,6 +284,7 @@ def like_chronicle(chronicle_id):
         {"_id": ObjectId(chronicle_id)}, {"$set": {"likes": chronicle["likes"]}}
     )
     flash("Chronicle liked.")
+    liked = True
     return redirect(url_for("detail", chronicle_id=chronicle_id))
 
 

@@ -67,16 +67,19 @@
             <div class="card">
                 <div class="card-body">
                     <h1 class="mb-2">{{ chronicle.title }}</h1>
-                    <h3 class="mb-3 d-inline-block font-weight-bold" style="padding: 10px 20px; background-color: orange; color: white; text-align: center; border-radius: 5px; transform: rotate(-5deg);">
+                    <h3 class="mb-3 d-inline-block font-weight-bold"
+                        style="padding: 10px 20px; background-color: orange; color: white; text-align: center; border-radius: 5px; transform: rotate(-5deg);">
                         {{ chronicle.category_name }}
                     </h3>
-                    <p class="lead d-block mt-3">By {{ chronicle.author }} | {{ chronicle.date_posted }}</p>                    
+                    <p class="lead d-block mt-3">By {{ chronicle.author }} | {{ chronicle.date_posted }}</p>
                     <div class="row">
                         <div class="col-md-6 text-md-right">
-                            <p class="mb-2"><span class="badge badge-secondary">{{ chronicle.page_views }} views</span></p>
+                            <p class="mb-2"><span class="badge badge-secondary">{{ chronicle.page_views }} views</span>
+                            </p>
                         </div>
                         <div class="col-md-6">
-                            <p class="mb-2 text-muted">Likes: <span id="likes-count">{{ like_count }}</span></p>
+                            <p class="mb-2 text-muted badge badge-primary"><span id="likes-count">{{ like_count }}
+                                    likes</span></p>
                         </div>
                         <div class="col-sm-6 text-right">
                             {% if current_user.is_authenticated %}
@@ -160,33 +163,35 @@
     </div>
 </div>
 <script>
-    const likeButton = document.getElementById("like-button");
-    if (likeButton) {
-        likeButton.addEventListener("click", function (event) {
-            event.preventDefault();
-            const chronicleId = this.dataset.chronicleId;
-            const csrfToken = document.querySelector("[name=_csrf_token]").value;
+    document.addEventListener("DOMContentLoaded", function () {
+        const likeButton = document.getElementById("like-button");
+        if (likeButton) {
+            likeButton.addEventListener("click", function (event) {
+                event.preventDefault();
+                const chronicleId = this.dataset.chronicleId;
+                const csrfToken = document.querySelector("[name=_csrf_token]").value;
 
-            fetch(`/detail/${chronicleId}/like`, {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/x-www-form-urlencoded",
-                    "X-CSRFToken": csrfToken
-                },
-                body: `_csrf_token=${encodeURIComponent(csrfToken)}`
-            })
-                .then(function (response) {
-                    if (response.ok) {
-                        // Update the like count and disable the like button
-                        const likesCountElement = document.getElementById("likes-count");
-                        const likesCount = parseInt(likesCountElement.innerText) + 1;
-                        likesCountElement.innerText = likesCount;
-                        document.getElementById("like-button").disabled = true;
-                    } else {
-                        console.error("Failed to like the chronicle");
-                    }
-                });
-        });
-    }
+                fetch(`/detail/${chronicleId}/like`, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/x-www-form-urlencoded",
+                        "X-CSRFToken": csrfToken
+                    },
+                    body: `_csrf_token=${encodeURIComponent(csrfToken)}`
+                })
+                    .then(function (response) {
+                        if (response.ok) {
+                            // Update the like count and disable the like button
+                            const likesCountElement = document.getElementById("likes-count");
+                            const likesCount = parseInt(likesCountElement.innerText) + 1;
+                            likesCountElement.innerText = likesCount;
+                            document.getElementById("like-button").disabled = true;
+                        } else {
+                            console.error("Failed to like the chronicle");
+                        }
+                    });
+            });
+        }
+    });
 </script>
 {% endblock %}
