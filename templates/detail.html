@@ -84,11 +84,11 @@
                         <div class="col-sm-6 text-right">
                             {% if current_user.is_authenticated %}
                             {% if liked %}
-                            <button class="btn btn-primary btn-sm disabled">Liked</button>
+                            <p>Thank you for liking this content.</p>
                             {% else %}
+                            {{ form.csrf_token }}
                             <form action="{{ url_for('like_chronicle', chronicle_id=chronicle['_id']) }}" method="post"
                                 class="d-inline-block">
-                                {{ form.csrf_token }}
                                 <button id="like-button" class="btn btn-primary btn-sm mb-2" type="submit"
                                     data-chronicle-id="{{ chronicle['_id'] }}">Like</button>
                             </form>
@@ -96,6 +96,7 @@
                             {% else %}
                             <a href="{{ url_for('login') }}" class="btn btn-primary btn-sm">Log in to like</a>
                             {% endif %}
+
                         </div>
                     </div>
                     <img src="{{ url_for('static', filename=chronicle.image[8:]) }}" alt="Story Image"
