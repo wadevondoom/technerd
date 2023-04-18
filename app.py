@@ -1,4 +1,5 @@
-import random, string, os
+import random, string, os, logging
+from logging.handlers import RotatingFileHandler
 from os import environ as env
 import boto3
 from urllib.parse import quote_plus, urlencode
@@ -71,6 +72,26 @@ app.config.update(
 )
 csrf = CSRFProtect(app)
 oauth = OAuth(app)
+
+# Set up logging
+log_formatter = logging.Formatter("%(asctime)s:%(levelname)s:%(message)s")
+
+# Set up file handler
+file_handler = RotatingFileHandler("app.log", maxBytes=1000000, backupCount=5)
+file_handler.setLevel(logging.INFO)
+file_handler.setFormatter(log_formatter)
+
+# Set up console handler
+console_handler = logging.StreamHandler()
+console_handler.setLevel(logging.INFO)
+console_handler.setFormatter(log_formatter)
+
+# Add handlers to the root logger
+logger = logging.getLogger()
+logger.setLevel(logging.INFO)
+logger.addHandler(file_handler)
+logger.addHandler(console_handler)
+
 
 ENV_FILE = find_dotenv()
 if ENV_FILE:
@@ -252,6 +273,12 @@ def detail(chronicle_id):
         )
         if existing_like:
             liked = True
+
+    # Add these print statements
+    # Replace print statements with logging statements
+    logging.info("User ID: %s", user_id)
+    logging.info("Liked: %s", liked)
+    logging.info("Existing Like: %s", existing_like)
 
     return render_template(
         "detail.html",
@@ -917,6 +944,7 @@ def delete_article(article_id):
     # Flash success message and redirect to admin page
     flash("Category deleted successfully!", "success")
     return redirect(url_for("admin"))
+
 
 @app.route("/delete_artwork/<string:artwork_id>", methods=["POST"])
 @login_required
