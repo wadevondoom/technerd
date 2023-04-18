@@ -9,7 +9,7 @@ db = client.technerdiac
 
 loop = asyncio.get_event_loop()
 
-ALLOWED_EXTENSIONS = {"jpg", "jpeg", "png"}
+ALLOWED_EXTENSIONS = {"jpg", "jpeg", "png", "webp"}
 UPLOAD_FOLDER = os.path.join(os.getcwd(), "static", "media", "upload")
 
 
@@ -27,12 +27,12 @@ def save_image(file):
     if file.content_length > 2 * 1024 * 1024:
         return None
     os.makedirs(UPLOAD_FOLDER, exist_ok=True)
-    new_filename = str(uuid.uuid4()) + ".jpg"  # Generate a unique filename
+    new_filename = str(uuid.uuid4()) + ".webp"# Generate a unique filename
 
     # Open the image using Pillow and save it with 50% quality
     image = Image.open(file)
     image_data = io.BytesIO()
-    image.save(image_data, format="JPEG", quality=50)
+    image.save(image_data, format="WEBP", quality=80)
     image_data.seek(0)
 
     with open(os.path.join(UPLOAD_FOLDER, new_filename), "wb") as f:
@@ -60,13 +60,13 @@ def save_dalle_image(image_bytes):
         return None
 
     os.makedirs(UPLOAD_FOLDER, exist_ok=True)
-    new_filename = str(uuid.uuid4()) + ".jpg"  # Generate a unique filename
+    new_filename = str(uuid.uuid4()) + ".webp"  # Generate a unique filename
 
     try:
         # Open the image using Pillow and save it with 50% quality
         image = Image.open(io.BytesIO(image_bytes))
         image_data = io.BytesIO()
-        image.save(image_data, format="JPEG", quality=50)
+        image.save(image_data, format="WEBP", quality=80)
         image_data.seek(0)
 
         with open(os.path.join(UPLOAD_FOLDER, new_filename), "wb") as f:
