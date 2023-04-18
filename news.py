@@ -39,7 +39,7 @@ class News:
         return next(iter(article), None)
     
     @staticmethod
-    def delete(id):
+    def delete(article):
         articles = db.articles
-        articles.delete_one({"_id": id})
+        articles.delete_one({"_id": articles["_id"]})
         return True
