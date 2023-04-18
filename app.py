@@ -917,7 +917,7 @@ def delete_article(article_id):
     flash("Category deleted successfully!", "success")
     return redirect(url_for("admin"))
 
-
+@app.route("/delete_artwork/<string:artwork_id>", methods=["POST"])
 @login_required
 def delete_artwork(artwork_id):
     # Convert the artwork_id to ObjectId
