@@ -267,6 +267,7 @@ def detail(chronicle_id):
 
     user_id = current_user.get_id()
     liked = False
+    existing_like = None
     if user_id:
         existing_like = db.likes.find_one(
             {"user_id": user_id, "content_id": str(chronicle_id)}
