@@ -24,7 +24,7 @@ class ChronicleForm(FlaskForm):
     content = TextAreaField("Content", validators=[DataRequired()])
     category_name = SelectField("Category", choices=[], coerce=str)
     image = FileField(
-        "Image", validators=[FileAllowed(["jpg", "jpeg"], "Images only!")]
+        "Image", validators=[FileAllowed(["jpg", "jpeg", "png"], "(JPG, JPEG, PNG) Images only!")]
     )
     dalle_image_url = HiddenField()
     generate_content = SubmitField("Generate Content")
