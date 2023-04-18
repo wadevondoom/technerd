@@ -903,17 +903,18 @@ def delete_category(category_id):
 
 @app.route("/delete_article/<string:article_id>", methods=["POST"])
 def delete_article(article_id):
+    # Get the chronicle by its ID
     article = News.get_by_id(article_id)
-    if article:
-        news = News(**article)
-        deleted = news.delete_by_id()
-        if deleted:
-            flash(f"Article with _id {article_id} was deleted.", "success")
-        else:
-            flash(f"No article with _id {article_id} was found.", "error")
-    else:
-        flash("Article not found.", "error")
+    if not article:
+        # If the chronicle doesn't exist, redirect to the admin page
+        flash("Sorry, could not find the article.")
+        return redirect(url_for("admin"))
 
+    # Delete the chronicle
+    News.delete(article)
+
+    # Flash success message and redirect to admin page
+    flash("Category deleted successfully!", "success")
     return redirect(url_for("admin"))
 
 
