@@ -71,7 +71,7 @@
                         {{ chronicle.category_name }}
                     </h3>
                     <p class="lead d-block mt-3" style="font-weight: bold; font-size: smaller;">
-                        By {{ chronicle.author }} | {{ chronicle.date_posted[:-7] }}
+                        By {{ chronicle.author }} | {{ chronicle.date_posted.strftime('%B %d, %Y') }}
                     </p>
                     <div class="row">
                         <div class="col-md-6 text-md-right">
