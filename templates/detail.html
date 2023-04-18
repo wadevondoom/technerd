@@ -83,16 +83,18 @@
                         </div>
                         <div class="col-sm-6 text-right">
                             {% if current_user.is_authenticated %}
-                            {% if liked %}
-                            <p>Thank you for liking this content.</p>
-                            {% else %}
-                            <form action="{{ url_for('like_chronicle', chronicle_id=chronicle['_id']) }}" method="post"
-                                class="d-inline-block">
-                                {{ form.csrf_token }}
-                                <button id="like-button" class="btn btn-primary btn-sm mb-2" type="submit"
-                                    data-chronicle-id="{{ chronicle['_id'] }}">Like</button>
-                            </form>
-                            {% endif %}
+                            <div id="like-button-container">
+                                {% if liked %}
+                                <p>Thank you for liking this content.</p>
+                                {% else %}
+                                <form action="{{ url_for('like_chronicle', chronicle_id=chronicle['_id']) }}"
+                                    method="post" class="d-inline-block">
+                                    {{ form.csrf_token }}
+                                    <button id="like-button" class="btn btn-primary btn-sm mb-2" type="submit"
+                                        data-chronicle-id="{{ chronicle['_id'] }}">Like</button>
+                                </form>
+                                {% endif %}
+                            </div>
                             {% else %}
                             <a href="{{ url_for('login') }}" class="btn btn-primary btn-sm">Log in to like</a>
                             {% endif %}
@@ -188,7 +190,9 @@
                             const likesCountElement = document.getElementById("likes-count");
                             const likesCount = parseInt(likesCountElement.innerText) + 1;
                             likesCountElement.innerText = likesCount;
-                            document.getElementById("like-button").disabled = true;
+                            const likeButtonContainer = document.getElementById("like-button-container");
+                            likeButtonContainer.innerHTML = "<p>Thank you for liking this content.</p>";
+
                         } else {
                             console.error("Failed to like the chronicle");
                         }
