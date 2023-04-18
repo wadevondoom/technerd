@@ -74,52 +74,47 @@
                         By {{ chronicle.author }} | {{ chronicle.date_posted }}
                     </p>
                     <div class="row">
-                        <div class="col-md-6 text-md-right">
-                            <div class="d-flex align-items-center">
-                                <span class="badge badge-secondary" style="background-color: #6c757d">{{
-                                    chronicle.page_views }} views</span>
-                            </div>
+                        <div class="col-md-6 text-md-right d-inline-flex align-items-center">
+                            <span class="badge badge-secondary" style="background-color: #6c757d;">{{
+                                chronicle.page_views }} views</span>
                         </div>
-                        <div class="col-md-6">
-                            <div class="d-flex align-items-center">
-                                <p class="badge badge-primary" style="background-color: #007bff"><span
-                                        id="likes-count">{{ like_count }} likes</span></p>
-                            </div>
+                        <div class="col-md-6 d-inline-flex align-items-center">
+                            <span class="badge badge-primary badge-pill" style="background-color: #007bff;">{{
+                                like_count }} likes</span>
                         </div>
-                        <div class="col-sm-6 text-right">
-                            <div class="d-flex align-items-center">
-                                <a href="https://twitter.com/intent/tweet?url={{ url_for('like_chronicle', chronicle_id=chronicle['_id'], _external=True) }}&text={{ chronicle.title }}"
-                                    class="btn btn-info btn-sm mr-2" style="background-color: #1da1f2"
-                                    target="_blank"><i class="fab fa-twitter"></i> Post to Twitter</a>
-                                <a href="https://www.facebook.com/sharer/sharer.php?u={{ url_for('like_chronicle', chronicle_id=chronicle['_id'], _external=True) }}"
-                                    class="btn btn-primary btn-sm mr-2" style="background-color: #4267b2"
-                                    target="_blank"><i class="fab fa-facebook"></i> Post to Facebook</a>
-                                {% if current_user.is_authenticated %}
-                                <div id="like-button-container" class="d-flex align-items-center">
-                                    {% if liked %}
-                                    <p id="thank-you-message" class="text-muted mb-0 ml-2" style="font-size: small;">
-                                        Thank you for liking this content.</p>
-                                    {% else %}
-                                    <form action="{{ url_for('like_chronicle', chronicle_id=chronicle['_id']) }}"
-                                        method="post" class="d-inline-block">
-                                        {{ form.csrf_token }}
-                                        <button id="like-button" class="btn btn-outline-secondary btn-sm mr-2"
-                                            type="submit" data-chronicle-id="{{ chronicle['_id'] }}"><i
-                                                class="far fa-thumbs-up"></i> Like</button>
-                                    </form>
-                                    {% endif %}
-                                    <span class="badge badge-primary badge-pill" style="background-color: #007bff;">{{
-                                        like_count }}</span>
-                                </div>
+                        <div class="col-sm-6 text-right d-inline-flex align-items-center">
+                            <a href="https://twitter.com/intent/tweet?url={{ url_for('like_chronicle', chronicle_id=chronicle['_id'], _external=True) }}&text={{ chronicle.title }}"
+                                class="btn btn-info btn-sm mr-2" style="background-color: #1da1f2;" target="_blank"><i
+                                    class="fa fa-twitter"></i> Post to Twitter</a>
+                            <a href="https://www.facebook.com/sharer/sharer.php?u={{ url_for('like_chronicle', chronicle_id=chronicle['_id'], _external=True) }}"
+                                class="btn btn-primary btn-sm mr-2" style="background-color: #4267b2;"
+                                target="_blank"><i class="fa fa-facebook"></i> Post to Facebook</a>
+                            {% if current_user.is_authenticated %}
+                            <div id="like-button-container" class="d-inline-flex align-items-center">
+                                {% if liked %}
+                                <p id="thank-you-message" class="text-muted mb-0 ml-2" style="font-size: small;">Thank
+                                    you for liking this content.</p>
                                 {% else %}
-                                <a href="{{ url_for('login') }}" class="btn btn-primary btn-sm mr-2"><i
-                                        class="fas fa-sign-in-alt"></i> Log in to like</a>
+                                <form action="{{ url_for('like_chronicle', chronicle_id=chronicle['_id']) }}"
+                                    method="post" class="d-inline-block">
+                                    {{ form.csrf_token }}
+                                    <button id="like-button" class="btn btn-outline-secondary btn-sm mr-2" type="submit"
+                                        data-chronicle-id="{{ chronicle['_id'] }}"><i class="fa fa-thumbs-up"></i>
+                                        Like</button>
+                                </form>
                                 {% endif %}
-                                <script>
-                                    const csrfToken = '{{ form.csrf_token._value() }}';
-                                </script>
+                                <span class="badge badge-primary badge-pill" style="background-color: #007bff;">{{
+                                    like_count }}</span>
                             </div>
+                            {% else %}
+                            <a href="{{ url_for('login') }}" class="btn btn-primary btn-sm mr-2"><i
+                                    class="fas fa-sign-in-alt"></i> Log in to like</a>
+                            {% endif %}
+                            <script>
+                                const csrfToken = '{{ form.csrf_token._value() }}';
+                            </script>
                         </div>
+
                     </div>
                     <img src="{{ url_for('static', filename=chronicle.image[8:]) }}" alt="Story Image"
                         class="img-fluid mb-4"
