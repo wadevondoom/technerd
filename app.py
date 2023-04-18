@@ -306,6 +306,7 @@ def play_nis():
     user_image = current_user.picture if current_user.is_authenticated else None
     return render_template("play_nis.html", user_image=user_image)
 
+
 @app.route("/play_carwars")
 @login_required
 def play_cw():
@@ -907,16 +908,13 @@ def delete_article(article_id):
         news = News(**article)
         deleted = news.delete_by_id()
         if deleted:
-                # Flash success message and redirect to admin page
-            flash(f"Artwork {article_id} deleted successfully!", "success")
-            return redirect(url_for("admin"))
+            flash(f"Article with _id {article_id} was deleted.", "success")
         else:
-            flash(f"Artwork {article_id} not deleted!", "danger")
-            return redirect(url_for("admin"))
+            flash(f"No article with _id {article_id} was found.", "error")
     else:
-        flash("Article not found.")
-        return redirect(url_for("admin"))
-    
+        flash("Article not found.", "error")
+
+    return redirect(url_for("admin"))
 
 
 @login_required
@@ -933,8 +931,6 @@ def delete_artwork(artwork_id):
 
     # Delete the artwork
     Artwork.delete(artwork)
-
-
 
 
 """End admin routes"""
