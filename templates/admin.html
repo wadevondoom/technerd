@@ -291,11 +291,12 @@
                                             <td>{{ article.source }}</td>
                                             <td><img src="{{ article.image_url }}" class="img-thumbnail-news"></td>
                                             <td>
-                                                <form action="#" method="post" id="#">
+                                                <form action="{{ url_for('delete_article', article_id=article['_id']) }}"
+                                                    method="post">
                                                     <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
-                                                    <input type="hidden" name="_method" value="DELETE">
-                                                    <button type="submit" class="btn btn-link"><i
-                                                            class="fa fa-trash"></i></button>
+                                                    <button type="submit" class="btn btn-link text-dark" title="Delete">
+                                                        <i class="fa fa-trash"></i>
+                                                    </button>
                                                 </form>
                                             </td>
                                         </tr>

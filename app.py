@@ -506,6 +506,7 @@ def q_detail(quote_id):
 def search():
     if request.method == "POST":
         search_keyword = request.form["search"]
+        user_image = current_user.picture if current_user.is_authenticated else None
 
         # Perform a search in each collection and store content type, _id, title, image, and content
         articles_results = [
@@ -556,6 +557,8 @@ def search():
             quotes_results=quotes_results,
             artwork_results=artwork_results,
             chronicle_results=chronicle_results,
+            current_user=current_user,
+            user_image=user_image,
         )
 
     return render_template("search.html")
@@ -897,7 +900,19 @@ def delete_category(category_id):
     return redirect(url_for("admin"))
 
 
-@app.route("/delete_artwork/<string:artwork_id>", methods=["POST"])
+@app.route("/delete_article/<string:article_id>", methods=["POST"])
+def delete_article(article_id):
+    article = News.get_by_id(article_id)
+    if article:
+        news = News(**article)
+        deleted = news.delete_by_id()
+        if deleted:
+            return f"Article with _id {article_id} was deleted."
+        else:
+            return f"No article with _id {article_id} was found."
+    else:
+        return "Article not found."
+    
 @login_required
 def delete_artwork(artwork_id):
     # Convert the artwork_id to ObjectId
@@ -916,6 +931,9 @@ def delete_artwork(artwork_id):
     # Flash success message and redirect to admin page
     flash("Artwork deleted successfully!", "success")
     return redirect(url_for("admin"))
+
+
+
 
 
 """End admin routes"""
