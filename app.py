@@ -907,12 +907,18 @@ def delete_article(article_id):
         news = News(**article)
         deleted = news.delete_by_id()
         if deleted:
-            return f"Article with _id {article_id} was deleted."
+                # Flash success message and redirect to admin page
+            flash(f"Artwork {article_id} deleted successfully!", "success")
+            return redirect(url_for("admin"))
         else:
-            return f"No article with _id {article_id} was found."
+            flash(f"Artwork {article_id} not deleted!", "danger")
+            return redirect(url_for("admin"))
     else:
-        return "Article not found."
+        flash("Article not found.")
+        return redirect(url_for("admin"))
     
+
+
 @login_required
 def delete_artwork(artwork_id):
     # Convert the artwork_id to ObjectId
@@ -927,11 +933,6 @@ def delete_artwork(artwork_id):
 
     # Delete the artwork
     Artwork.delete(artwork)
-
-    # Flash success message and redirect to admin page
-    flash("Artwork deleted successfully!", "success")
-    return redirect(url_for("admin"))
-
 
 
 
