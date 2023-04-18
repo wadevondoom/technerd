@@ -83,9 +83,10 @@
                         </div>
                         <div class="col-sm-6 text-right">
                             {% if current_user.is_authenticated %}
-                            <div id="like-button-container" data-liked="{{ liked }}">
-                                <p id="thank-you-message" style="display: none;">Thank you for liking this content.</p>
-                                {% if not liked %}
+                            <div id="like-button-container">
+                                {% if liked %}
+                                <p id="thank-you-message">Thank you for liking this content.</p>
+                                {% else %}
                                 <form action="{{ url_for('like_chronicle', chronicle_id=chronicle['_id']) }}"
                                     method="post" class="d-inline-block">
                                     {{ form.csrf_token }}
@@ -97,6 +98,7 @@
                             {% else %}
                             <a href="{{ url_for('login') }}" class="btn btn-primary btn-sm">Log in to like</a>
                             {% endif %}
+
                             <script>
                                 const csrfToken = '{{ form.csrf_token._value() }}';
                             </script>
@@ -168,20 +170,7 @@
 </div>
 <script>
     document.addEventListener("DOMContentLoaded", function () {
-        const likeButtonContainer = document.getElementById("like-button-container");
-        const thankYouMessage = document.getElementById("thank-you-message");
         const likeButton = document.getElementById("like-button");
-
-        const liked = likeButtonContainer.getAttribute("data-liked") === "True";
-
-        if (liked) {
-            likeButton.style.display = "none";
-            thankYouMessage.style.display = "block";
-        } else {
-            likeButton.style.display = "block";
-            thankYouMessage.style.display = "none";
-        }
-
         if (likeButton) {
             likeButton.addEventListener("click", function (event) {
                 event.preventDefault();
@@ -197,12 +186,12 @@
                 })
                     .then(function (response) {
                         if (response.ok) {
-                            // Update the like count and disable the like button
+                            // Update the like count and hide the like button
                             const likesCountElement = document.getElementById("likes-count");
                             const likesCount = parseInt(likesCountElement.innerText) + 1;
                             likesCountElement.innerText = likesCount;
-                            likeButton.style.display = "none";
-                            thankYouMessage.style.display = "block";
+                            const likeButtonContainer = document.getElementById("like-button-container");
+                            likeButtonContainer.innerHTML = "<p>Thank you for liking this content.</p>";
 
                         } else {
                             console.error("Failed to like the chronicle");
