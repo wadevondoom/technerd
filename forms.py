@@ -37,7 +37,7 @@ class ArtworkForm(FlaskForm):
     title = StringField("Title", validators=[DataRequired()])
     category_name = SelectField("Category", choices=[], coerce=str)
     image = FileField(
-        "Image", validators=[FileAllowed(["jpg", "jpeg"], "Images only!")]
+        "Image", validators=[FileAllowed(["jpg", "jpeg", "png"], "(JPG, JPEG, PNG) Images only!")]
     )
     text = TextAreaField("Text", validators=[DataRequired()])
     submit = SubmitField("Save Artwork")
@@ -55,7 +55,7 @@ class CreateCategoryForm(FlaskForm):
     name = StringField("name", validators=[DataRequired()])
     desc = TextAreaField("desc")
     image = FileField(
-        "Image", validators=[FileAllowed(["jpg", "jpeg"], "Images only!")]
+        "Image", validators=[FileAllowed(["jpg", "jpeg", "png"], "(JPG, JPEG, PNG) Images only!")]
     )
     submit = SubmitField("Save Category")
 
