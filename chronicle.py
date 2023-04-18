@@ -143,3 +143,4 @@ class Chronicle:
             {"content_type": content_type, "content_id": content_id}
         )
         return likes_count
+    
