@@ -69,40 +69,48 @@
                     <h1 class="mb-3 text-center">{{ artwork.title }}</h1>
                     <div class="row">
                         <div class="col-sm-6">
-                          <p class="mb-2 text-muted d-inline-block">Posted on | {{ artwork.date_posted.strftime('%Y-%m-%d %H:%M') }}</p>
+                            <p class="mb-2 text-muted d-inline-block">Posted on | {{
+                                artwork.date_posted.strftime('%Y-%m-%d %H:%M') }}</p>
                         </div>
                         <div class="col-sm-3">
-                          <p class="mb-2 d-inline-block badge badge-secondary"><span id="likes-count">{{ like_count }} likes</span></p>
+                            <p class="mb-2 d-inline-block badge badge-secondary"><span id="likes-count">{{ like_count }}
+                                    likes</span></p>
                         </div>
                         <div class="col-sm-3 text-right">
-                          <p class="mb-2 d-inline-block"><span class="badge badge-success">{{ artwork.page_views }} page views</span></p>
+                            <p class="mb-2 d-inline-block"><span class="badge badge-success">{{ artwork.page_views }}
+                                    page views</span></p>
                         </div>
-                      </div>                      
+                    </div>
                 </div>
             </div>
 
-            <img src="{{ url_for('static', filename=artwork.image[8:]) }}" alt="Story Image" class="story-image" data-toggle="modal"
-                data-target="#imageModal">
+            <img src="{{ url_for('static', filename=artwork.image[8:]) }}" alt="Story Image" class="story-image"
+                data-toggle="modal" data-target="#imageModal">
             <hr>
 
             <div class="card mb-4 text-center align-items-center">
                 <div class="card-body text-dark">
                     <p class="mt-4">{{ artwork.text | safe }}</p>
                 </div>
-                <div class="col-sm-6">
+                <div class="col-sm-12 text-center">
                     {% if current_user.is_authenticated %}
-                    {% if like %}
+                    {% if liked %}
                     <button class="btn btn-primary btn-sm disabled">You liked this already</button>
                     {% else %}
-                    <form action="{{ url_for('like_artwork', artwork_id=artwork['_id']) }}" method="post"
+                    <form id="like-form" action="{{ url_for('like_artwork', artwork_id=artwork['_id']) }}" method="post"
                         class="d-inline-block">
                         {{ form.csrf_token }}
-                        <button id="like-button" class="btn btn-primary btn-sm mb-2" type="submit" data-artwork-id="{{ artwork['_id'] }}">Like</button>
+                        <button id="like-button" class="btn btn-primary btn-sm mb-2" type="submit"
+                            data-artwork-id="{{ artwork['_id'] }}">Like</button>
                     </form>
                     {% endif %}
                     {% else %}
                     <a href="{{ url_for('login') }}" class="btn btn-primary btn-sm mb-2">Log in to like</a>
                     {% endif %}
+                    <a href="https://www.facebook.com/sharer/sharer.php?u={{ url_for('art_detail', artwork_id=artwork['_id'], _external=True) }}"
+                        target="_blank" class="btn btn-primary btn-sm mb-2 ml-2">Share on Facebook</a>
+                    <a href="https://twitter.com/intent/tweet?url={{ url_for('art_detail', artwork_id=artwork['_id'], _external=True) }}&text={{ artwork.title }}"
+                        target="_blank" class="btn btn-primary btn-sm mb-2 ml-2">Share on Twitter</a>
                 </div>
             </div>
             <!-- Comment Section -->
@@ -176,20 +184,37 @@
 </div>
 <!-- JavaScript for liking the artwork -->
 <script>
-    document.getElementById("like-button").addEventListener("click", function () {
-        const artworkId = this.dataset.artworkId;
-        fetch(`/art_detail/${artworkId}/like`, { method: "POST" })
-            .then(function (response) {
-                if (response.ok) {
-                    // Update the like count and disable the like button
-                    const likesCountElement = document.getElementById("likes-count");
-                    const likesCount = parseInt(likesCountElement.innerText.split(":")[1].trim()) + 1;
-                    likesCountElement.innerText = `Likes: ${likesCount}`;
-                    document.getElementById("like-button").disabled = true;
-                } else {
-                    console.error("Failed to like the artwork");
-                }
+    document.addEventListener("DOMContentLoaded", function () {
+        const likeButton = document.getElementById("like-button");
+        if (likeButton) {
+            likeButton.addEventListener("click", function (event) {
+                event.preventDefault();
+                const artworkId = this.dataset.artworkId;
+                const csrfToken = document.querySelector("#like-form input[name=_csrf_token]").value;
+
+                fetch(`/art_detail/${artworkId}/like`, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/x-www-form-urlencoded",
+                        "X-CSRFToken": csrfToken
+                    },
+                    body: `_csrf_token=${encodeURIComponent(csrfToken)}`
+                })
+                    .then(function (response) {
+                        if (response.ok) {
+                            // Update the like count and hide the like button
+                            const likesCountElement = document.getElementById("likes-count");
+                            const likesCount = parseInt(likesCountElement.innerText) + 1;
+                            likesCountElement.innerText = likesCount;
+                            const likeButtonContainer = document.getElementById("like-button");
+                            likeButtonContainer.parentNode.removeChild(likeButtonContainer);
+
+                        } else {
+                            console.error("Failed to like the artwork");
+                        }
+                    });
             });
+        }
     });
 </script>
 {% endblock %}

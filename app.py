@@ -428,7 +428,7 @@ def art_detail(artwork_id):
 
     like_count = Like.get_likes("artwork", artwork_id)
     liked = False
-    
+
     user_id = current_user.get_id()
     if user_id:
         existing_like = db.likes.find_one(
@@ -437,7 +437,6 @@ def art_detail(artwork_id):
         if existing_like:
             liked = True
 
-    
 
     return render_template(
         "art_detail.html",
