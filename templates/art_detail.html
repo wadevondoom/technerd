@@ -104,10 +104,10 @@
                     {% else %}
                     <form id="like-form" action="{{ url_for('like_artwork', artwork_id=artwork['_id']) }}" method="post"
                         class="d-inline-block">
-                        {{ form.csrf_token }}
                         <button id="like-button" class="btn btn-outline-secondary btn-sm mr-2" type="submit"
                             data-artwork-id="{{ artwork['_id'] }}"><i class="fa fa-thumbs-up"></i> Like</button>
                     </form>
+                    {{ form.csrf_token }}
                     {% endif %}
                 </div>
                 {% else %}

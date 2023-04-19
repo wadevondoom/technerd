@@ -99,11 +99,11 @@
                                     {% else %}
                                     <form action="{{ url_for('like_chronicle', chronicle_id=chronicle['_id']) }}"
                                         method="post" class="d-inline-block">
-                                        {{ form.csrf_token }}
                                         <button id="like-button" class="btn btn-outline-secondary btn-sm mr-2"
                                             type="submit" data-chronicle-id="{{ chronicle['_id'] }}"><i
                                                 class="fa fa-thumbs-up"></i> Like</button>
                                     </form>
+                                    {{ form.csrf_token }}
                                     <span class="badge badge-primary badge-pill" style="background-color: #007bff;"
                                         id="like-count">{{ like_count if like_count is not none else 0 }}</span>
                                     {% endif %}
