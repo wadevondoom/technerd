@@ -110,6 +110,9 @@
                     <span class="badge badge-primary badge-pill" style="background-color: #007bff;" id="likes-count">{{
                         like_count }}</span>
                     {% endif %}
+                    <script>
+                        const csrfToken = '{{ form.csrf_token._value() }}';
+                    </script>
                 </div>
                 {% else %}
                 <a href="{{ url_for('login') }}" class="btn btn-primary btn-sm mr-2"><i class="fas fa-sign-in-alt"></i>
