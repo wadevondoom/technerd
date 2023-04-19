@@ -58,7 +58,8 @@
                     <img src="{{ news.image_url }}" alt="News Image" class="img-fluid mb-4 story-image">
                     <p>{{ news.description | safe }}</p>
                     <div class="d-flex justify-content-center my-3">
-                        <a href="{{ news.url }}" class="btn btn-outline-secondary" target="_blank">Read at {{ news.source }} &rarr;</a>
+                        <a href="{{ news.url }}" class="btn btn-outline-secondary" target="_blank">Read at {{
+                            news.source }} &rarr;</a>
                     </div>
                 </div>
             </div>
@@ -81,8 +82,8 @@
                 <form method="POST" action="{{ url_for('n_detail', news_id=news['_id']) }}">
                     {{ form.csrf_token }}
                     <div class="form-group">
-                        <label for="{{ form.text.id }}">Leave a comment:</label>
-                        {{ form.text(class="form-control") }}
+                        <label for="comment-textarea">Leave a comment:</label>
+                        <textarea id="comment-textarea" name="{{ form.text.name }}"></textarea>
                     </div>
                     <button type="submit" class="btn btn-primary">Submit Comment</button>
                 </form>
@@ -115,5 +116,17 @@
         </div>
     </div>
 </div>
+<script>
+    tinymce.init({
+        selector: '#comment-textarea',
+        plugins: 'autoresize',
+        toolbar: 'undo redo | bold italic | alignleft aligncenter alignright',
+        menubar: false,
+        autoresize_min_height: 100,
+        autoresize_max_height: 300,
+        paste_as_text: true,
+        forced_root_block: '',
+        valid_elements: 'p[style],strong,em,ul,ol,li'
+    });
+</script>
 {% endblock %}
-                    
