@@ -61,3 +61,60 @@ def get_top_news(category, num_articles):
         print(f"{updated_count} documents updated.")
     else:
         print(f"Error: {response.status_code}")
+
+
+def get_everything(query, category, num_articles):
+    articles_collection = db.articles
+
+    params = {
+        "apiKey": api_key,
+        "q": query,
+        "pageSize": num_articles,
+        "language": "en",
+        "sortBy": "relevancy",
+    }
+
+    everything_url = "https://newsapi.org/v2/everything"
+    response = requests.get(everything_url, params=params)
+
+    if response.status_code == 200:
+        data = response.json()
+        articles = data["articles"]
+
+        print(
+            f"Top {num_articles} articles for query '{query}' in {category} category:"
+        )
+        for index, article in enumerate(articles):
+            if "urlToImage" not in article:
+                continue
+            print(f"{index + 1}. {article['title']} - {article['source']['name']}")
+
+            # Insert the article into the MongoDB collection
+            articles_collection.insert_one(
+                {
+                    "title": article["title"],
+                    "description": article["description"],
+                    "url": article["url"],
+                    "image_url": article["urlToImage"],
+                    "source": article["source"]["name"],
+                    "category": category,
+                    "content": article["content"],
+                }
+            )
+
+        # Clean up so no broken images
+        articles_collection = db["articles"]
+        # Find documents with a null image_url and update them
+        articles_to_update = articles_collection.find({"image_url": {"$eq": None}})
+        updated_count = 0
+        for article in articles_to_update:
+            article_id = article["_id"]
+            result = articles_collection.update_one(
+                {"_id": article_id},
+                {"$set": {"image_url": "/static/img/placeholder.jpg"}},
+            )
+            updated_count += result.modified_count
+
+        print(f"{updated_count} documents updated.")
+    else:
+        print(f"Error: {response.status_code}")
