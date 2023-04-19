@@ -115,8 +115,9 @@
                     Log in to like</a>
                 {% endif %}
                 <script>
-                    const csrfToken = '{{ form.csrf_token }}';
+                    const csrfToken = document.querySelector('input[name="_csrf_token"]').value;
                 </script>
+            
             </div>
             <!-- Comment Section -->
             <div class="comment-section">
@@ -202,7 +203,8 @@
                         "Content-Type": "application/x-www-form-urlencoded",
                         "X-CSRFToken": csrfToken
                     },
-                    body: `_csrf_token=${encodeURIComponent(csrfToken)}`
+                    body: `_csrf_token=${encodeURIComponent(csrfToken)}`,
+                    credentials: 'same-origin'
                 })
                     .then(function (response) {
                         if (response.ok) {

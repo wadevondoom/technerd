@@ -113,7 +113,7 @@
                                         class="fas fa-sign-in-alt"></i> Log in to like</a>
                                 {% endif %}
                                 <script>
-                                    const csrfToken = '{{ form.csrf_token }}';
+                                    const csrfToken = document.querySelector('input[name="_csrf_token"]').value;
                                 </script>
                             </div>
                         </div>
@@ -192,13 +192,14 @@
                 event.preventDefault();
                 const chronicleId = this.dataset.chronicleId;
 
-                fetch(`/detail/${chronicleId}/like`, {
+                fetch(`/art_detail/${artworkId}/like`, {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/x-www-form-urlencoded",
                         "X-CSRFToken": csrfToken
                     },
-                    body: `_csrf_token=${encodeURIComponent(csrfToken)}`
+                    body: `_csrf_token=${encodeURIComponent(csrfToken)}`,
+                    credentials: 'same-origin'
                 })
                     .then(function (response) {
                         if (response.ok) {
