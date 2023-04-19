@@ -26,12 +26,18 @@
 
     /* Custom comment styling */
     .comment-section {
-        margin-top: 2rem;
+        background-color: #f8f9fa;
+        border-radius: 5px;
+        padding: 1rem;
     }
 
     .comment {
         display: flex;
         margin-bottom: 1rem;
+        padding: 1rem;
+        background-color: white;
+        border-radius: 5px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     }
 
     .comment-avatar {
@@ -42,13 +48,6 @@
         margin-right: 1rem;
     }
 
-    .comment-content {
-        background-color: #f8f9fa;
-        border-radius: 5px;
-        padding: 1rem;
-        position: relative;
-    }
-
     .comment-author {
         font-weight: bold;
         margin-bottom: 0.5rem;
@@ -57,6 +56,12 @@
     .comment-date {
         font-size: 0.8rem;
         color: #6c757d;
+    }
+
+    .reply-button {
+        font-size: 0.8rem;
+        color: #007bff;
+        cursor: pointer;
     }
 </style>
 
@@ -129,15 +134,19 @@
             <div class="comment-section">
                 <h4>Comments</h4>
                 {% for comment in comments %}
-                <div class="comment">
-                    {% if comment.avatar %}
-                    <img src="{{ comment.avatar }}" alt="User Avatar" class="comment-avatar">
-                    {% endif %}
-                    <div class="comment-content">
-                        <p class="comment-author">{{ comment.author }}</p>
-                        <p>{{ comment.text }}</p>
-                        <p class="comment-date">{{ comment.created_at.strftime('%Y-%m-%d %H:%M') }}</p>
+                <div class="comment mb-3">
+                    <div class="d-flex">
+                        {% if comment.avatar %}
+                        <img src="{{ comment.avatar }}" alt="User Avatar" class="comment-avatar">
+                        {% endif %}
+                        <div class="comment-content ml-3">
+                            <p class="comment-author mb-1">{{ comment.author }}</p>
+                            <p class="comment-date text-muted mb-1">{{ comment.created_at.strftime('%Y-%m-%d %H:%M') }}
+                            </p>
+                            <p>{{ comment.text }}</p>
+                        </div>
                     </div>
+                    <hr>
                 </div>
                 {% endfor %}
                 {% if current_user.is_authenticated %}
@@ -154,6 +163,7 @@
                 {% endif %}
             </div>
             <!-- End Comment Section -->
+
         </div>
         <div class="col-lg-5">
             <div class="card p-3 mb-3">

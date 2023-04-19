@@ -25,14 +25,20 @@
         border: solid 8px #FFF;
     }
 
-    /* Custom comment styling */
+    /* Additional styles for comment section */
     .comment-section {
-        margin-top: 2rem;
+        background-color: #f8f9fa;
+        border-radius: 5px;
+        padding: 1rem;
     }
 
     .comment {
         display: flex;
         margin-bottom: 1rem;
+        padding: 1rem;
+        background-color: white;
+        border-radius: 5px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     }
 
     .comment-avatar {
@@ -43,13 +49,6 @@
         margin-right: 1rem;
     }
 
-    .comment-content {
-        background-color: #f8f9fa;
-        border-radius: 5px;
-        padding: 1rem;
-        position: relative;
-    }
-
     .comment-author {
         font-weight: bold;
         margin-bottom: 0.5rem;
@@ -58,6 +57,12 @@
     .comment-date {
         font-size: 0.8rem;
         color: #6c757d;
+    }
+
+    .reply-button {
+        font-size: 0.8rem;
+        color: #007bff;
+        cursor: pointer;
     }
 </style>
 
@@ -117,6 +122,7 @@
                     Log in to like</a>
                 {% endif %}
             </div>
+
             <!-- Comment Section -->
             <div class="comment-section">
                 <h4>Comments</h4>
@@ -128,7 +134,10 @@
                     <div class="comment-content">
                         <p class="comment-author">{{ comment.author }}</p>
                         <p>{{ comment.text }}</p>
-                        <p class="comment-date">{{ comment.created_at.strftime('%Y-%m-%d %H:%M') }}</p>
+                        <div class="d-flex justify-content-between">
+                            <p class="comment-date">{{ comment.created_at.strftime('%Y-%m-%d %H:%M') }}</p>
+                            <p class="reply-button">Reply</p>
+                        </div>
                     </div>
                 </div>
                 {% endfor %}
@@ -193,7 +202,7 @@
         if (likeButton) {
             likeButton.addEventListener("click", function (event) {
                 event.preventDefault();
-                const artworkID = this.dataset.artworkID;
+                const artworkID = likeButton.dataset.artwork_id;
 
                 fetch(`/art_detail/${artworkID}/like`, {
                     method: "POST",
