@@ -79,7 +79,7 @@
                     {% endif %}
                     <div class="comment-content">
                         <p class="comment-author">{{ comment.author }}</p>
-                        <p>{{ clean(comment.text, tags=['p', 'strong', 'em', 'ul', 'ol', 'li']) }}</p>
+                        <p>{{ clean(comment.text, tags=['strong', 'em', 'ul', 'ol', 'li']) }}</p>
                         <p class="comment-date">{{ comment.created_at.strftime('%Y-%m-%d %H:%M') }}</p>
                     </div>
                 </div>
