@@ -105,7 +105,7 @@
                                                 class="fa fa-thumbs-up"></i> Like</button>
                                     </form>
                                     <span class="badge badge-primary badge-pill" style="background-color: #007bff;"
-                                        id="like_count">{{ like_count if like_count is not none else 0 }}</span>
+                                        id="like-count">{{ like_count if like_count is not none else 0 }}</span>
                                     {% endif %}
                                 </div>
                                 {% else %}
@@ -203,7 +203,7 @@
                     .then(function (response) {
                         if (response.ok) {
                             // Update the like count and hide the like button
-                            const likesCountElement = document.getElementById("like_count");
+                            const likesCountElement = document.getElementById("like-count");
                             const likesCount = parseInt(likesCountElement.innerText) + 1;
                             likesCountElement.innerText = likesCount;
                             const likeButtonContainer = document.getElementById("like-button-container");
