@@ -195,13 +195,7 @@
         if (likeButton) {
             likeButton.addEventListener("click", function (event) {
                 event.preventDefault();
-                const artworkId = this.dataset.artworkId;
-                const csrfTokenInput = document.querySelector("#like-form input[name=_csrf_token]");
-                if (!csrfTokenInput) {
-                    console.error("CSRF token not found");
-                    return;
-                }
-                const csrfToken = csrfTokenInput.value;
+                const artworkId  = this.dataset.artworkId ;
 
                 fetch(`/art_detail/${artworkId}/like`, {
                     method: "POST",
@@ -214,11 +208,11 @@
                     .then(function (response) {
                         if (response.ok) {
                             // Update the like count and hide the like button
-                            const likesCountElement = document.getElementById("likes-count");
+                            const likesCountElement = document.getElementById("like_count");
                             const likesCount = parseInt(likesCountElement.innerText) + 1;
                             likesCountElement.innerText = likesCount;
-                            const likeButtonContainer = document.getElementById("like-button");
-                            likeButtonContainer.parentNode.removeChild(likeButtonContainer);
+                            const likeButtonContainer = document.getElementById("like-button-container");
+                            likeButtonContainer.innerHTML = "<p>Thank you for liking this content.</p>";
 
                         } else {
                             console.error("Failed to like the artwork");
