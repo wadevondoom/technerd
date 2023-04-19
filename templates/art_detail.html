@@ -193,7 +193,7 @@
         if (likeButton) {
             likeButton.addEventListener("click", function (event) {
                 event.preventDefault();
-                const chronicleId = this.dataset.chronicleId;
+                const articleID = this.dataset.articleID;
 
                 fetch(`/art_detail/${artworkID}/like`, {
                     method: "POST",
