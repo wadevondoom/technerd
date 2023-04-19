@@ -107,12 +107,9 @@
                         <button id="like-button" class="btn btn-outline-secondary btn-sm mr-2" type="submit"
                             data-artwork-id="{{ artwork['_id'] }}"><i class="fa fa-thumbs-up"></i> Like</button>
                     </form>
-                    <span class="badge badge-primary badge-pill" style="background-color: #007bff;" id="like-count">{{
-                        like_count }}</span>
                     {% endif %}
-                    <script>
-                        const csrfToken = '{{ form.csrf_token._value() }}';
-                    </script>
+                    <span class="badge badge-primary badge-pill" style="background-color: #007bff;" id="like-count">{{
+                        like_count if like_count is not none else 0 }}</span>
                 </div>
                 {% else %}
                 <a href="{{ url_for('login') }}" class="btn btn-primary btn-sm mr-2"><i class="fas fa-sign-in-alt"></i>
@@ -195,7 +192,7 @@
         if (likeButton) {
             likeButton.addEventListener("click", function (event) {
                 event.preventDefault();
-                const artworkId  = this.dataset.artworkId ;
+                const artworkId = this.dataset.artworkId;
 
                 fetch(`/art_detail/${artworkId}/like`, {
                     method: "POST",
