@@ -193,7 +193,7 @@
         if (likeButton) {
             likeButton.addEventListener("click", function (event) {
                 event.preventDefault();
-                const articleID = this.dataset.articleID;
+                const artworkID = this.dataset.artworkID;
 
                 fetch(`/art_detail/${artworkID}/like`, {
                     method: "POST",
@@ -213,7 +213,7 @@
                             likeButtonContainer.innerHTML = "<p>Thank you for liking this content.</p>";
 
                         } else {
-                            console.error("Failed to like the chronicle");
+                            console.error("Failed to like the article");
                         }
                     });
             });
