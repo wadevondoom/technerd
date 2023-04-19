@@ -115,6 +115,9 @@
                 <a href="{{ url_for('login') }}" class="btn btn-primary btn-sm mr-2"><i class="fas fa-sign-in-alt"></i>
                     Log in to like</a>
                 {% endif %}
+                <script>
+                    const csrfToken = '{{ form.csrf_token }}';
+                </script>
             </div>
             <!-- Comment Section -->
             <div class="comment-section">
