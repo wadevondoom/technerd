@@ -491,6 +491,7 @@ def n_detail(news_id):
         user_image=user_image,
         form=form,
         comments=comments,
+        clean=clean,
     )
 
 
