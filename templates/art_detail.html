@@ -74,7 +74,7 @@
                         </div>
                         <div class="col-sm-3">
                             <p class="mb-2 d-inline-block badge badge-primary badge-pill"><span id="like-count">{{
-                                like_count if like_count is not none else 0 }}
+                                    like_count if like_count is not none else 0 }}
                                     likes</span></p>
                         </div>
                         <div class="col-sm-3 text-right">
@@ -107,17 +107,15 @@
                         <button id="like-button" class="btn btn-outline-secondary btn-sm mr-2" type="submit"
                             data-artwork-id="{{ artwork['_id'] }}"><i class="fa fa-thumbs-up"></i> Like</button>
                     </form>
-                    {{ form.csrf_token }}
                     {% endif %}
+                    <script>
+                        const csrfToken = '{{ form.csrf_token._value() }}';
+                    </script>
                 </div>
                 {% else %}
                 <a href="{{ url_for('login') }}" class="btn btn-primary btn-sm mr-2"><i class="fas fa-sign-in-alt"></i>
                     Log in to like</a>
                 {% endif %}
-                <script>
-                    const csrfToken = document.querySelector('input[name="_csrf_token"]').value;
-                </script>
-            
             </div>
             <!-- Comment Section -->
             <div class="comment-section">
@@ -195,28 +193,27 @@
         if (likeButton) {
             likeButton.addEventListener("click", function (event) {
                 event.preventDefault();
-                const artworkId = this.dataset.artworkId;
+                const chronicleId = this.dataset.chronicleId;
 
-                fetch(`/art_detail/${artworkId}/like`, {
+                fetch(`/art_detail/${artworkID}/like`, {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/x-www-form-urlencoded",
                         "X-CSRFToken": csrfToken
                     },
-                    body: `_csrf_token=${encodeURIComponent(csrfToken)}`,
-                    credentials: 'same-origin'
+                    body: `_csrf_token=${encodeURIComponent(csrfToken)}`
                 })
                     .then(function (response) {
                         if (response.ok) {
                             // Update the like count and hide the like button
-                            const likesCountElement = document.getElementById("like-count");
+                            const likesCountElement = document.getElementById("like_count");
                             const likesCount = parseInt(likesCountElement.innerText) + 1;
                             likesCountElement.innerText = likesCount;
                             const likeButtonContainer = document.getElementById("like-button-container");
                             likeButtonContainer.innerHTML = "<p>Thank you for liking this content.</p>";
 
                         } else {
-                            console.error("Failed to like the artwork");
+                            console.error("Failed to like the chronicle");
                         }
                     });
             });

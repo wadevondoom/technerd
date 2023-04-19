@@ -99,22 +99,22 @@
                                     {% else %}
                                     <form action="{{ url_for('like_chronicle', chronicle_id=chronicle['_id']) }}"
                                         method="post" class="d-inline-block">
+                                        {{ form.csrf_token }}
                                         <button id="like-button" class="btn btn-outline-secondary btn-sm mr-2"
                                             type="submit" data-chronicle-id="{{ chronicle['_id'] }}"><i
                                                 class="fa fa-thumbs-up"></i> Like</button>
                                     </form>
-                                    {{ form.csrf_token }}
                                     <span class="badge badge-primary badge-pill" style="background-color: #007bff;"
-                                        id="like-count">{{ like_count if like_count is not none else 0 }}</span>
+                                        id="like_count">{{ like_count if like_count is not none else 0 }}</span>
                                     {% endif %}
+                                    <script>
+                                        const csrfToken = '{{ form.csrf_token._value() }}';
+                                    </script>
                                 </div>
                                 {% else %}
                                 <a href="{{ url_for('login') }}" class="btn btn-primary btn-sm mr-2"><i
                                         class="fas fa-sign-in-alt"></i> Log in to like</a>
                                 {% endif %}
-                                <script>
-                                    const csrfToken = document.querySelector('input[name="_csrf_token"]').value;
-                                </script>
                             </div>
                         </div>
                     </div>
@@ -192,19 +192,18 @@
                 event.preventDefault();
                 const chronicleId = this.dataset.chronicleId;
 
-                fetch(`/art_detail/${artworkId}/like`, {
+                fetch(`/detail/${chronicleId}/like`, {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/x-www-form-urlencoded",
                         "X-CSRFToken": csrfToken
                     },
-                    body: `_csrf_token=${encodeURIComponent(csrfToken)}`,
-                    credentials: 'same-origin'
+                    body: `_csrf_token=${encodeURIComponent(csrfToken)}`
                 })
                     .then(function (response) {
                         if (response.ok) {
                             // Update the like count and hide the like button
-                            const likesCountElement = document.getElementById("like-count");
+                            const likesCountElement = document.getElementById("like_count");
                             const likesCount = parseInt(likesCountElement.innerText) + 1;
                             likesCountElement.innerText = likesCount;
                             const likeButtonContainer = document.getElementById("like-button-container");
