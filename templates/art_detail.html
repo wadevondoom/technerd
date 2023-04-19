@@ -208,7 +208,7 @@
                     .then(function (response) {
                         if (response.ok) {
                             // Update the like count and hide the like button
-                            const likesCountElement = document.getElementById("like_count");
+                            const likesCountElement = document.getElementById("likes_count");
                             const likesCount = parseInt(likesCountElement.innerText) + 1;
                             likesCountElement.innerText = likesCount;
                             const likeButtonContainer = document.getElementById("like-button-container");
