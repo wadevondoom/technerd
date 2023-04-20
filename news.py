@@ -1,5 +1,6 @@
 from helpers import db
 from bson import ObjectId
+from pymongo import DESCENDING
 
 class News:
     def __init__(self, title, description, url, image_url, source):
@@ -43,3 +44,11 @@ class News:
         articles = db.articles
         articles.delete_one({"_id": article["_id"]})  # Changed from articles["_id"] to article["_id"]
         return True
+
+    @staticmethod
+    def count_all():
+        return db.news.count_documents({})
+
+    @staticmethod
+    def get_paginated(skip, limit):
+        return db.news.find().skip(skip).limit(limit).sort([("_id", DESCENDING)])

@@ -248,7 +248,6 @@ def detail(chronicle_id):
     related_chrons = Chronicle.get_related_chronicles(3)
     user_image = current_user.picture if current_user.is_authenticated else None
 
-
     if chronicle is None:
         flash("Could not find chronicle.")
         redirect(url_for("chronicles"))
@@ -437,7 +436,6 @@ def art_detail(artwork_id):
         if existing_like:
             liked = True
 
-
     return render_template(
         "art_detail.html",
         artwork=artwork,
@@ -452,13 +450,26 @@ def art_detail(artwork_id):
 
 @app.route("/news")
 def news():
-    news_items = list(News.get_all())
+    page = int(request.args.get("page", 1))
+    per_page = int(request.args.get("per_page", 10))
+
+    total_news_items = (
+        News.count_all()
+    )  # Assuming you have a count_all() method in your News class
+    total_pages = (total_news_items + per_page - 1) // per_page
+    skip = (page - 1) * per_page
+
+    news_items = list(
+        News.get_paginated(skip, limit=per_page)
+    )  # Assuming you have a get_paginated() method in your News class
     user_image = current_user.picture if current_user.is_authenticated else None
 
     return render_template(
         "news.html",
         news=news_items,
         user_image=user_image,
+        total_pages=total_pages,
+        current_page=page,
     )
 
 
@@ -1040,17 +1051,21 @@ def profile():
 
 
 """ Error pages """
+
+
 @app.errorhandler(401)
 def unauthorized(error):
-    return render_template('401.html'), 401
+    return render_template("401.html"), 401
+
 
 @app.errorhandler(500)
 def unauthorized(error):
-    return render_template('500.html'), 401
+    return render_template("500.html"), 401
+
 
 @app.errorhandler(404)
 def unauthorized(error):
-    return render_template('404.html'), 401
+    return render_template("404.html"), 401
 
 
 if __name__ == "__main__":
