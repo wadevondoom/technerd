@@ -37,7 +37,7 @@ class News:
 
     @staticmethod
     def get_random(sample_size=1):
-        article = db.news.aggregate([{"$sample": {"size": sample_size}}])
+        article = db.articles.aggregate([{"$sample": {"size": sample_size}}])
         return next(iter(article), None)
 
     @staticmethod
