@@ -121,7 +121,8 @@
               >{{ page_num }}</a
             >
           </li>
-          {% endif %} {% continue %} {% endif %}
+          {% endif %} {% elif page_num >= current_page - display_pages and
+          page_num <= current_page + display_pages %}
           <li
             class="page-item {% if page_num == current_page %}active{% endif %}"
           >
@@ -131,7 +132,7 @@
               >{{ page_num }}</a
             >
           </li>
-          {% endfor %} {% if current_page <a total_pages %}
+          {% endif %} {% endfor %} {% if current_page < total_pages %}
           <li class="page-item">
             <a
               class="page-link"
