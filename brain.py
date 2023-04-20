@@ -16,10 +16,10 @@ class Brain:
         self.role = "user"
         self.prompt = prompt
         self.engine = "davinci-003"
-        self.prompt_img_helper_text = "in the style of an oil painting"
+        self.prompt_img_helper_text = " in the style of an oil painting"
         self.prompt_helper_text = "Format your responses in HTML. \
             Do not use DIV, H1 or H2 tags. Do use em, a, ul, ol, li as needed \
-            Take persona of knowledge expert. \
+            Take persona of a helper ghost writer for a nerd news blog. \
             Do not include a conclusion. Write for ease of viewing on web \
             Write in a punchy blogging style and sign each as The Technerdiac\ "
 
