@@ -1039,5 +1039,19 @@ def profile():
     )
 
 
+""" Error pages """
+@app.errorhandler(401)
+def unauthorized(error):
+    return render_template('401.html'), 401
+
+@app.errorhandler(500)
+def unauthorized(error):
+    return render_template('500.html'), 401
+
+@app.errorhandler(404)
+def unauthorized(error):
+    return render_template('404.html'), 401
+
+
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=env.get("PORT", 5000))
