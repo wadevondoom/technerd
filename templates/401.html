@@ -1,7 +1,9 @@
 {% extends "base.html" %}
 
 {% block content %}
-  <h1>401 Unauthorized</h1>
-  <p>Unauthorized access detected! You shall not pass!</p>
-  <img src="https://i.imgur.com/s8JjT2h.jpg" alt="Gandalf" style="width:300px;height:300px;">
+  <div style="display: flex; flex-direction: column; justify-content: center; align-items: center; height: 100%;">
+    <h1 style="transform: rotate(-5deg); background-color: orange; color: white; border-radius: 10px; padding: 10px;"><strong>401 Unauthorized</strong></h1>
+    <p>...as in..you ain't authorized to view this shit! You shall not pass!</p>
+    <img src="{{ url_for('static', filename='img/401.webp') }}" alt="Gandalf" style="display: block; margin: 0 auto; border: 10px solid white; width:300px;height:300px;">
+  </div>
 {% endblock %}
