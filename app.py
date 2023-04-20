@@ -84,7 +84,7 @@ file_handler.setFormatter(log_formatter)
 
 # Set up console handler
 console_handler = logging.StreamHandler()
-console_handler.setLevel(logging.INFO)
+console_handler.setLevel(logging.DEBUG)
 console_handler.setFormatter(log_formatter)
 
 # Add handlers to the root logger
@@ -458,6 +458,8 @@ def news():
     )  # Assuming you have a count_all() method in your News class
     total_pages = (total_news_items + per_page - 1) // per_page
     skip = (page - 1) * per_page
+
+    logging.debug("News items: %s", total_news_items)
 
     news_items = list(
         News.get_paginated(skip, limit=per_page)
