@@ -16,10 +16,12 @@ class Brain:
         self.role = "user"
         self.prompt = prompt
         self.engine = "davinci-003"
-        self.prompt_img_helper_text = ""
+        self.prompt_img_helper_text = "in the style of an oil painting"
         self.prompt_helper_text = "Format your responses in HTML. \
-            Do not use DIV, H1 or H2 tags. \
-            Take persona of knowledge expert."
+            Do not use DIV, H1 or H2 tags. Do use em, a, ul, ol, li as needed \
+            Take persona of knowledge expert. \
+            Do not include a conclusion. Write for ease of viewing on web \
+            Write in a punchy blogging style and sign each as The Technerdiac\ "
 
     def get_response(self):
         # Use the OpenAI API to generate text based on the input field
@@ -42,7 +44,7 @@ class Brain:
         return generated_text
 
     def get_dalle_image(self):
-        prompt = self.prompt_img_helper_text + self.prompt
+        prompt =  self.prompt + self.prompt_img_helper_text
         print("Generating image...")
         response = openai.Image.create(prompt=prompt, n=1, size="1024x1024")
         image_url = response["data"][0]["url"]
