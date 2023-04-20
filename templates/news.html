@@ -110,7 +110,18 @@
               <span aria-hidden="true">«</span>
             </a>
           </li>
-          {% endif %} {% for page_num in range(1, total_pages + 1) %}
+          {% endif %} {% set display_pages = 3 %} {% for page_num in range(1,
+          total_pages + 1) %} {% if page_num < current_page - display_pages or
+          page_num > current_page + display_pages %} {% if page_num == 1 or
+          page_num == total_pages %}
+          <li class="page-item">
+            <a
+              class="page-link"
+              href="{{ url_for('news', page=page_num, per_page=per_page or 10) }}"
+              >{{ page_num }}</a
+            >
+          </li>
+          {% endif %} {% continue %} {% endif %}
           <li
             class="page-item {% if page_num == current_page %}active{% endif %}"
           >
@@ -120,7 +131,7 @@
               >{{ page_num }}</a
             >
           </li>
-          {% endfor %} {% if current_page < total_pages %}
+          {% endfor %} {% if current_page <a total_pages %}
           <li class="page-item">
             <a
               class="page-link"
@@ -133,13 +144,13 @@
           {% endif %}
         </ul>
       </nav>
-    </div>
 
-    <div class="col-lg-4">
-      <div class="ad-space">
-        <!-- Place your advertising content here -->
+      <div class="col-lg-4">
+        <div class="ad-space">
+          <!-- Place your advertising content here -->
+        </div>
       </div>
     </div>
   </div>
+  {% endblock %}
 </div>
-{% endblock %}
