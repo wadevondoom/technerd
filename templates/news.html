@@ -43,7 +43,7 @@
 
   .news-row .read-more-link {
     text-decoration: none;
-    background-color: #007bff;
+    background-color: #32504f;
     color: #fff;
     padding: 0.25rem 0.5rem;
     border-radius: 0.25rem;
@@ -82,10 +82,6 @@
           </div>
           <div class="news-source mt-auto">
             <i>Posted by {{ article.source }}</i>
-            <a
-              href="{{ url_for('n_detail', news_id=article['_id']) }}"
-              class="stretched-link"
-            ></a>
           </div>
           <div class="d-inline-block">
             <a
