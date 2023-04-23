@@ -133,6 +133,11 @@ class MainScene extends Phaser.Scene {
         this.physics.add.existing(this.car);
         this.car.configure();
     
+        this.ground = this.add.tileSprite(0, 0, this.cameras.main.width, this.cameras.main.height, 'ground');
+        this.ground.setOrigin(0, 0);
+        this.ground.setScrollFactor(0);
+
+
         // Add bullet group
         this.bullets = this.physics.add.group({
             classType: Phaser.Physics.Arcade.Image,
