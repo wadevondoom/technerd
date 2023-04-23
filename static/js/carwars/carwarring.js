@@ -209,9 +209,10 @@ class MainScene extends Phaser.Scene {
             this.car.shoot(this.bullets);
         }
 
-        this.enemies.children.iterate((enemyCar) => {
+        this.enemies.getChildren().forEach((enemyCar) => {
             enemyCar.chasePlayer(this.car);
         });
+        
 
     }
 
@@ -251,7 +252,7 @@ class MainScene extends Phaser.Scene {
         enemyCar.destroy();
         car.health -= 1;
         console.log('Player health:', car.health);
-        if (car.health == 0) {
+        if (car.health === 0) {
             this.scene.start('GameOverScene');
         }
         this.spawnEnemy();
