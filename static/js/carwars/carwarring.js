@@ -266,6 +266,7 @@ class MainScene extends Phaser.Scene {
         }
 
         enemyCar.destroy();
+        this.spawnEnemy();
     }
 
     getEnemyData() {
