@@ -15,8 +15,8 @@ class Racecar extends Phaser.Physics.Arcade.Image {
     
         // Create shadow and add it to the scene
         this.shadow = this.scene.add.graphics();
-        this.shadow.fillStyle(0x000000, 0.5);
-        this.shadow.fillRoundedRect(0, 0, 80, 40, 8);
+        this.shadow.fillStyle(0x000000, 0.45);
+        this.shadow.fillRoundedRect(0, 0, 65, 35, 8);
         this.shadow.generateTexture('shadow', 80, 40);
         this.shadow.destroy();
     
