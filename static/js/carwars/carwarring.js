@@ -122,7 +122,7 @@ class MainScene extends Phaser.Scene {
         this.load.image('robutt', '/static/assets/carwars/sprites/robutt.png');
         this.load.json('enemyWaves', '/static/js/carwars/enemyWaves.json');
 
-        this.load.graphics('shadow', (g) => {
+        this.make.graphics('shadow', (g) => {
             g.fillStyle(0x000000, 0.5); // You can adjust the color and alpha value as needed
             g.fillRoundedRect(0, 0, 64, 32, 10); // You can adjust the size and corner radius as needed
         });
