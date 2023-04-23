@@ -121,6 +121,12 @@ class MainScene extends Phaser.Scene {
         this.load.image('bullet', '/static/assets/carwars/sprites/bullet.png');
         this.load.image('robutt', '/static/assets/carwars/sprites/robutt.png');
         this.load.json('enemyWaves', '/static/js/carwars/enemyWaves.json');
+
+        this.load.graphics('shadow', (g) => {
+            g.fillStyle(0x000000, 0.5); // You can adjust the color and alpha value as needed
+            g.fillRoundedRect(0, 0, 64, 32, 10); // You can adjust the size and corner radius as needed
+        });
+        
     }
 
     create() {
@@ -130,13 +136,14 @@ class MainScene extends Phaser.Scene {
         this.ground = this.add.tileSprite(0, 0, this.cameras.main.width, this.cameras.main.height, 'ground');
         this.ground.setOrigin(0, 0);
         this.ground.setScrollFactor(0);
-        
+
         // Add player's car
         this.car = new Racecar(this, 256, 512, 'car');
         this.add.existing(this.car);
         this.physics.add.existing(this.car);
         this.car.configure();
-    
+        this.carShadow = this.add.image(this.car.x, this.car.y, 'shadow');
+
 
         // Add bullet group
         this.bullets = this.physics.add.group({
@@ -174,6 +181,9 @@ class MainScene extends Phaser.Scene {
         this.ground.setTilePosition(scrollX, scrollY);
 
         this.car.update(delta, this.cursorKeys);
+        this.carShadow.x = this.car.x;
+        this.carShadow.y = this.car.y;
+
 
         // Shoot bullet is SPACEBAR pressed
         if (this.spacebar.isDown) {
