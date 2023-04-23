@@ -52,8 +52,8 @@ class Racecar extends Phaser.Physics.Arcade.Image {
 
 
         // Update shadow position and rotation
-        this.shadowSprite.x = this.x + 5; // Center the shadow horizontally
-        this.shadowSprite.y = this.y + 5; // Center the shadow vertically
+        this.shadowSprite.x = this.x; // Center the shadow horizontally
+        this.shadowSprite.y = this.y; // Center the shadow vertically
         this.shadowSprite.rotation = this.rotation;
 
 
