@@ -12,6 +12,17 @@ class Racecar extends Phaser.Physics.Arcade.Image {
         this.body.maxSpeed = 512;
 
         this.body.setSize(64, 64, true);
+
+        // Create shadow and add it to the scene
+        this.shadow = this.scene.add.graphics();
+        this.shadow.fillStyle(0x000000, 0.5);
+        this.shadow.fillRoundedRect(0, 0, 80, 40, 8);
+        this.shadow.generateTexture('shadow', 80, 40);
+        this.shadow.destroy();
+
+        // Add shadow under the car
+        this.shadowSprite = this.scene.add.image(this.x, this.y, 'shadow');
+        this.shadowSprite.setDepth(-1); // Render the shadow below the car
     }
 
     update(delta, cursorKeys) {
@@ -39,6 +50,11 @@ class Racecar extends Phaser.Physics.Arcade.Image {
         VelocityFromRotation(this.rotation, this.throttle, this.body.velocity);
 
         this.body.maxAngular = Phaser.Math.Clamp(90 * this.body.speed / 1024, 0, 90);
+        
+        // Update shadow position and rotation
+        this.shadowSprite.x = this.x;
+        this.shadowSprite.y = this.y;
+        this.shadowSprite.rotation = this.rotation;
     }
 
     shoot(bulletGroup) {
@@ -122,10 +138,7 @@ class MainScene extends Phaser.Scene {
         this.load.image('robutt', '/static/assets/carwars/sprites/robutt.png');
         this.load.json('enemyWaves', '/static/js/carwars/enemyWaves.json');
 
-        this.make.graphics('shadow', (g) => {
-            g.fillStyle(0x000000, 0.5); // You can adjust the color and alpha value as needed
-            g.fillRoundedRect(0, 0, 64, 32, 10); // You can adjust the size and corner radius as needed
-        });
+
         
     }
 
@@ -142,8 +155,6 @@ class MainScene extends Phaser.Scene {
         this.add.existing(this.car);
         this.physics.add.existing(this.car);
         this.car.configure();
-        this.carShadow = this.add.image(this.car.x, this.car.y, 'shadow');
-
 
         // Add bullet group
         this.bullets = this.physics.add.group({
@@ -181,8 +192,6 @@ class MainScene extends Phaser.Scene {
         this.ground.setTilePosition(scrollX, scrollY);
 
         this.car.update(delta, this.cursorKeys);
-        this.carShadow.x = this.car.x;
-        this.carShadow.y = this.car.y;
 
 
         // Shoot bullet is SPACEBAR pressed
