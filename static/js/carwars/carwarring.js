@@ -15,9 +15,9 @@ class Racecar extends Phaser.Physics.Arcade.Image {
     
         // Create shadow and add it to the scene
         this.shadow = this.scene.add.graphics();
-        this.shadow.fillStyle(0x000000, 0.45);
-        this.shadow.fillRoundedRect(0, 0, 60, 32, 4);
-        this.shadow.generateTexture('shadow', 80, 40);
+        this.shadow.fillStyle(0x000000, 0.30);
+        this.shadow.fillRoundedRect(0, 0, 62, 36, 4);
+        this.shadow.generateTexture('shadow', 62, 36);
         this.shadow.destroy();
     
         // Add shadow under the car
@@ -50,12 +50,14 @@ class Racecar extends Phaser.Physics.Arcade.Image {
             this.body.setAngularAcceleration(0);
         }
 
-        VelocityFromRotation(this.rotation, this.throttle, this.body.velocity);
+
         // Update shadow position and rotation
-        this.shadowSprite.x = this.x - 10;
-        this.shadowSprite.y = this.y - 16;
+        this.shadowSprite.x = this.x - (62 - 52) / 2; // Center the shadow horizontally
+        this.shadowSprite.y = this.y - (36 - 26) / 2; // Center the shadow vertically
         this.shadowSprite.rotation = this.rotation;
 
+
+        VelocityFromRotation(this.rotation, this.throttle, this.body.velocity);
         this.body.maxAngular = Phaser.Math.Clamp(90 * this.body.speed / 1024, 0, 90);
         
     }
