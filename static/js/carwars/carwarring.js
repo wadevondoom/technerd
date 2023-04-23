@@ -16,8 +16,8 @@ class Racecar extends Phaser.Physics.Arcade.Image {
         // Create shadow and add it to the scene
         this.shadow = this.scene.add.graphics();
         this.shadow.fillStyle(0x000000, 0.20);
-        this.shadow.fillRoundedRect(0, 0, 62, 36, 4);
-        this.shadow.generateTexture('shadow', 62, 36);
+        this.shadow.fillRoundedRect(0, 0, 60, 34, 4);
+        this.shadow.generateTexture('shadow', 60, 34);
         this.shadow.destroy();
     
         // Add shadow under the car
@@ -86,7 +86,7 @@ class Racecar extends Phaser.Physics.Arcade.Image {
 class EnemyCar extends Phaser.Physics.Arcade.Image {
 
     throttle = 0; // Add this line
-    chaseRange = 200; // Set how close enemies will aggro
+    chaseRange = 50; // Set how close enemies will aggro
 
     // Add spawnEnemyNearPlayer parameter to the constructor
     constructor(scene, x, y, texture, spawnEnemyNearPlayer) {
@@ -99,15 +99,18 @@ class EnemyCar extends Phaser.Physics.Arcade.Image {
 
     configure() {
         this.angle = -90;
-        this.body.setSize(64, 64, true);
+        this.body.setSize(52, 26, true);
     }
 
     chasePlayer(player) {
         const distance = Phaser.Math.Distance.Between(this.x, this.y, player.x, player.y);
         if (distance <= this.chaseRange) {
-            this.scene.physics.moveToObject(this, player, 350);
+            if (this.scene && this.scene.physics) {
+                this.scene.physics.moveToObject(this, player, 350);
+            }
         }
     }
+    
 
 
     shoot(bulletGroup) {
