@@ -51,18 +51,13 @@ class Racecar extends Phaser.Physics.Arcade.Image {
         }
 
         VelocityFromRotation(this.rotation, this.throttle, this.body.velocity);
-
-        this.body.maxAngular = Phaser.Math.Clamp(90 * this.body.speed / 1024, 0, 90);
-        
-    }
-
-    postUpdate(time, delta) {
-        super.preUpdate(time, delta);
-
         // Update shadow position and rotation
         this.shadowSprite.x = this.x - 10;
         this.shadowSprite.y = this.y - 16;
         this.shadowSprite.rotation = this.rotation;
+
+        this.body.maxAngular = Phaser.Math.Clamp(90 * this.body.speed / 1024, 0, 90);
+        
     }
 
 
