@@ -86,6 +86,7 @@ class Racecar extends Phaser.Physics.Arcade.Image {
 class EnemyCar extends Phaser.Physics.Arcade.Image {
 
     throttle = 0; // Add this line
+    chaseRange = 200; // Set how close enemies will aggro
 
     // Add spawnEnemyNearPlayer parameter to the constructor
     constructor(scene, x, y, texture, spawnEnemyNearPlayer) {
