@@ -25,14 +25,7 @@ class Racecar extends Phaser.Physics.Arcade.Image {
         this.setDepth(1); // Render the car above the shadow
     }
     
-    preUpdate(time, delta) {
-        super.preUpdate(time, delta);
 
-        // Update shadow position and rotation
-        this.shadowSprite.x = this.x - 10;
-        this.shadowSprite.y = this.y - 16;
-        this.shadowSprite.rotation = this.rotation;
-    }
 
 
     update(delta, cursorKeys) {
@@ -62,6 +55,16 @@ class Racecar extends Phaser.Physics.Arcade.Image {
         this.body.maxAngular = Phaser.Math.Clamp(90 * this.body.speed / 1024, 0, 90);
         
     }
+
+    postUpdate(time, delta) {
+        super.preUpdate(time, delta);
+
+        // Update shadow position and rotation
+        this.shadowSprite.x = this.x - 10;
+        this.shadowSprite.y = this.y - 16;
+        this.shadowSprite.rotation = this.rotation;
+    }
+
 
     shoot(bulletGroup) {
         const bullet = bulletGroup.get(this.x, this.y, 'bullet');
