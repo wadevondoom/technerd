@@ -162,7 +162,10 @@ class MainScene extends Phaser.Scene {
     
         // Initialize the enemies array and spawn the first enemy
         this.enemies = [];
+        this.enemies = this.physics.add.group();
+
         this.spawnEnemy();
+        
     }
 
     update(time, delta) {
@@ -187,7 +190,7 @@ class MainScene extends Phaser.Scene {
         const enemyData = this.getEnemyData();
         if (enemyData) {
             const enemyCar = new EnemyCar(this, enemyData.x, enemyData.y, 'robutt', this.spawnEnemyNearPlayer.bind(this));
-            this.enemies.push(enemyCar);
+            this.enemies.add(enemyCar);
             this.physics.add.collider(this.car, enemyCar, this.carHitEnemy, null, this);
             this.physics.add.overlap(this.bullets, enemyCar, this.bulletHitEnemy, null, this);
     
