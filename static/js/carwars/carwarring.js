@@ -116,7 +116,7 @@ class MainScene extends Phaser.Scene {
     }
 
     preload() {
-        this.load.image('ground', '/static/assets/carwars/sprites/ground.jpg');
+        this.load.image('ground', '/static/assets/carwars/sprites/ground2.jpg');
         this.load.image('car', '/static/assets/carwars/sprites/hunter.png');
         this.load.image('bullet', '/static/assets/carwars/sprites/bullet.png');
         this.load.image('robutt', '/static/assets/carwars/sprites/robutt.png');
