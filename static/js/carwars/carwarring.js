@@ -7,23 +7,24 @@ class Racecar extends Phaser.Physics.Arcade.Image {
 
     configure() {
         this.angle = -90;
-
+    
         this.body.angularDrag = 120;
         this.body.maxSpeed = 512;
-
+    
         this.body.setSize(64, 64, true);
-
+    
         // Create shadow and add it to the scene
         this.shadow = this.scene.add.graphics();
         this.shadow.fillStyle(0x000000, 0.5);
         this.shadow.fillRoundedRect(0, 0, 80, 40, 8);
         this.shadow.generateTexture('shadow', 80, 40);
         this.shadow.destroy();
-
+    
         // Add shadow under the car
         this.shadowSprite = this.scene.add.image(this.x, this.y, 'shadow');
-        this.shadowSprite.setDepth(-1); // Render the shadow below the car
+        this.setDepth(1); // Render the car above the shadow
     }
+    
 
     update(delta, cursorKeys) {
         const { left, right, up, down } = cursorKeys;
