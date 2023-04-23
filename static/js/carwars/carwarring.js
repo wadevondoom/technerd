@@ -91,6 +91,7 @@ class EnemyCar extends Phaser.Physics.Arcade.Image {
     // Add spawnEnemyNearPlayer parameter to the constructor
     constructor(scene, x, y, texture, spawnEnemyNearPlayer) {
         super(scene, x, y, texture);
+        this.setOrigin(0.5, 0.5).setAutoCull(false);
         scene.add.existing(this);
         scene.physics.add.existing(this);
         this.configure();
