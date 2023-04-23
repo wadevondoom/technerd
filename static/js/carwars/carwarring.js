@@ -230,6 +230,23 @@ class MainScene extends Phaser.Scene {
         enemyCar.destroy();
     }
 
+    getEnemyData() {
+        if (this.currentWave < this.enemyWaves.waves.length) {
+            const waveData = this.enemyWaves.waves[this.currentWave].enemies.shift();
+    
+            // Check if there are no more enemies in the current wave
+            if (this.enemyWaves.waves[this.currentWave].enemies.length === 0) {
+                this.currentWave++;
+            }
+    
+            return waveData;
+        } else {
+            this.scene.start('GameOverScene');
+            return null;
+        }
+    }
+    
+    
 
 }
 
