@@ -189,8 +189,8 @@ class MainScene extends Phaser.Scene {
         });
 
         // Create border rectangles
-        const borderWidth = 10;
-        const borderColor = 0xaaaaaa;
+        const borderWidth = 20;
+        const borderColor = 0x4a4a4a;
 
         this.topBorder = this.add.rectangle(0, 0, this.ground.width, borderWidth, borderColor).setOrigin(0, 0);
         this.bottomBorder = this.add.rectangle(0, this.ground.height - borderWidth, this.ground.width, borderWidth, borderColor).setOrigin(0, 0);
@@ -311,6 +311,7 @@ class MainScene extends Phaser.Scene {
         bullet.setVisible(false);
         if (bullet.body) {
             bullet.body.stop();
+            bullet.destroy();
         }
     }
     
