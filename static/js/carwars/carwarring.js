@@ -167,11 +167,28 @@ class MainScene extends Phaser.Scene {
         //Bind camera to ground
         this.cameras.main.setBounds(0, 0, this.ground.width, this.ground.height);
 
+        // Set walls
+        const borderWidth = 10;
+        const borderColor = 0x808080;
+        
+        this.add.rectangle(0, 0, this.ground.width, borderWidth, borderColor).setOrigin(0, 0);
+        this.add.rectangle(0, this.ground.height - borderWidth, this.ground.width, borderWidth, borderColor).setOrigin(0, 0);
+        this.add.rectangle(0, 0, borderWidth, this.ground.height, borderColor).setOrigin(0, 0);
+        this.add.rectangle(this.ground.width - borderWidth, 0, borderWidth, this.ground.height, borderColor).setOrigin(0, 0);
+        
+
         // Add player's car
-        this.car = new Racecar(this, this.cameras.main.centerX, this.cameras.main.centerY, 'car');
+        this.car = new Racecar(this, this.ground.width / 2, this.ground.height / 2, 'car');
         this.add.existing(this.car);
         this.physics.add.existing(this.car);
         this.car.configure();
+
+        // set wall colliders
+        this.physics.add.collider(this.car, this.borderTop);
+        this.physics.add.collider(this.car, this.borderBottom);
+        this.physics.add.collider(this.car, this.borderLeft);
+        this.physics.add.collider(this.car, this.borderRight);
+
 
         // Add bullet group
         this.bullets = this.physics.add.group({
