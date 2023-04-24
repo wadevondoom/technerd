@@ -160,7 +160,6 @@ class MainScene extends Phaser.Scene {
     create() {
         // Set the background color to black
         this.cameras.main.setBackgroundColor(0x000000);
-        this.cameras.main.setBounds(0, 0, this.ground.width, this.ground.height);
         this.ground = this.add.tileSprite(0, 0, this.cameras.main.width, this.cameras.main.height, 'ground');
         this.ground.setOrigin(0, 0);
         this.ground.setScrollFactor(0);
