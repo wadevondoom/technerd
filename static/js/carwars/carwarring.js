@@ -158,6 +158,8 @@ class MainScene extends Phaser.Scene {
     }
 
     create() {
+
+
         // Set the background color to black
         this.cameras.main.setBackgroundColor(0x000000);
         this.ground = this.add.tileSprite(0, 0, 4096, 4096, 'ground');
@@ -166,6 +168,8 @@ class MainScene extends Phaser.Scene {
 
         //Bind camera to ground
         this.cameras.main.setBounds(0, 0, this.ground.width, this.ground.height);
+
+        borderWidth = 10;
 
         // Setup walls
         this.borderTop = this.add.rectangle(0, 0, this.ground.width, borderWidth, borderColor).setOrigin(0, 0);
