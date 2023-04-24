@@ -137,7 +137,6 @@ class EnemyCar extends Phaser.Physics.Arcade.Image {
     update() {
         console.log("Enemy Car:", this.x, this.y, this.active);
     }
-    
 
 }
 
@@ -152,13 +151,10 @@ class MainScene extends Phaser.Scene {
         this.load.image('bullet', '/static/assets/carwars/sprites/bullet.png');
         this.load.image('robutt', '/static/assets/carwars/sprites/robutt.png');
         this.load.json('enemyWaves', '/static/js/carwars/enemyWaves.json');
-
-
         
     }
 
     create() {
-
 
         // Set the background color to black
         this.cameras.main.setBackgroundColor(0x000000);
@@ -204,10 +200,12 @@ class MainScene extends Phaser.Scene {
         this.physics.add.existing(this.rightBorder, true);
 
         // Collisions
-        this.physics.add.collider(this.car, this.topBorder);
-        this.physics.add.collider(this.car, this.bottomBorder);
-        this.physics.add.collider(this.car, this.leftBorder);
-        this.physics.add.collider(this.car, this.rightBorder);
+        // Collisions
+        this.physics.add.collider(this.car, this.topBorder, this.carHitBorder, null, this);
+        this.physics.add.collider(this.car, this.bottomBorder, this.carHitBorder, null, this);
+        this.physics.add.collider(this.car, this.leftBorder, this.carHitBorder, null, this);
+        this.physics.add.collider(this.car, this.rightBorder, this.carHitBorder, null, this);
+
         this.physics.add.collider(this.bullets, this.topBorder, this.bulletHitBorder, null, this);
         this.physics.add.collider(this.bullets, this.bottomBorder, this.bulletHitBorder, null, this);
         this.physics.add.collider(this.bullets, this.leftBorder, this.bulletHitBorder, null, this);
@@ -310,11 +308,18 @@ class MainScene extends Phaser.Scene {
         bullet.setActive(false);
         bullet.setVisible(false);
         if (bullet.body) {
-            bullet.body.stop();
-            bullet.destroy();
+            this.bullets.remove(bullet, true, true); // Remove the bullet from the group and destroy it
         }
     }
     
+    carHitBorder(car, border) {
+        car.health -= 1;
+        console.log('Car health:', car.health);
+        if (car.health === 0) {
+            this.scene.start('GameOverScene');
+        }
+    }
+
     getEnemyData() {
         if (this.currentWave < this.enemyWaves.waves.length) {
             const waveData = this.enemyWaves.waves[this.currentWave].enemies.shift();
