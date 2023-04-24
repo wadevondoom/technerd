@@ -160,7 +160,7 @@ class MainScene extends Phaser.Scene {
     create() {
         // Set the background color to black
         this.cameras.main.setBackgroundColor(0x000000);
-        this.ground = this.add.tileSprite(0, 0, this.cameras.main.width, this.cameras.main.height, 'ground');
+        this.ground = this.add.tileSprite(0, 0, 4096, 4096, 'ground');
         this.ground.setOrigin(0, 0);
         this.ground.setScrollFactor(0);
 
@@ -168,7 +168,7 @@ class MainScene extends Phaser.Scene {
         this.cameras.main.setBounds(0, 0, this.ground.width, this.ground.height);
 
         // Add player's car
-        this.car = new Racecar(this, 256, 512, 'car');
+        this.car = new Racecar(this, this.cameras.main.centerX, this.cameras.main.centerY, 'car');
         this.add.existing(this.car);
         this.physics.add.existing(this.car);
         this.car.configure();
