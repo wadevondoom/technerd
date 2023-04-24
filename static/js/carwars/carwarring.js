@@ -173,40 +173,26 @@ class MainScene extends Phaser.Scene {
         const borderWidth = 10;
         const borderColor = 0xaaaaaa;
 
-        const borderGraphics = this.add.graphics();
-        borderGraphics.fillStyle(borderColor);
-
-        this.topBorder = new Phaser.Geom.Rectangle(0, 0, this.ground.width, borderWidth);
-        this.bottomBorder = new Phaser.Geom.Rectangle(0, this.ground.height - borderWidth, this.ground.width, borderWidth);
-        this.leftBorder = new Phaser.Geom.Rectangle(0, 0, borderWidth, this.ground.height);
-        this.rightBorder = new Phaser.Geom.Rectangle(this.ground.width - borderWidth, 0, borderWidth, this.ground.height);
-
-        borderGraphics.fillRectShape(this.topBorder);
-        borderGraphics.fillRectShape(this.bottomBorder);
-        borderGraphics.fillRectShape(this.leftBorder);
-        borderGraphics.fillRectShape(this.rightBorder);
+        this.topBorder = this.add.rectangle(0, 0, this.ground.width, borderWidth, borderColor).setOrigin(0, 0);
+        this.bottomBorder = this.add.rectangle(0, this.ground.height - borderWidth, this.ground.width, borderWidth, borderColor).setOrigin(0, 0);
+        this.leftBorder = this.add.rectangle(0, 0, borderWidth, this.ground.height, borderColor).setOrigin(0, 0);
+        this.rightBorder = this.add.rectangle(this.ground.width - borderWidth, 0, borderWidth, this.ground.height, borderColor).setOrigin(0, 0);
 
         // Enable physics for the borders
-        this.topBorderBody = this.physics.add.staticGroup().create(0, 0, null);
-        this.bottomBorderBody = this.physics.add.staticGroup().create(0, this.ground.height - borderWidth, null);
-        this.leftBorderBody = this.physics.add.staticGroup().create(0, 0, null);
-        this.rightBorderBody = this.physics.add.staticGroup().create(this.ground.width - borderWidth, 0, null);
+        this.physics.add.existing(this.topBorder, true);
+        this.physics.add.existing(this.bottomBorder, true);
+        this.physics.add.existing(this.leftBorder, true);
+        this.physics.add.existing(this.rightBorder, true);
 
-        this.topBorderBody.body.setSize(this.ground.width, borderWidth);
-        this.bottomBorderBody.body.setSize(this.ground.width, borderWidth);
-        this.leftBorderBody.body.setSize(borderWidth, this.ground.height);
-        this.rightBorderBody.body.setSize(borderWidth, this.ground.height);
-        
         // Collisions
-        this.physics.add.collider(this.car, this.topBorderBody);
-        this.physics.add.collider(this.car, this.bottomBorderBody);
-        this.physics.add.collider(this.car, this.leftBorderBody);
-        this.physics.add.collider(this.car, this.rightBorderBody);
-        this.physics.add.collider(this.bullets, this.topBorderBody, this.bulletHitBorder, null, this);
-        this.physics.add.collider(this.bullets, this.bottomBorderBody, this.bulletHitBorder, null, this);
-        this.physics.add.collider(this.bullets, this.leftBorderBody, this.bulletHitBorder, null, this);
-        this.physics.add.collider(this.bullets, this.rightBorderBody, this.bulletHitBorder, null, this);
-
+        this.physics.add.collider(this.car, this.topBorder);
+        this.physics.add.collider(this.car, this.bottomBorder);
+        this.physics.add.collider(this.car, this.leftBorder);
+        this.physics.add.collider(this.car, this.rightBorder);
+        this.physics.add.collider(this.bullets, this.topBorder, this.bulletHitBorder, null, this);
+        this.physics.add.collider(this.bullets, this.bottomBorder, this.bulletHitBorder, null, this);
+        this.physics.add.collider(this.bullets, this.leftBorder, this.bulletHitBorder, null, this);
+        this.physics.add.collider(this.bullets, this.rightBorder, this.bulletHitBorder, null, this);
 
 
         // Add player's car
