@@ -168,7 +168,26 @@ class MainScene extends Phaser.Scene {
 
         //Bind camera to ground
         this.cameras.main.setBounds(0, 0, this.ground.width, this.ground.height);
-        
+
+        // Add player's car
+        this.car = new Racecar(this, this.ground.width / 2, this.ground.height / 2, 'car');
+        this.add.existing(this.car);
+        this.physics.add.existing(this.car);
+        this.car.configure();
+
+
+        // Add bullet group
+        this.bullets = this.physics.add.group({
+            classType: Phaser.Physics.Arcade.Image,
+            defaultKey: 'bullet',
+            maxSize: 10,
+            runChildUpdate: true,
+            createCallback: (bullet) => {
+                bullet.setActive(false);
+                bullet.setVisible(false);
+            }
+        });
+
         // Create border rectangles
         const borderWidth = 10;
         const borderColor = 0xaaaaaa;
@@ -193,26 +212,6 @@ class MainScene extends Phaser.Scene {
         this.physics.add.collider(this.bullets, this.bottomBorder, this.bulletHitBorder, null, this);
         this.physics.add.collider(this.bullets, this.leftBorder, this.bulletHitBorder, null, this);
         this.physics.add.collider(this.bullets, this.rightBorder, this.bulletHitBorder, null, this);
-
-
-        // Add player's car
-        this.car = new Racecar(this, this.ground.width / 2, this.ground.height / 2, 'car');
-        this.add.existing(this.car);
-        this.physics.add.existing(this.car);
-        this.car.configure();
-
-
-        // Add bullet group
-        this.bullets = this.physics.add.group({
-            classType: Phaser.Physics.Arcade.Image,
-            defaultKey: 'bullet',
-            maxSize: 10,
-            runChildUpdate: true,
-            createCallback: (bullet) => {
-                bullet.setActive(false);
-                bullet.setVisible(false);
-            }
-        });
     
         // Add cursors
         this.cursorKeys = this.input.keyboard.createCursorKeys();
