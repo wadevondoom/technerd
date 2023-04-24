@@ -134,6 +134,11 @@ class EnemyCar extends Phaser.Physics.Arcade.Image {
         }
     }
 
+    update() {
+        console.log("Enemy Car:", this.x, this.y, this.active);
+    }
+    
+
 }
 
 class MainScene extends Phaser.Scene {
@@ -155,10 +160,13 @@ class MainScene extends Phaser.Scene {
     create() {
         // Set the background color to black
         this.cameras.main.setBackgroundColor(0x000000);
-
+        this.cameras.main.setBounds(0, 0, this.ground.width, this.ground.height);
         this.ground = this.add.tileSprite(0, 0, this.cameras.main.width, this.cameras.main.height, 'ground');
         this.ground.setOrigin(0, 0);
         this.ground.setScrollFactor(0);
+
+        //Bind camera to ground
+        this.cameras.main.setBounds(0, 0, this.ground.width, this.ground.height);
 
         // Add player's car
         this.car = new Racecar(this, 256, 512, 'car');
@@ -190,7 +198,9 @@ class MainScene extends Phaser.Scene {
     
         // Initialize the enemies array and spawn the first enemy
         this.enemies = [];
-        this.enemies = this.physics.add.group();
+        this.enemies = this.physics.add.group({
+            runChildUpdate: true, // Add this line
+        });
 
         this.spawnEnemy();
         
