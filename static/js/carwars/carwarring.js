@@ -167,27 +167,34 @@ class MainScene extends Phaser.Scene {
         //Bind camera to ground
         this.cameras.main.setBounds(0, 0, this.ground.width, this.ground.height);
 
-        // Set walls
-        const borderWidth = 10;
-        const borderColor = 0x808080;
+        // Setup walls
+        this.borderTop = this.add.rectangle(0, 0, this.ground.width, borderWidth, borderColor).setOrigin(0, 0);
+        this.borderBottom = this.add.rectangle(0, this.ground.height - borderWidth, this.ground.width, borderWidth, borderColor).setOrigin(0, 0);
+        this.borderLeft = this.add.rectangle(0, 0, borderWidth, this.ground.height, borderColor).setOrigin(0, 0);
+        this.borderRight = this.add.rectangle(this.ground.width - borderWidth, 0, borderWidth, this.ground.height, borderColor).setOrigin(0, 0);
         
-        this.add.rectangle(0, 0, this.ground.width, borderWidth, borderColor).setOrigin(0, 0);
-        this.add.rectangle(0, this.ground.height - borderWidth, this.ground.width, borderWidth, borderColor).setOrigin(0, 0);
-        this.add.rectangle(0, 0, borderWidth, this.ground.height, borderColor).setOrigin(0, 0);
-        this.add.rectangle(this.ground.width - borderWidth, 0, borderWidth, this.ground.height, borderColor).setOrigin(0, 0);
-        
+        this.physics.add.existing(this.borderTop, true);
+        this.physics.add.existing(this.borderBottom, true);
+        this.physics.add.existing(this.borderLeft, true);
+        this.physics.add.existing(this.borderRight, true);
+
+        // Create border rectangles
+        this.topBorder = this.add.rectangle(0, 0, this.ground.width, 10, 0xaaaaaa);
+        this.bottomBorder = this.add.rectangle(0, this.ground.height - 10, this.ground.width, 10, 0xaaaaaa);
+        this.leftBorder = this.add.rectangle(0, 0, 10, this.ground.height, 0xaaaaaa);
+        this.rightBorder = this.add.rectangle(this.ground.width - 10, 0, 10, this.ground.height, 0xaaaaaa);
+
+        // Add physics and make border rectangles immovable
+        this.physics.add.existing(this.topBorder, true);
+        this.physics.add.existing(this.bottomBorder, true);
+        this.physics.add.existing(this.leftBorder, true);
+        this.physics.add.existing(this.rightBorder, true);
 
         // Add player's car
         this.car = new Racecar(this, this.ground.width / 2, this.ground.height / 2, 'car');
         this.add.existing(this.car);
         this.physics.add.existing(this.car);
         this.car.configure();
-
-        // set wall colliders
-        this.physics.add.collider(this.car, this.borderTop);
-        this.physics.add.collider(this.car, this.borderBottom);
-        this.physics.add.collider(this.car, this.borderLeft);
-        this.physics.add.collider(this.car, this.borderRight);
 
 
         // Add bullet group
@@ -295,6 +302,14 @@ class MainScene extends Phaser.Scene {
         this.spawnEnemy();
     }
 
+    bulletHitBorder(bullet) {
+        bullet.setActive(false);
+        bullet.setVisible(false);
+        if (bullet.body) {
+            bullet.body.stop();
+        }
+    }
+    
     getEnemyData() {
         if (this.currentWave < this.enemyWaves.waves.length) {
             const waveData = this.enemyWaves.waves[this.currentWave].enemies.shift();
