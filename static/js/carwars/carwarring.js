@@ -192,11 +192,11 @@ class MainScene extends Phaser.Scene {
         this.leftBorderBody = this.physics.add.staticGroup().create(0, 0, null);
         this.rightBorderBody = this.physics.add.staticGroup().create(this.ground.width - borderWidth, 0, null);
 
-        this.topBorderBody.body.setRectangle(this.ground.width, borderWidth);
-        this.bottomBorderBody.body.setRectangle(this.ground.width, borderWidth);
-        this.leftBorderBody.body.setRectangle(borderWidth, this.ground.height);
-        this.rightBorderBody.body.setRectangle(borderWidth, this.ground.height);
-
+        this.topBorderBody.body.setSize(this.ground.width, borderWidth);
+        this.bottomBorderBody.body.setSize(this.ground.width, borderWidth);
+        this.leftBorderBody.body.setSize(borderWidth, this.ground.height);
+        this.rightBorderBody.body.setSize(borderWidth, this.ground.height);
+        
         // Collisions
         this.physics.add.collider(this.car, this.topBorderBody);
         this.physics.add.collider(this.car, this.bottomBorderBody);
