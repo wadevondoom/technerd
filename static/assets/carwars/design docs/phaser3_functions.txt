@@ -1,0 +1,25 @@
+List of Functions for Car Wars Adaptation
+
+1. Load Assets Function
+2. Create Boot Scene Function
+3. Create Preloader Scene Function
+4. Create Main Menu Scene Function
+5. Create Campaign Menu Scene Function
+6. Create Multiplayer Menu Scene Function
+7. Create Vehicle Customization Menu Scene Function
+8. Create In-Game HUD Scene Function
+9. Create Game Over Scene Function
+10. Create Victory Scene Function
+11. Create Defeat Scene Function
+12. Create Level 1 Scene Function
+13. Create Level 2 Scene Function
+14. Create Level 3 Scene Function
+15. Create Level 4 Scene Function
+16. Create Level 5 Scene Function
+17. Create Car Sprites Function
+18. Create Weapon Sprites Function
+19. Create Explosion Sprites Function
+20. Create Background Images Function
+21. Create UI Elements Function
+22. Create Sound Effects Function
+23. Create Music Tracks Function

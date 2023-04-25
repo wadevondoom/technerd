@@ -1,0 +1,12 @@
+Useful information on creating enemy AI for top down 2d shooter games:
+- Enemies should have a basic AI that allows them to move towards the player and attack
+- Enemies should have different behaviors depending on their type (e.g. some enemies might be more aggressive than others)
+- Enemies should have different strengths and weaknesses (e.g. some enemies might be more vulnerable to certain types of attacks)
+- Enemies should be able to work together to create interesting and challenging gameplay scenarios
+
+Types of enemies to include in the game:
+- Basic enemy car that moves towards the player and attacks
+- Fast enemy car that moves quickly and tries to ram the player
+- Tank enemy that is slow but heavily armored and can fire powerful but slow projectiles
+- Boss enemy that has multiple phases and requires the player to use different strategies to defeat
+	- Define phases

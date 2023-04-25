@@ -1,0 +1,4 @@
+Behavior Tree for Slow Enemy Car:
+- Stay at a distance from the player
+- Shoot at the player when in range
+- Move towards the player if too far away

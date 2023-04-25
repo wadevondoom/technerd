@@ -1,0 +1,42 @@
+List of Functions for Car Wars Adaptation
+
+- Boot Scene Functions
+  - Load Assets
+  - Create Sprites
+  - Set Up Input
+
+- Main Menu Scene Functions
+  - Create Menu Buttons
+  - Set Up Button Input
+
+- Campaign Menu Scene Functions
+  - Create Campaign Buttons
+  - Set Up Button Input
+
+- Multiplayer Menu Scene Functions
+  - Create Multiplayer Buttons
+  - Set Up Button Input
+
+- Vehicle Customization Scene Functions
+  - Create Vehicle Customization Options
+  - Set Up Input
+
+- In-Game Scene Functions
+  - Set Up Camera
+  - Set Up Physics
+  - Set Up Input
+  - Create HUD
+  - Create Vehicles
+  - Create Weapons
+  - Create Terrain
+  - Set Up Collisions
+  - Set Up Overlap
+  - Set Up Win/Lose Conditions
+
+- Victory Scene Functions
+  - Create Victory Screen
+  - Set Up Input
+
+- Defeat Scene Functions
+  - Create Defeat Screen
+  - Set Up Input

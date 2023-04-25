@@ -1,0 +1,17 @@
+List of Phaser 3 Scenes for Car Wars Adaptation
+
+1. Boot Scene
+2. Preloader Scene
+3. Main Menu Scene
+4. Campaign Menu Scene
+5. Multiplayer Menu Scene
+6. Vehicle Customization Menu Scene
+7. In-Game HUD Scene
+8. Game Over Scene
+9. Victory Scene
+10. Defeat Scene
+11. Level 1 Scene
+12. Level 2 Scene
+13. Level 3 Scene
+14. Level 4 Scene
+15. Level 5 Scene

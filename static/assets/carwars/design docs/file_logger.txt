@@ -1,0 +1,13 @@
+File Operation Logger write: sprites_and_assets.txt
+write: scenes.txt
+write: functions.txt
+write: game_design_document.txt
+write: feedback.txt
+write: phaser3_scenes.txt
+write: game_assets.txt
+write: phaser3_functions.txt
+write: <path_to_game_file>
+write: phaser3_sprites.txt
+write: output/enemy_ai.txt
+write: output/enemy_ai_strategies.txt
+write: output/slow_enemy_behavior_tree.txt

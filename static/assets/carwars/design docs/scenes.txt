@@ -1,0 +1,10 @@
+List of Scenes for Car Wars Adaptation
+
+- Boot Scene
+- Main Menu Scene
+- Campaign Menu Scene
+- Multiplayer Menu Scene
+- Vehicle Customization Scene
+- In-Game Scene
+- Victory Scene
+- Defeat Scene

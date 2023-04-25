@@ -1,0 +1,9 @@
+List of Sprites and Game Assets for Car Wars Adaptation
+
+1. Car Sprites
+2. Weapon Sprites
+3. Explosion Sprites
+4. Background Images
+5. UI Elements
+6. Sound Effects
+7. Music Tracks

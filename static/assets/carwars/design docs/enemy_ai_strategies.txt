@@ -1,0 +1,72 @@
+Enemy AI Strategies:
+
+Tank Enemy:
+- Uses a finite state machine to define the different states of the enemy, such as idle, attacking, and reloading.
+- Fires powerful projectiles that deal high damage but have a slow rate of fire.
+
+Fast Enemy Car:
+- Uses a behavior tree to define the behavior of the enemy, such as moving towards the player, ramming the player, and fleeing if the player is too close.
+- Moves quickly and has low health, but deals high damage with its ramming attack.
+
+Boss Enemy:
+- Uses a state machine to define the different phases of the enemy, such as a defensive phase, an offensive phase, and a vulnerable phase.
+- Has multiple attacks and movements that change depending on the current phase of the boss.
+
+Code Snippets:
+
+// Tank Enemy State Machine
+var tankEnemyStateMachine = new StateMachine({
+    init: 'idle',
+    transitions: [
+        { name: 'attack', from: 'idle', to: 'attacking' },
+        { name: 'reload', from: 'attacking', to: 'reloading' },
+        { name: 'idle', from: ['attacking', 'reloading'], to: 'idle' }
+    ],
+    methods: {
+        onAttack: function() {
+            // Code to attack the player
+        },
+        onReload: function() {
+            // Code to reload the tank's weapon
+        },
+        onIdle: function() {
+            // Code to do nothing
+        }
+    }
+});
+
+// Fast Enemy Car Behavior Tree
+var fastEnemyCarBehaviorTree = new BehaviorTree({
+    root: new SelectorNode({
+        nodes: [
+            new SequenceNode({
+                nodes: [
+                    new MoveTowardsPlayerNode(),
+                    new RamPlayerNode()
+                ]
+            }),
+            new FleePlayerNode()
+        ]
+    })
+});
+
+// Boss Enemy State Machine
+var bossEnemyStateMachine = new StateMachine({
+    init: 'defensive',
+    transitions: [
+        { name: 'offensive', from: 'defensive', to: 'offensive' },
+        { name: 'vulnerable', from: 'offensive', to: 'vulnerable' },
+        { name: 'defensive', from: ['offensive', 'vulnerable'], to: 'defensive' }
+    ],
+    methods: {
+        onOffensive: function() {
+            // Code to switch to the offensive phase
+        },
+        onVulnerable: function() {
+            // Code to switch to the vulnerable phase
+        },
+        onDefensive: function() {
+            // Code to switch to the defensive phase
+        }
+    }
+});

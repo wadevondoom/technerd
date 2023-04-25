@@ -1,3 +1,7 @@
+# The above code is importing necessary modules and packages, defining a Flask app, setting up
+# logging, configuring CSRF protection, defining a login manager, enabling cross-origin resource
+# sharing, and importing various classes and forms used in the app. It also includes functions for
+# saving images, retrieving news, and managing comments and likes.
 import random, string, os, logging
 from logging.handlers import RotatingFileHandler
 from bleach import clean
@@ -51,17 +55,38 @@ from user import User
 from newsimport import get_top_news
 
 
+# The above code is creating a Flask application instance and enabling Cross-Origin Resource Sharing
+# (CORS) for the application using the Flask-CORS extension. This allows the application to make
+# requests to and receive responses from other domains.
 app = Flask(__name__)
 CORS(app)
 
 
 def cloudfront_url_for(endpoint, **values):
+    """
+    This function returns a CloudFront URL for a given endpoint and values.
+    
+    :param endpoint: The endpoint is a string that represents the name of the Flask endpoint that we
+    want to generate a URL for. An endpoint is a unique identifier for a specific view function in Flask
+    :return: The function `cloudfront_url_for` returns a URL for a given endpoint. If the endpoint is
+    "static", it returns a CloudFront URL for the static content, otherwise it returns a regular URL for
+    the endpoint.
+    """
     if endpoint == "static":
         return f"https://d2cpmpsgqfmt9q.cloudfront.net{url_for(endpoint, **values)}"
     return url_for(endpoint, **values)
 
 
+# The above code is updating the global environment of a Flask application's Jinja template engine.
+# Specifically, it is adding a new function called `cloudfront_url_for` to the global environment and
+# assigning it to the `url_for` variable. This allows the `url_for` function to be overridden with a
+# custom implementation that generates CloudFront URLs instead of regular URLs.
 app.jinja_env.globals.update(url_for=cloudfront_url_for)
+
+# The above code is updating the configuration of a Flask application by generating a random
+# 32-character string consisting of uppercase letters, lowercase letters, and digits, and setting it
+# as the value of the "SECRET_KEY" configuration variable. The "SECRET_KEY" is used to secure the
+# session of the Flask application.
 app.config.update(
     {
         "SECRET_KEY": "".join(
@@ -71,9 +96,15 @@ app.config.update(
         )
     }
 )
+
 csrf = CSRFProtect(app)
 oauth = OAuth(app)
 
+# The above code sets up logging for a Python application. It creates a log formatter, sets up a file
+# handler to write log messages to a file, sets up a console handler to print log messages to the
+# console, and adds both handlers to the root logger. The file handler is configured to rotate log
+# files when they reach a certain size and keep up to 5 backup log files. The logger is set to log
+# messages with a severity level of INFO or higher.
 # Set up logging
 log_formatter = logging.Formatter("%(asctime)s:%(levelname)s:%(message)s")
 
@@ -99,6 +130,11 @@ if ENV_FILE:
     load_dotenv(ENV_FILE)
 
 
+# The above code is registering an OAuth client with the name "auth0" and configuring it with the
+# necessary parameters such as client ID, client secret, API base URL, access token URL, authorize
+# URL, and JSON Web Key Set (JWKS) URI. It also sets the client scope to include "openid", "profile",
+# and "email". This code is likely used for authentication and authorization purposes in a Python
+# application.
 auth0 = oauth.register(
     "auth0",
     client_id=env.get("AUTH0_CLIENT_ID"),
@@ -116,6 +152,11 @@ login_manager = LoginManager()
 login_manager.init_app(app)
 
 
+# The above code is a function in Python that loads a user from a database using their ID and session
+# information. It takes in a user ID as a parameter and returns an instance of the User class with the
+# user's information retrieved from the database. If the user is not found, it returns None. The
+# user's information includes their ID, name, email, profile picture, nickname, activity status, admin
+# status, special status, and newsletter subscription status.
 @login_manager.user_loader
 def load_user(user_id):
     if "user" in session:
@@ -150,6 +191,9 @@ BUCKET_NAME = os.environ.get("BUCKET_NAME")
 FOLDER_TO_BACKUP = "/app/static"
 
 
+# The above code is a function in Python that renders a template called "bcdr.html" and passes a user
+# image to it if the user is authenticated. The function returns the rendered template "bcdr.html"
+# with the user_image variable passed as a parameter, which will be displayed in the user's browser.
 @app.route("/admin/bcdr")
 @login_required
 def bcdr():
@@ -172,6 +216,9 @@ def backup():
     )
 
 
+# The above code is a function in Python that downloads files from an S3 bucket and generates an HTML
+# response that includes a message indicating that the recovery was completed successfully, a list of
+# the recovered files, and a link to go back to the admin page.
 @app.route("/admin/recovery", methods=["POST"])
 @login_required
 def recovery():
@@ -206,9 +253,13 @@ def recovery():
     )
 
 
-"""Home page"""
 
-
+# The above code is a Python function that renders a home page with various data including chronicles,
+# artwork, quotes, news, and user image. The function returns a rendered HTML template called
+# "home.html" with the variables "chronicles", "artwork", "quote", "user_image", and "news" passed as
+# arguments to the template. The values of these variables are obtained from various methods of
+# different classes such as Chronicle, Artwork, Quote, and News. The "print(news)" statement is used
+# to debug and print the news variable.
 @app.route("/")
 def home():
     chronicles = Chronicle.get_home_chronicles()

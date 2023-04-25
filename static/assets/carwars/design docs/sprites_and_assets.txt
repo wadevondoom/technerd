@@ -1,0 +1,48 @@
+List of Sprites and Game Assets for Car Wars Adaptation
+
+Vehicles:
+
+- Player Vehicle
+- Enemy Vehicles
+
+Weapons:
+
+- Machine Gun
+- Rocket Launcher
+- Flamethrower
+- Laser Cannon
+
+Equipment:
+
+- Armor Plating
+- Nitrous Boost
+- Smoke Screen
+- Oil Slick
+
+Terrain:
+
+- Road Tiles
+- Barrier Tiles
+- Building Tiles
+
+User Interface:
+
+- Main Menu
+- Campaign Menu
+- Multiplayer Menu
+- Vehicle Customization Menu
+- In-Game HUD
+
+Sound Effects:
+
+- Vehicle Engine Sounds
+- Weapon Sounds
+- Explosion Sounds
+- UI Sounds
+
+Music:
+
+- Main Menu Music
+- In-Game Music
+- Victory Music
+- Defeat Music
