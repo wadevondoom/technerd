@@ -133,7 +133,7 @@ class EnemyCar extends Phaser.Physics.Arcade.Image {
         if (bullet.body) {
           bullet.setActive(false);
           bullet.setVisible(false);
-          bullet.body.stop();
+          bullet.destroy();
         }
       });
     }

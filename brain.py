@@ -15,7 +15,6 @@ class Brain:
     def __init__(self, role, prompt):
         self.role = "user"
         self.prompt = prompt
-        self.engine = "davinci-003"
         self.prompt_img_helper_text = " in the style of an oil painting"
         self.prompt_helper_text = "Format your responses in HTML. \
             Do not use DIV, H1 or H2 tags. Do use em, a, ul, ol, li as needed \
@@ -27,7 +26,7 @@ class Brain:
         # Use the OpenAI API to generate text based on the input field
         prompt = self.prompt_helper_text + self.prompt
         print("Generating text...")
-        MODEL = "gpt-3.5-turbo"
+        MODEL = "gpt-4"
         response = openai.ChatCompletion.create(
             model=MODEL,
             messages=[
